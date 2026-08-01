@@ -4,7 +4,8 @@
 - [Document](https://amplicon-docs.qiime2.org/en/latest/)
 - [Install](https://library.qiime2.org/quickstart/amplicon)
 
-※ Qiime2は定期的にバージョンアップされており、そのたびにドキュメントも更新されています。URL中の`2025.10`は、バージョンを指しています。できるだけ最新を参照してください。
+※ Qiime2は定期的にバージョンアップされており、そのたびにドキュメントも更新されています。今回は、`2026.01`。を使います。
+
 
 # Install
 ### 1. Installページにアクセス
@@ -18,13 +19,18 @@
 ![](./img/03_qiime2_install-page_2025.png)
 
 ### 2. condaでのインストール方法を選択
-- 今回は、`Conda` を使用します。`Using Conda` > `Install the base distribution’s conda environment`
-を見つける。
+- `2026.1`を選択
+- `Using Conda` > `Install the base distribution’s conda environment`
 - `Linux / Windows WSL`をクリック。
 ![](./img/03_qiime2_install-page-linux.png)
 
 ### 3. インストール
 - `conda ...`のコマンドをコピーし、ターミナルに貼り付けて実行。
+```
+conda env create \
+  --name rachis-qiime2-2026.1 \
+  --file https://raw.githubusercontent.com/qiime2/distributions/refs/heads/dev/2026.1/amplicon/released/qiime2-amplicon-ubuntu-latest-conda.yml
+```
 - 途中、`Proceed ([y]/n)?`と聞かれた場合は、`y`を入力して進める。
 - 数分待つ
 
@@ -49,12 +55,12 @@ conda env list
 # conda environments:
 #
 base                 * /home/r8user/miniforge3
-rachis-qiime2-2026.7   /home/r8user/miniforge3/envs/rachis-qiime2-2026.7
+rachis-qiime2-2026.1   /home/r8user/miniforge3/envs/rachis-qiime2-2026.1
 ```
 
-`rachis-qiime2-2026.7`をコピーし、以下のコマンドを実行して有効化します。<br>
+`rachis-qiime2-2026.1`をコピーし、以下のコマンドを実行して有効化します。<br>
 ```
-conda activate rachis-qiime2-2026.7
+conda activate rachis-qiime2-2026.1
 ```
 
 これで、Qiime2環境が有効化されました。<br>

@@ -46,7 +46,7 @@ seqfu metadata -f manifest -s _S raw-data > manifest.tsv
 ## qiime2環境のactivate
 
 ```bash
-conda activate rachis-qiime2-2026.7
+conda activate rachis-qiime2-2026.1
 ```
 
 ## 01_data-import
@@ -90,6 +90,7 @@ qiime cutadapt trim-paired \
     --p-minimum-length 200 \
     --p-discard-untrimmed \
     --o-trimmed-sequences ./02_adapter/trimmed-seqs.qza \
+    --o-stats ./02_adapter/stats.qza \
     --p-cores 3
 
 # visualizationファイルへ出力。
