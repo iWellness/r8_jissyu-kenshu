@@ -14,14 +14,8 @@
 
 ## 実習の流れ
 
-環境構築 → 各自でJupyterLabをインストール → QIIME 2解析 → Nextflow紹介 → Claude Codeを使ったPython演習、の順で進めます。
+環境構築 → 各自でJupyterLabをインストール → QIIME 2解析 → Claude Codeを使ったPython演習、の順で進めます。
 
 ## 注意
-
-当日の環境でネットワークエラーが出る場合は、proxyを外します。
-
-```bash
-unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
-```
-
 QIIME 2のインストールコマンドと分類器のURLは更新されるため、実習時には公式ページの最新版を確認してください。
+
