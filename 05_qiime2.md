@@ -162,7 +162,11 @@ qiime dada2 denoise-paired \
 qiime metadata tabulate --m-input-file ./03_denoise/stats-dada2.qza --o-visualization ./03_denoise/stats-dada2.qzv
 
 ## 各サンプルのリード数など
-qiime feature-table summarize --i-table ./03_denoise/table-dada2.qza --o-visualization ./03_denoise/table-dada2.qzv
+qiime feature-table summarize \
+    --i-table ./03_denoise/table-dada2.qza \
+    --o-feature-frequencies ./03_denoise/feature-frequencies.qza \
+	--o-sample-frequencies ./03_denoise/sample-frequencies.qza \
+	--o-summary ./03_denoise/visual-summary.qzv
 
 ## Forward+Reverse マージ後に決定した代表配列の一覧
 qiime feature-table tabulate-seqs --i-data ./03_denoise/rep-seqs-dada2.qza --o-visualization ./03_denoise/rep-seqs-dada2.qzv

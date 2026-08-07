@@ -4,7 +4,7 @@
 - [Document](https://amplicon-docs.qiime2.org/en/latest/)
 - [Install](https://library.qiime2.org/quickstart/amplicon)
 
-※ Qiime2は定期的にバージョンアップされており、そのたびにドキュメントも更新されています。今回は、`2026.01`。を使います。
+※ Qiime2は定期的にバージョンアップされており、そのたびにドキュメントも更新されています。今回は、`2026.01`を使います。
 
 
 # Install
