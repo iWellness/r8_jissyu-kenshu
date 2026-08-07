@@ -709,4 +709,3 @@ cat .bashrc 2>/dev/null || echo "No .bashrc file"
 | `cat` | ファイル内容表示 | `cat file.txt` |
 
 ---
-
