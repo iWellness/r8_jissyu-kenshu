@@ -709,16 +709,3 @@ cat .bashrc 2>/dev/null || echo "No .bashrc file"
 | `cat` | ファイル内容表示 | `cat file.txt` |
 
 ---
-
-# おめでとうございます！🎉
-
-Linuxコマンドの基本をマスターしました！
-
-**キーポイント**:
-- Tab補完を常に使うこと！
-- `pwd`, `ls`, `cd`, `mkdir`, `rm -r` が使えること
-- エラーが出ても慌てずに読むこと
-
-次はnanoエディタの使い方を学びましょう！
-
-→ [02_nanoの使い方](02_nanoの使い方.md)
