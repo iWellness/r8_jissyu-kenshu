@@ -1,0 +1,3 @@
+# 各qzaファイルをqzvファイルへ
+## 何%削除されたなどの、DADA2のステータス
+qiime metadata tabulate --m-input-file ./03_denoise/stats-dada2.qza --o-visualization ./03_denoise/stats-dada2.qzv

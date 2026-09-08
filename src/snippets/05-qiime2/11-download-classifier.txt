@@ -1,0 +1,4 @@
+# コピーしたURLからダウンロード
+
+# ※以下のURLは例です。必ずライブラリページから最新のURLをコピーしてください。
+wget https://data.qiime2.org/classifiers/sklearn-1.4.2/silva/silva-138-99-nb-classifier.qza

@@ -1,0 +1,2 @@
+wget -O downloaded-linux-commands.md https://raw.githubusercontent.com/Yokohide0317/2025_BI-Zissen/refs/heads/main/01_Linux%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89.md
+ls -lh downloaded-linux-commands.md

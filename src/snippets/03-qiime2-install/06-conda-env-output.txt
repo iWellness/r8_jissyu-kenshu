@@ -1,0 +1,4 @@
+# conda environments:
+#
+base                 * /home/r8user/miniforge3
+rachis-qiime2-2026.1   /home/r8user/miniforge3/envs/rachis-qiime2-2026.1

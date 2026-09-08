@@ -1,0 +1,3 @@
+cd ./data        # 今いるフォルダの中のdataへ
+cd ../data       # 一つ上のフォルダの中のdataへ
+cd ~/workspace   # ホームのworkspaceへ

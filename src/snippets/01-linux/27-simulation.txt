@@ -1,0 +1,16 @@
+cd ~/workspace
+mkdir qiime_analysis
+cd qiime_analysis
+mkdir data results
+cd data
+FWD='CCTACGGGNGGCWGCAG'
+REV='GACTACHVGGGTATCTAATCC'
+echo $FWD > primer.txt
+echo $REV >> primer.txt
+echo "sample-id,treatment" > metadata.txt
+echo "sample1,control" >> metadata.txt
+echo "sample2,treatment" >> metadata.txt
+cp primer.txt ../results/
+cp metadata.txt ../results/
+cd ..
+ls -R

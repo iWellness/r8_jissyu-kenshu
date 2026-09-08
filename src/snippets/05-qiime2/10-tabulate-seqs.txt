@@ -1,0 +1,2 @@
+# Forward+Reverse マージ後に決定した代表配列の一覧
+qiime feature-table tabulate-seqs --i-data ./03_denoise/rep-seqs-dada2.qza --o-visualization ./03_denoise/rep-seqs-dada2.qzv

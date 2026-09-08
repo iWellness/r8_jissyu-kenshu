@@ -1,0 +1,10 @@
+mkdir project
+cd pro[TAB]
+ls
+mkdir data results
+ls
+cd da[TAB]
+pwd
+cd ..
+cd re[TAB]
+pwd

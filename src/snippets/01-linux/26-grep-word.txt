@@ -1,0 +1,1 @@
+grep -w "forward" primer.txt

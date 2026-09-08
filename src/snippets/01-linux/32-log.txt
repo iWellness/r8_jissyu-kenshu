@@ -1,0 +1,21 @@
+cd ~/workspace/batch_analysis
+
+# サンプルログファイル作成
+cat > analysis.log << EOF
+[INFO] Starting analysis...
+[INFO] Importing data...
+[ERROR] Sample2 quality check failed
+[INFO] Denoising sample1...
+[INFO] Denoising sample3...
+[WARN] Low read count in sample1
+[INFO] Taxonomy classification complete
+EOF
+
+# エラーのみを検索
+grep ERROR analysis.log
+
+# 警告を検索
+grep WARN analysis.log
+
+# 情報メッセージを数える
+grep -c INFO analysis.log

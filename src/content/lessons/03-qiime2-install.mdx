@@ -1,0 +1,86 @@
+---
+slug: qiime2-install
+order: 3
+title: QIIME 2のインストール
+description: 公式の手順を確認し、conda環境へQIIME 2 2026.1をインストールします。
+objectives:
+  - QIIME 2の公式インストールページを開ける
+  - 指定されたconda環境を作成して有効化できる
+  - 有効化の前後でqiimeコマンドの状態を確認できる
+prerequisites:
+  - conda環境の設定
+environment: Linux ターミナル
+---
+
+import Callout from '../../components/Callout.astro';
+import CommandBlock from '../../components/CommandBlock.astro';
+import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import Figure from '../../components/Figure.astro';
+import createEnvironment from '../../snippets/03-qiime2-install/01-create-environment.txt?raw';
+import qiimeHelpBefore from '../../snippets/03-qiime2-install/02-qiime-help-before-activate.txt?raw';
+import envList from '../../snippets/03-qiime2-install/03-conda-env-list.txt?raw';
+import activateQiime from '../../snippets/03-qiime2-install/04-activate-qiime.txt?raw';
+import qiimeHelpAfter from '../../snippets/03-qiime2-install/05-qiime-help-after-activate.txt?raw';
+import envOutput from '../../snippets/03-qiime2-install/06-conda-env-output.txt?raw';
+import installPageImage from '../../assets/03_qiime2_install-page.png';
+import installLinuxImage from '../../assets/03_qiime2_install-page-linux.png';
+
+## QIIME 2関連URL
+
+- [QIIME 2 Top](https://qiime2.org/)
+- [ドキュメント](https://amplicon-docs.qiime2.org/en/latest/)
+- [インストール](https://library.qiime2.org/quickstart/amplicon)
+
+<Callout type="warning" title="バージョンを確認">
+  QIIME 2は定期的にバージョンアップされ、ドキュメントも更新されます。この原稿では `2026.01` と記載していますが、実行する環境名とURLは `2026.1` です。実習時は講師の指定と公式ページの表示を確認してください。
+</Callout>
+
+## Install
+
+### 1. Installページにアクセス
+
+[QIIME 2 AmpliconのInstallページ](https://library.qiime2.org/quickstart/amplicon) を開き、`Using conda` をクリックします。
+
+ドキュメントページから移動する場合は、次の画面を目印にします。
+
+<Figure src={installPageImage} alt="QIIME 2ドキュメントからインストールページへ進む画面" caption="QIIME 2のインストールページへの導線" />
+
+### 2. condaでのインストール方法を選択
+
+`2026.1` を選択し、`Using Conda` > `Install the base distribution’s conda environment` > `Linux / Windows WSL` の順に選びます。
+
+<Figure src={installLinuxImage} alt="QIIME 2のLinux / Windows WSL向けcondaインストール手順" caption="Linux / Windows WSLのインストール手順" />
+
+### 3. インストール
+
+公式ページに表示された `conda ...` のコマンドを確認し、ターミナルで実行します。
+
+<CommandBlock id="qiime2-create-environment" code={createEnvironment} language="bash" kind="command" context="ターミナル" title="QIIME 2 2026.1のconda環境を作成" />
+
+途中で `Proceed ([y]/n)?` と聞かれた場合は、`y` を入力して進めます。環境作成には数分かかる場合があります。
+
+## conda環境の有効化
+
+condaのメリットは、`RNA-Seq` や `QIIME 2`、`Python` など、環境ごとにパッケージを管理できることです。
+
+現在、QIIME 2環境の外にいるため、`qiime` コマンドが使えない状態です。
+
+<CommandBlock id="qiime2-help-before-activate" code={qiimeHelpBefore} language="bash" kind="command" context="ターミナル" title="有効化前の状態を確認" />
+
+まず、環境名を確認します。
+
+<CommandBlock id="qiime2-env-list" code={envList} language="bash" kind="command" context="ターミナル" title="conda環境の一覧を確認" />
+
+<ExpectedOutput code={envOutput} caption="今回の環境一覧の例" />
+
+`rachis-qiime2-2026.1` を確認し、次のコマンドで有効化します。
+
+<CommandBlock id="qiime2-activate" code={activateQiime} language="bash" kind="command" context="ターミナル" title="QIIME 2環境を有効化" />
+
+これでQIIME 2環境が有効化され、`qiime` コマンドが使えるようになります。
+
+<CommandBlock id="qiime2-help-after-activate" code={qiimeHelpAfter} language="bash" kind="command" context="ターミナル" title="有効化後の状態を確認" />
+
+<Callout type="check" title="この章の完了条件">
+  QIIME 2環境を有効化した状態で `qiime --help` を実行し、ヘルプが表示されれば完了です。
+</Callout>

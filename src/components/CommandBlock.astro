@@ -1,0 +1,65 @@
+---
+import { Code } from 'astro:components';
+import type { CodeLanguage } from 'astro';
+import { normalizeSnippet } from '@/lib/snippets';
+
+export type CommandKind = 'command' | 'template' | 'practice' | 'prompt';
+
+export interface Props {
+  /** Unique identifier within the page. */
+  id: string;
+  /** Exact text shown and, when allowed, copied. */
+  code: string;
+  /** Shiki language identifier. */
+  language?: CodeLanguage;
+  /** Controls labels and whether a copy action is available. */
+  kind?: CommandKind;
+  /** Where the learner should enter the text. */
+  context: string;
+  /** Short description of the command's purpose. */
+  title?: string;
+  /** Required editorial note for values the learner must replace. */
+  replacementNotes?: string[];
+}
+
+const {
+  id,
+  code,
+  language = 'bash',
+  kind = 'command',
+  context,
+  title,
+  replacementNotes = [],
+} = Astro.props;
+
+if (kind === 'template' && replacementNotes.length === 0) {
+  throw new Error(`CommandBlock "${id}" is a template but has no replacementNotes`);
+}
+
+const normalized = normalizeSnippet(code);
+const canCopy = kind !== 'practice';
+const copyLabel = kind === 'prompt' ? '依頼文をコピー' : kind === 'template' ? '例をコピー' : 'コピー';
+const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind === 'practice' ? '入力練習' : kind === 'prompt' ? '入力する依頼文' : '実行コマンド';
+---
+
+<section class:list={['command-block', `command-block--${kind}`]} id={id} data-command-block>
+  <header class="command-block__header">
+    <div>
+      <span class="command-block__kind">{kindLabel}</span>
+      {title && <strong>{title}</strong>}
+      <span class="command-block__context">入力先: {context}</span>
+    </div>
+    {canCopy && <button class="copy-button js-only" type="button" data-copy-button>{copyLabel}</button>}
+  </header>
+  {replacementNotes.length > 0 && (
+    <div class="command-block__notice">
+      <strong>コピー後に書き換える箇所</strong>
+      <ul>{replacementNotes.map((note) => <li>{note}</li>)}</ul>
+    </div>
+  )}
+  <div class="command-block__code">
+    <Code code={normalized} lang={language} theme="github-dark-default" />
+  </div>
+  {canCopy && <textarea class="copy-source" readonly tabindex="-1" aria-hidden="true" data-pagefind-ignore set:text={normalized}></textarea>}
+  {canCopy && <p class="copy-status" data-copy-status data-pagefind-ignore aria-live="polite"></p>}
+</section>

@@ -1,0 +1,2 @@
+cp sample.txt sample_backup.txt
+ls

@@ -1,0 +1,2 @@
+cd ~/workspace/practice
+cat testfile.txt

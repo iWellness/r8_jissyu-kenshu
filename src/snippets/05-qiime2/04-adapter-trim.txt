@@ -1,0 +1,28 @@
+# ディレクトリの作成
+mkdir 02_adapter
+
+# Primer配列の定義
+FWD='CCTACGGGNGGCWGCAG' ## V3V4用
+REV='GACTACHVGGGTATCTAATCC' ## V3V4用
+
+FWDRC=$(echo "${FWD}" | tr ACGTMRYKVHDBacgtmrykvhdb TGCAKYRMBDHVtgcakyrmbdhv | rev)
+REVRC=$(echo "${REV}" | tr ACGTMRYKVHDBacgtmrykvhdb TGCAKYRMBDHVtgcakyrmbdhv | rev)
+
+# アダプタートリミング
+## 次のオプションに注意。
+## --p-discard-untrimmed: トリムされなかったリードは使わない。
+## --p-cores: 並列処理につかうスレッドの数
+qiime cutadapt trim-paired \
+    --i-demultiplexed-sequences ./01_data-import/import.qza \
+    --p-front-f ${FWD} --p-front-r ${REV} \
+    --p-adapter-f ${REVRC} --p-adapter-r ${FWDRC} \
+    --p-times 10 \
+    --p-match-read-wildcards --p-match-adapter-wildcards \
+    --p-minimum-length 200 \
+    --p-discard-untrimmed \
+    --o-trimmed-sequences ./02_adapter/trimmed-seqs.qza \
+    --o-stats ./02_adapter/stats.qza \
+    --p-cores 3
+
+# visualizationファイルへ出力。
+qiime demux summarize --i-data ./02_adapter/trimmed-seqs.qza --o-visualization ./02_adapter/trimmed-seqs.qzv

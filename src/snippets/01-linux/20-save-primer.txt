@@ -1,0 +1,2 @@
+printf 'forward\t%s\nreverse\t%s\n' "$FWD" "$REV" > primer.txt
+cat primer.txt

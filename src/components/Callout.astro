@@ -1,0 +1,16 @@
+---
+export interface Props {
+  /** Semantic purpose of the callout. */
+  type?: 'note' | 'warning' | 'check';
+  /** Short visible heading. */
+  title: string;
+}
+
+const { type = 'note', title } = Astro.props;
+const icon = type === 'warning' ? '!' : type === 'check' ? '✓' : 'i';
+---
+
+<aside class:list={['callout', `callout--${type}`]}>
+  <div class="callout__title"><span aria-hidden="true">{icon}</span>{title}</div>
+  <div class="callout__body"><slot /></div>
+</aside>
