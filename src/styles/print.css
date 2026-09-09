@@ -1,6 +1,6 @@
 @media print {
-  :root { --paper: #fff; --surface: #fff; }
-  .site-header, .lesson-sidebar, .lesson-toc, .mobile-toc, .mobile-nav-button, .drawer-backdrop, .lesson-pagination, .copy-button, .copy-status { display: none !important; }
+  :root { --background: #fff; --card: #fff; }
+  .site-header, .lesson-sidebar, .lesson-toc-inline, .mobile-nav-button, .drawer-backdrop, .lesson-pagination, .copy-button, .copy-status { display: none !important; }
   .lesson-shell, .lesson-main, .home { display: block; width: 100%; max-width: none; margin: 0; padding: 0; }
   .lesson-header { break-after: avoid; }
   .command-block, .expected-output, .callout { break-inside: avoid; }

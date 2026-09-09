@@ -33,6 +33,7 @@ src/
   snippets/                 # 章別のUTF-8 .txt原文
   assets/                   # 教材画像
   components/
+    CourseList.tsx
     CommandBlock.astro
     ExpectedOutput.astro
     Callout.astro
@@ -40,6 +41,7 @@ src/
     ChapterNav.astro
     TableOfContents.astro
     Search.astro
+    ui/                       # shadcn/uiで生成した共通部品
   layouts/LessonLayout.astro
   pages/
     index.astro
@@ -83,7 +85,7 @@ docs/
 
 ### Phase 2: 実習画面とコマンド部品
 
-1. 設計書の配色・幅・ブレークポイントで共通レイアウトを作る。
+1. Tailwind CSS 4とshadcn/ui（Base UI版）を導入し、設計書の配色・幅・ブレークポイントで共通レイアウトを作る。
 2. CommandBlockとExpectedOutputを先に実装する。原文の読み込み、正規化、表示、コピーの経路を一本化する。
 3. Clipboard APIの成功・失敗・非対応状態を実装し、成功前に成功通知を出さない。
 4. ハイライト、出力、行番号、ラベルがコピー原文に混ざらないことを検証する。

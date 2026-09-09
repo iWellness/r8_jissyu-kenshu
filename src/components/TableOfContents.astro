@@ -11,8 +11,10 @@ const visible = headings.filter(({ depth }) => depth === 2 || depth === 3);
 ---
 
 {visible.length > 0 && (
-  <nav class="toc" aria-label="このページの目次">
-    <p>このページ</p>
-    <ol>{visible.map((heading) => <li class:list={{ nested: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol>
-  </nav>
+  <details class="toc">
+    <summary>このページの目次</summary>
+    <nav aria-label="このページの目次">
+      <ol>{visible.map((heading) => <li class:list={{ nested: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol>
+    </nav>
+  </details>
 )}

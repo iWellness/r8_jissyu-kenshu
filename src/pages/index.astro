@@ -1,39 +1,28 @@
 ---
 import { getCollection } from 'astro:content';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { CourseList } from '@/components/CourseList';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { sitePath, sortAndValidateLessons } from '@/lib/lessons';
 
 const lessons = sortAndValidateLessons(await getCollection('lessons'));
+const courseItems = lessons.map((lesson) => ({
+  order: lesson.data.order,
+  title: lesson.data.title,
+  description: lesson.data.description,
+  href: sitePath(`lessons/${lesson.data.slug}/`),
+}));
 ---
 
-<BaseLayout title="令和8年度 BI実践研修" description="BI実践研修のWeb教科書。環境構築、QIIME 2解析、Python演習を順に学びます。">
+<BaseLayout title="BI実践研修" description="BI実践研修のWeb教科書。環境構築、QIIME 2解析、Python演習を順に学びます。">
   <main id="main-content" class="home" data-pagefind-body>
-    <section class="home-hero">
-      <p class="home-eyebrow">令和8年度 実習研修コース</p>
-      <h1>操作しながら学ぶ、<br />BI実践研修の教科書</h1>
-      <p>説明を読み、コマンドをコピーして、結果を確かめる。実習の流れに沿って一章ずつ進めます。</p>
-      {lessons[0] && <a class="primary-action" href={sitePath(`lessons/${lessons[0].data.slug}/`)}>最初の章から始める</a>}
-    </section>
     <section class="home-flow" aria-labelledby="flow-title">
-      <div>
-        <p class="section-label">Course map</p>
-        <h2 id="flow-title">実習の流れ</h2>
-      </div>
-      <ol>
-        {lessons.map((lesson) => (
-          <li>
-            <a href={sitePath(`lessons/${lesson.data.slug}/`)}>
-              <span>{String(lesson.data.order).padStart(2, '0')}</span>
-              <div><h3>{lesson.data.title}</h3><p>{lesson.data.description}</p></div>
-              <span aria-hidden="true">→</span>
-            </a>
-          </li>
-        ))}
-      </ol>
+      <h1 id="flow-title">実習の流れ</h1>
+      <CourseList lessons={courseItems} />
     </section>
-    <aside class="home-note">
-      <strong>実習前に確認</strong>
-      <p>QIIME 2のインストール方法と分類器のURLは更新されます。教材で指定したバージョンと、講師の案内を確認して進めてください。</p>
-    </aside>
+    <Alert className="home-note" role="note">
+      <AlertTitle>実習前に確認</AlertTitle>
+      <AlertDescription>QIIME 2のインストール方法と分類器のURLは更新されます。教材で指定したバージョンと、講師の案内を確認して進めてください。</AlertDescription>
+    </Alert>
   </main>
 </BaseLayout>

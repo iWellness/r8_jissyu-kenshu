@@ -1,4 +1,6 @@
 ---
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 export interface Props {
   /** Semantic purpose of the callout. */
   type?: 'note' | 'warning' | 'check';
@@ -10,7 +12,8 @@ const { type = 'note', title } = Astro.props;
 const icon = type === 'warning' ? '!' : type === 'check' ? '✓' : 'i';
 ---
 
-<aside class:list={['callout', `callout--${type}`]}>
-  <div class="callout__title"><span aria-hidden="true">{icon}</span>{title}</div>
-  <div class="callout__body"><slot /></div>
-</aside>
+<Alert className={`callout callout--${type}`} role="note">
+  <span class="callout__icon" aria-hidden="true">{icon}</span>
+  <AlertTitle>{title}</AlertTitle>
+  <AlertDescription className="callout__body"><slot /></AlertDescription>
+</Alert>

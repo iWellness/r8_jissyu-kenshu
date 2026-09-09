@@ -1,4 +1,6 @@
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
@@ -6,7 +8,7 @@ export default defineConfig({
   base: '/r8_jissyu-kenshu',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [mdx()],
+  integrations: [mdx(), react()],
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
@@ -15,6 +17,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@': '/src',

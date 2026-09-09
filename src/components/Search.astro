@@ -1,12 +1,13 @@
 ---
+import { Button } from '@/components/ui/button';
 ---
 
 <div class="search js-only" data-search>
-  <button type="button" class="search__open" data-search-open aria-haspopup="dialog">教材内を検索</button>
+  <Button type="button" variant="outline" size="sm" className="search__open" data-search-open aria-haspopup="dialog">教材内を検索</Button>
   <dialog class="search__dialog" data-search-dialog aria-labelledby="search-title">
     <form method="dialog" class="search__header">
       <strong id="search-title">教材内を検索</strong>
-      <button type="submit" aria-label="検索を閉じる">閉じる</button>
+      <Button type="submit" variant="ghost" size="sm" aria-label="検索を閉じる">閉じる</Button>
     </form>
     <label for="site-search">キーワード</label>
     <input id="site-search" type="search" inputmode="search" autocomplete="off" data-search-input />

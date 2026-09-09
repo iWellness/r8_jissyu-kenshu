@@ -2,6 +2,7 @@
 import { Code } from 'astro:components';
 import type { CodeLanguage } from 'astro';
 import { normalizeSnippet } from '@/lib/snippets';
+import { Button } from '@/components/ui/button';
 
 export type CommandKind = 'command' | 'template' | 'practice' | 'prompt';
 
@@ -49,7 +50,7 @@ const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind ===
       {title && <strong>{title}</strong>}
       <span class="command-block__context">入力先: {context}</span>
     </div>
-    {canCopy && <button class="copy-button js-only" type="button" data-copy-button>{copyLabel}</button>}
+    {canCopy && <Button className="copy-button js-only" variant="secondary" size="sm" type="button" data-copy-button>{copyLabel}</Button>}
   </header>
   {replacementNotes.length > 0 && (
     <div class="command-block__notice">

@@ -10,7 +10,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
-const pageTitle = title === '令和8年度 BI実践研修' ? title : `${title} | 令和8年度 BI実践研修`;
+const pageTitle = title === 'BI実践研修' ? title : `${title} | BI実践研修`;
 ---
 
 <!doctype html>
@@ -27,7 +27,7 @@ const pageTitle = title === '令和8年度 BI実践研修' ? title : `${title} |
   <body>
     <a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header">
-      <a class="site-brand" href={import.meta.env.BASE_URL}>令和8年度 <span>BI実践研修</span></a>
+      <a class="site-brand" href={import.meta.env.BASE_URL}>BI実践研修</a>
       <Search />
     </header>
     <slot />

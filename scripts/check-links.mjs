@@ -32,19 +32,36 @@ const htmlFiles = (await filesWithin(root)).filter((file) => file.endsWith('.htm
 const failures = [];
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
+  const relativeFile = path.relative(root, file);
   const h1Count = (html.match(/<h1\b/g) ?? []).length;
-  if (h1Count !== 1) failures.push(`${path.relative(root, file)} contains ${h1Count} h1 elements`);
+  if (h1Count !== 1) failures.push(`${relativeFile} contains ${h1Count} h1 elements`);
+
+  if (relativeFile === 'index.html') {
+    const removedHeroText = [
+      '令和8年度 実習研修コース',
+      '操作しながら学ぶ',
+      '説明を読み、コマンドをコピーして、結果を確かめる',
+      '最初の章から始める',
+    ];
+    for (const text of removedHeroText) {
+      if (html.includes(text)) failures.push(`${relativeFile} still contains removed hero text: ${text}`);
+    }
+    if (!html.includes('<h1 id="flow-title">実習の流れ</h1>')) failures.push(`${relativeFile} is missing the compact course heading`);
+    const courseCardCount = (html.match(/class="[^"]*course-card(?:\s|\")/g) ?? []).length;
+    if (courseCardCount !== 7) failures.push(`${relativeFile} contains ${courseCardCount} course cards instead of 7`);
+    if (!html.includes('data-slot="alert"')) failures.push(`${relativeFile} is missing the shadcn alert`);
+  }
 
   const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);
   const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-  for (const id of new Set(duplicateIds)) failures.push(`${path.relative(root, file)} contains duplicate id #${id}`);
+  for (const id of new Set(duplicateIds)) failures.push(`${relativeFile} contains duplicate id #${id}`);
   for (const match of html.matchAll(/href=["']#([^"']+)["']/g)) {
-    if (!ids.includes(match[1])) failures.push(`${path.relative(root, file)} -> missing #${match[1]}`);
+    if (!ids.includes(match[1])) failures.push(`${relativeFile} -> missing #${match[1]}`);
   }
 
   for (const match of html.matchAll(/(?:href|src)=["']([^"']+)["']/g)) {
     const target = localTarget(file, match[1]);
-    if (target && !(await existsAsPage(target))) failures.push(`${path.relative(root, file)} -> ${match[1]}`);
+    if (target && !(await existsAsPage(target))) failures.push(`${relativeFile} -> ${match[1]}`);
   }
 }
 if (failures.length) {

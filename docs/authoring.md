@@ -6,6 +6,14 @@
 
 Node.js 24を使い、`npm ci`の後に`npm run dev`で確認します。提出前は`npm run validate`を実行します。
 
+## UIコンポーネント
+
+共通UIはshadcn/ui（Base UI版）を使い、`src/components/ui/`に生成したReactコンポーネントを置きます。Astroページと教材用Astroコンポーネントからサーバー描画するため、検索・コピー以外の表示にクライアントJavaScriptは追加されません。色や余白は`src/styles/global.css`のセマンティックトークンへ集約します。
+
+部品を追加するときは`npx shadcn@latest docs <component>`で仕様を確認し、`npx shadcn@latest add <component>`で生成します。生成済み部品を本文ごとに複製せず、Card、Badge、Button、Alert、Separatorを組み合わせます。
+
+トップの章一覧は`CourseList`が生成します。公開Propsの`lessons`には、学習順の`order`、`title`、`description`、baseパス対応済みの`href`を渡します。章データからの変換は`src/pages/index.astro`だけで行います。
+
 ## 章のメタデータ
 
 frontmatterには`slug`、`order`、`title`、`description`、`objectives`、`prerequisites`、`environment`を定義します。`slug`は英小文字・数字・ハイフン、`order`は重複しない0以上の整数です。任意の`reviewedAt`は実際に内容を確認したISO日付だけを指定します。
