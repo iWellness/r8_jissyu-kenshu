@@ -2,10 +2,8 @@
 import type { MarkdownHeading } from 'astro';
 import ChapterNav from '@/components/ChapterNav.astro';
 import TableOfContents from '@/components/TableOfContents.astro';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { X } from 'lucide-react';
 import type { LessonEntry } from '@/lib/lessons';
 import { sitePath } from '@/lib/lessons';
 import BaseLayout from './BaseLayout.astro';
@@ -26,23 +24,24 @@ const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : und
   <Button className="mobile-nav-button js-only" type="button" data-nav-open aria-controls="chapter-drawer" aria-expanded="false">章一覧</Button>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" id="chapter-drawer" data-nav-drawer>
-      <Button className="lesson-sidebar__close js-only" variant="ghost" size="sm" type="button" data-nav-close>閉じる</Button>
+      <Button className="lesson-sidebar__close js-only" variant="ghost" size="icon" type="button" data-nav-close aria-label="章一覧を閉じる"><X aria-hidden="true" /></Button>
       <ChapterNav lessons={lessons} currentSlug={lesson.data.slug} />
     </aside>
     <main id="main-content" class="lesson-main" data-pagefind-body>
       <header class="lesson-header">
-        <Badge variant="secondary">Lesson {String(lesson.data.order).padStart(2, '0')}</Badge>
         <h1>{lesson.data.title}</h1>
-        <p class="lesson-description">{lesson.data.description}</p>
         <div class="lesson-context">
           <div><span>実行環境</span><strong>{lesson.data.environment}</strong></div>
           {lesson.data.prerequisites.length > 0 && <div><span>前提</span><strong>{lesson.data.prerequisites.join('、')}</strong></div>}
         </div>
-        <Separator className="lesson-header__separator" />
-        <Card size="sm" className="lesson-objectives">
-          <CardHeader><CardTitle><h2 id="objectives-heading">この章でできるようになること</h2></CardTitle></CardHeader>
-          <CardContent><ul aria-labelledby="objectives-heading">{lesson.data.objectives.map((objective) => <li>{objective}</li>)}</ul></CardContent>
-        </Card>
+        <section class="lesson-objectives lesson-objectives--checklist" aria-labelledby="objectives-heading">
+          <h2 id="objectives-heading">学習目標</h2>
+          <ul>
+            {lesson.data.objectives.map((objective) => (
+              <li><span class="lesson-objectives__check" aria-hidden="true">✓</span><span>{objective}</span></li>
+            ))}
+          </ul>
+        </section>
       </header>
       <div class="lesson-toc-inline"><TableOfContents headings={headings} /></div>
       <article class="lesson-content"><slot /></article>

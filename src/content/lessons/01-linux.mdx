@@ -9,20 +9,20 @@ objectives:
   - cat、less、echo、cp、mv、wget、grepを使える
   - QIIME 2解析用の作業フォルダとファイルを準備できる
 prerequisites:
-  - VS Code for Webのターミナル
-environment: Linux ターミナル
+  - SSH接続済み
+environment: SSH接続先のLinux
 reviewedAt: '2026-09-08'
 ---
 
 import Callout from '../../components/Callout.astro';
 import CommandBlock from '../../components/CommandBlock.astro';
 import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import WebtermPractice from '../../components/WebtermPractice.astro';
 import pwdCommand from '../../snippets/01-linux/01-pwd.txt?raw';
 import lsCommand from '../../snippets/01-linux/02-ls.txt?raw';
 import cdHome from '../../snippets/01-linux/03-cd-home.txt?raw';
-import cdWorkspace from '../../snippets/01-linux/04-cd-workspace.txt?raw';
+import mkdirWorkspace from '../../snippets/01-linux/04-mkdir-workspace.txt?raw';
 import tabCd from '../../snippets/01-linux/05-tab-cd.txt?raw';
-import tabLs from '../../snippets/01-linux/06-tab-ls.txt?raw';
 import mkdirTest from '../../snippets/01-linux/07-mkdir-test.txt?raw';
 import cdTest from '../../snippets/01-linux/08-cd-test.txt?raw';
 import cdParent from '../../snippets/01-linux/09-cd-parent.txt?raw';
@@ -44,11 +44,6 @@ import catPrimer from '../../snippets/01-linux/24-cat-primer.txt?raw';
 import grepPrimer from '../../snippets/01-linux/25-grep-atcg.txt?raw';
 import grepWord from '../../snippets/01-linux/26-grep-word.txt?raw';
 import simulation from '../../snippets/01-linux/27-simulation.txt?raw';
-import batchSetup from '../../snippets/01-linux/28-batch.txt?raw';
-import metadataCreate from '../../snippets/01-linux/29-metadata.txt?raw';
-import metadataShow from '../../snippets/01-linux/30-cat-metadata.txt?raw';
-import configBackup from '../../snippets/01-linux/31-config.txt?raw';
-import logSearch from '../../snippets/01-linux/32-log.txt?raw';
 import permissionCheck from '../../snippets/01-linux/33-permission-cat.txt?raw';
 import permissionList from '../../snippets/01-linux/34-permission-ls.txt?raw';
 import spaceCreate from '../../snippets/01-linux/35-space-file.txt?raw';
@@ -56,7 +51,11 @@ import spaceCat from '../../snippets/01-linux/36-space-cat.txt?raw';
 import hiddenList from '../../snippets/01-linux/37-hidden-ls.txt?raw';
 import hiddenCat from '../../snippets/01-linux/38-hidden-cat.txt?raw';
 
-Linuxでは、「入力 → 実行 → 表示を確認」の順で操作します。コマンドを入力したら`Enter`キーを押してください。コマンドと引数の間は半角スペースで区切り、全角スペースは使いません。
+コマンドを入力し、`Enter`で実行して表示を確認します。
+
+<Callout type="warning" title="入力時の注意">
+  コマンドと引数の間は半角スペースで区切り、全角スペースは使いません。
+</Callout>
 
 ## 基本ルール
 
@@ -70,26 +69,6 @@ Linuxでは、「入力 → 実行 → 表示を確認」の順で操作しま�
 
 たとえば、`ls -l data/`では、`ls`が一覧表示、`-l`が詳細表示、`data/`が対象フォルダです。
 
-## Tab補完を使う
-
-Tabキーを押すと、入力途中のファイル名やフォルダ名を自動で補完できます。候補が1つなら自動で補完され、複数ある場合は`Tab`を2回押すと候補が表示されます。入力ミスを減らすため、以降の練習ではできるだけTab補完を使います。
-
-### フォルダ名を補完する
-
-まず`cd w`まで入力し、`Tab`を押してください。`workspace`へ補完されたら、`Enter`で実行します。
-
-<CommandBlock id="linux-tab-cd" code={tabCd} language="bash" kind="practice" context="ターミナル" title="cd wまで入力してTab" />
-
-### 候補を表示する
-
-次に`ls w`まで入力し、`Tab`を押します。候補が複数ある場合は、もう一度`Tab`を押して一覧を確認します。
-
-<CommandBlock id="linux-tab-ls" code={tabLs} language="bash" kind="practice" context="ターミナル" title="ls wまで入力してTab" />
-
-<Callout type="check" title="Tab補完の確認">
-  入力途中の文字列をTabで補完し、候補を表示できればこの練習は完了です。
-</Callout>
-
 ## Step 1：現在地と一覧を確認する
 
 ### `pwd`で現在地を表示する
@@ -98,9 +77,9 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 
 <CommandBlock id="linux-pwd" code={pwdCommand} language="bash" kind="command" context="ターミナル" title="現在地を確認" />
 
-<ExpectedOutput code={`/home/coder`} caption="表示例（実習環境によって異なります）" />
+<ExpectedOutput code={`/home/r8user`} caption="表示例（実習環境によって異なります）" />
 
-環境によってユーザー名や作業場所は異なります。ここでは`/home/coder`を表示例として示しています。
+この研修では、ホームディレクトリを`/home/r8user`として示します。
 
 ### `ls`でファイルとフォルダを確認する
 
@@ -118,17 +97,29 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 
 <CommandBlock id="linux-cd-home" code={cdHome} language="bash" kind="command" context="ターミナル" title="ホームディレクトリへ移動" />
 
-<ExpectedOutput code={`/home/coder`} caption="表示例（実習環境によって異なります）" />
+<ExpectedOutput code={`/home/r8user`} caption="表示例（実習環境によって異なります）" />
 
 引数を省略した`cd`も、ホームディレクトリへ移動する操作です。
 
-### 作業用フォルダへ移動する
+### 作業用フォルダを作成する
 
-研修環境に`workspace`フォルダがある場合は、そこへ移動します。
+`mkdir workspace`で`workspace`フォルダを作成します。
 
-<CommandBlock id="linux-cd-workspace" code={cdWorkspace} language="bash" kind="command" context="ターミナル" title="workspaceへ移動" />
+<CommandBlock id="linux-mkdir-workspace" code={mkdirWorkspace} language="bash" kind="command" context="ターミナル" title="workspaceフォルダを作成" />
 
-<ExpectedOutput code={`/home/coder/workspace`} caption="表示例（実習環境によって異なります）" />
+## Tab補完を使う
+
+Tabキーを押すと、入力途中のファイル名やフォルダ名を自動で補完できます。候補が1つなら自動で補完され、複数ある場合は`Tab`を2回押すと候補が表示されます。入力ミスを減らすため、以降の練習ではできるだけTab補完を使います。
+
+### フォルダ名を補完する
+
+まず`cd w`まで入力し、`Tab`を押してください。`workspace`へ補完されたら、`Enter`で実行します。
+
+<CommandBlock id="linux-tab-cd" code={tabCd} language="bash" kind="practice" context="ターミナル" title="cd wまで入力してTab" />
+
+<Callout type="check" title="Tab補完の確認">
+  入力途中の`w`を`workspace`へ補完し、移動できればこの練習は完了です。
+</Callout>
 
 ## Step 3：フォルダを作成して移動する
 
@@ -142,7 +133,7 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 
 <CommandBlock id="linux-cd-test" code={cdTest} language="bash" kind="command" context="ターミナル" title="testフォルダへ移動" />
 
-<ExpectedOutput code={`/home/coder/workspace/test`} caption="表示例（実習環境によって異なります）" />
+<ExpectedOutput code={`/home/r8user/workspace/test`} caption="表示例（実習環境によって異なります）" />
 
 ### `cd ..`で親フォルダへ戻る
 
@@ -150,7 +141,7 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 
 <CommandBlock id="linux-cd-parent" code={cdParent} language="bash" kind="command" context="ターミナル" title="親フォルダへ戻る" />
 
-<ExpectedOutput code={`/home/coder/workspace`} caption="表示例（実習環境によって異なります）" />
+<ExpectedOutput code={`/home/r8user/workspace`} caption="表示例（実習環境によって異なります）" />
 
 ### 練習用フォルダを削除する
 
@@ -181,8 +172,8 @@ project/
 
 <CommandBlock id="linux-tree-practice" code={treeAnswer} language="bash" kind="practice" context="ターミナル" title="階層構造を作る練習" />
 
-<ExpectedOutput code={`/home/coder/workspace/project
-/home/coder/workspace/project/results`} caption="表示例（実習環境によって異なります）" />
+<ExpectedOutput code={`/home/r8user/workspace/project
+/home/r8user/workspace/project/results`} caption="表示例（実習環境によって異なります）" />
 
 ## パスの指定方法
 
@@ -196,37 +187,9 @@ project/
 
 <CommandBlock id="linux-path-examples" code={pathExamples} language="bash" kind="practice" context="ターミナル" title="相対パスとホームの指定" />
 
-## ここまでの完成チェック
-
-### 基礎編
-
-- [ ] `pwd`で現在地を表示できる
-- [ ] `ls`でファイルとフォルダを確認できる
-- [ ] `cd`でフォルダを移動できる
-- [ ] `cd ..`で1つ上へ戻れる
-- [ ] `mkdir`でフォルダを作れる
-- [ ] `rm -r`で練習用フォルダを削除できる
-- [ ] Tab補完を使える
-
-### QIIME 2解析に向けた操作
-
-- [ ] `cat`でファイルの内容を確認できる
-- [ ] `less`で大きなファイルを閲覧できる
-- [ ] `echo`で変数の中身を確認できる
-- [ ] `echo > file`でファイルを作成できる
-- [ ] `変数='値'`の形で変数を設定できる
-- [ ] `cp`でファイルをコピーできる
-- [ ] `mv`でファイルを移動・名前変更できる
-- [ ] `wget`でファイルをダウンロードできる
-- [ ] `grep`でファイル内を検索できる
-
-<Callout type="note" title="ファイル編集について">
-  この章ではターミナル操作を練習します。テキストファイルを手動で編集する場合は、VS Codeのエディターを使うか、実習環境で案内されたエディターの手順に従ってください。
-</Callout>
-
 ## エラーへの対処法
 
-Linuxではエラーが出ることがあります。エラーメッセージを読み、ファイル名・現在地・コマンドのスペルを確認します。
+エラーが出たらメッセージを読み、ファイル名・現在地・コマンドのスペルを確認します。
 
 <ExpectedOutput code={`No such file or directory`} caption="ファイルやフォルダが見つからない場合の例" />
 
@@ -234,7 +197,7 @@ Linuxではエラーが出ることがあります。エラーメッセージを
 
 <ExpectedOutput code={`command not found`} caption="コマンドが見つからない場合の例" />
 
-この場合は、コマンドのスペルや環境の有効化状態を確認します。エラーを無視せず、全文を講師へ共有すると原因を確認しやすくなります。
+この場合は、コマンドのスペルや環境の有効化状態を確認します。
 
 ## 実践：QIIME 2解析で使う操作
 
@@ -338,36 +301,6 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 | `wget` | 分類器などのファイルをダウンロードする |
 | `grep` | ログやデータの中から文字列を探す |
 
-## チャレンジ：バッチ処理の準備
-
-複数サンプルを扱う場合のフォルダ構成とメタデータを練習します。各ブロックは現在地を明示的に`~/workspace/batch_analysis`へ合わせるため、前のブロックを実行していなくても二重の`batch_analysis`になりません。
-
-### 1. フォルダ構造を作る
-
-<CommandBlock id="linux-batch-setup" code={batchSetup} language="bash" kind="command" context="ターミナル" title="バッチ解析用フォルダを作成" />
-
-`tree`がインストールされていない場合は、同じブロックの`ls -R .`が使われます。`raw_data`、`processed`、`results/tables`、`results/plots`が作られたことを確認します。
-
-### 2. メタデータを作る
-
-<CommandBlock id="linux-batch-metadata" code={metadataCreate} language="bash" kind="command" context="ターミナル" title="メタデータを作成" />
-
-タブ区切りの内容を表示します。
-
-<CommandBlock id="linux-batch-metadata-show" code={metadataShow} language="bash" kind="command" context="ターミナル" title="メタデータを確認" />
-
-### 3. 設定ファイルを作ってバックアップする
-
-`cat << EOF`は、複数行のテキストをファイルへ書き込む方法です。最後の`EOF`までを1つのブロックとして実行します。
-
-<CommandBlock id="linux-batch-config" code={configBackup} language="bash" kind="command" context="ターミナル" title="設定ファイルとバックアップを作成" />
-
-### 4. ログからエラーと警告を探す
-
-サンプルログを作り、`grep`で種別ごとに検索し、`-c`で件数を数えます。
-
-<CommandBlock id="linux-batch-log" code={logSearch} language="bash" kind="command" context="ターミナル" title="ログを検索" />
-
 ## トラブルシューティング実習
 
 ### ファイルの権限を確認する
@@ -398,6 +331,8 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 
 <CommandBlock id="linux-hidden-cat" code={hiddenCat} language="bash" kind="command" context="ターミナル" title="設定ファイルを確認" />
 
-<Callout type="check" title="この章の完了条件">
-  現在地の確認、Tab補完、フォルダ操作、ファイルの作成・閲覧・コピー・移動・検索を行い、QIIME 2解析用の作業構造を作成できれば完了です。
-</Callout>
+## もっとLinuxを練習したい方へ
+
+WebTermのチュートリアルがおすすめです。
+
+<WebtermPractice />

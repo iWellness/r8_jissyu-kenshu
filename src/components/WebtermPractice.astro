@@ -1,0 +1,21 @@
+---
+import { ExternalLink } from 'lucide-react';
+const url = 'https://webterm.app/ja/tutorials';
+---
+
+<a class="webterm-practice" href={url} target="_blank" rel="noopener noreferrer">
+  <span>
+    <strong>WebTerm</strong>
+    <small>ブラウザーでLinuxコマンドを練習できます</small>
+  </span>
+  <span class="webterm-practice__action">練習を始める <ExternalLink size={15} aria-hidden="true" /></span>
+</a>
+
+<style>
+  .webterm-practice { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 20px; padding: 18px 20px; color: var(--foreground); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; }
+  .webterm-practice:hover { color: var(--foreground); border-color: var(--ring); }
+  .webterm-practice strong, .webterm-practice small { display: block; }
+  .webterm-practice small { margin-top: 2px; color: var(--muted-foreground); font-size: .82rem; }
+  .webterm-practice__action { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; color: var(--primary); font-size: .85rem; font-weight: 650; }
+  @media (max-width: 520px) { .webterm-practice { align-items: flex-start; flex-direction: column; gap: 12px; } }
+</style>

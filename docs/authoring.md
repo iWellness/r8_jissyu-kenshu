@@ -12,7 +12,7 @@ Node.js 24を使い、`npm ci`の後に`npm run dev`で確認します。提出�
 
 部品を追加するときは`npx shadcn@latest docs <component>`で仕様を確認し、`npx shadcn@latest add <component>`で生成します。生成済み部品を本文ごとに複製せず、Card、Badge、Button、Alert、Separatorを組み合わせます。
 
-トップの章一覧は`CourseList`が生成します。公開Propsの`lessons`には、学習順の`order`、`title`、`description`、baseパス対応済みの`href`を渡します。章データからの変換は`src/pages/index.astro`だけで行います。
+トップの章一覧は`CourseList`が番号と章名のリンクとして生成します。公開Propsの`lessons`には、学習順の`order`、`title`、baseパス対応済みの`href`を渡します。章データからの変換は`src/pages/index.astro`だけで行います。説明文・バッジ・カードの囲いは追加しません。検索はアクセシブルな名前を持つshadcn/uiのアイコンボタンとし、デスクトップで常時見える章一覧には開閉ボタンを表示しません。
 
 ## 章のメタデータ
 

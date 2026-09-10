@@ -47,9 +47,7 @@ for (const file of htmlFiles) {
       if (html.includes(text)) failures.push(`${relativeFile} still contains removed hero text: ${text}`);
     }
     if (!html.includes('<h1 id="flow-title">実習の流れ</h1>')) failures.push(`${relativeFile} is missing the compact course heading`);
-    const courseCardCount = (html.match(/class="[^"]*course-card(?:\s|\")/g) ?? []).length;
-    if (courseCardCount !== 7) failures.push(`${relativeFile} contains ${courseCardCount} course cards instead of 7`);
-    if (!html.includes('data-slot="alert"')) failures.push(`${relativeFile} is missing the shadcn alert`);
+
   }
 
   const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);

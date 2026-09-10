@@ -46,7 +46,7 @@ seqfu metadata -f manifest -s _S raw-data > manifest.tsv
 ## qiime2環境のactivate
 
 ```bash
-conda activate rachis-qiime2-2026.1
+conda activate qiime2-2026.1
 ```
 
 ## 01_data-import

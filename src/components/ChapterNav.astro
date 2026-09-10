@@ -13,7 +13,6 @@ const { lessons, currentSlug } = Astro.props;
 ---
 
 <nav class="chapter-nav" aria-label="章一覧">
-  <p class="chapter-nav__label">実習の流れ</p>
   <ol>
     {lessons.map((lesson) => (
       <li>

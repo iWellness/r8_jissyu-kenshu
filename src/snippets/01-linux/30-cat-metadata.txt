@@ -1,2 +1,0 @@
-cd ~/workspace/batch_analysis
-cat metadata.tsv

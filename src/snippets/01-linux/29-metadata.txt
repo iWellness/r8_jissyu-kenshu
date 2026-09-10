@@ -1,5 +1,0 @@
-cd ~/workspace/batch_analysis
-echo -e "sample-id\tcondition\treatment" > metadata.tsv
-echo -e "sample1\tcontrol\tnone" >> metadata.tsv
-echo -e "sample2\ttreatment\tdrugA" >> metadata.tsv
-echo -e "sample3\ttreatment\tdrugB" >> metadata.tsv

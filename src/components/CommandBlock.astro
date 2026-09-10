@@ -40,7 +40,7 @@ if (kind === 'template' && replacementNotes.length === 0) {
 const normalized = normalizeSnippet(code);
 const canCopy = kind !== 'practice';
 const copyLabel = kind === 'prompt' ? '依頼文をコピー' : kind === 'template' ? '例をコピー' : 'コピー';
-const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind === 'practice' ? '入力練習' : kind === 'prompt' ? '入力する依頼文' : '実行コマンド';
+const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind === 'practice' ? '入力練習' : kind === 'prompt' ? '入力する依頼文' : '実行';
 ---
 
 <section class:list={['command-block', `command-block--${kind}`]} id={id} data-command-block>
@@ -48,7 +48,7 @@ const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind ===
     <div>
       <span class="command-block__kind">{kindLabel}</span>
       {title && <strong>{title}</strong>}
-      <span class="command-block__context">入力先: {context}</span>
+      <span class="command-block__context">@{context}</span>
     </div>
     {canCopy && <Button className="copy-button js-only" variant="secondary" size="sm" type="button" data-copy-button>{copyLabel}</Button>}
   </header>

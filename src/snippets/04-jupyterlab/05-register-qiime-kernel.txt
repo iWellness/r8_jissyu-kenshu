@@ -1,3 +1,0 @@
-conda activate rachis-qiime2-2026.7
-conda install -c conda-forge ipykernel
-python -m ipykernel install --user --name rachis-qiime2-2026.7 --display-name "Python (QIIME 2 2026.7)"

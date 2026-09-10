@@ -19,8 +19,8 @@ import Callout from '../../components/Callout.astro';
 import CommandBlock from '../../components/CommandBlock.astro';
 import ExpectedOutput from '../../components/ExpectedOutput.astro';
 import Figure from '../../components/Figure.astro';
-import makeManifest from '../../snippets/05-qiime2/01-manifest.txt?raw';
 import activateQiime from '../../snippets/05-qiime2/02-activate-qiime.txt?raw';
+import makeManifest from '../../snippets/05-qiime2/01-manifest.txt?raw';
 import importReads from '../../snippets/05-qiime2/03-import.txt?raw';
 import trimAdapters from '../../snippets/05-qiime2/04-adapter-trim.txt?raw';
 import viewQzv from '../../snippets/05-qiime2/05-view-qzv.txt?raw';
@@ -33,10 +33,10 @@ import downloadClassifier from '../../snippets/05-qiime2/11-download-classifier.
 import classifyTaxonomy from '../../snippets/05-qiime2/12-taxonomy.txt?raw';
 import classifierImage from '../../assets/04_classifier-download.png';
 
-この章では、JupyterLabからアップロードしたペアエンドのFASTQデータをQIIME 2で解析します。解析は「入力データを確認する → QIIME 2形式へ変換する → 品質を確認する → ノイズを除去する → 分類する」の順に進めます。
+JupyterLabからアップロードしたペアエンドのFASTQデータを解析します。QIIME 2環境を有効化し、データの取り込み、品質確認、ノイズ除去、分類の順に進めます。
 
 <Callout type="warning" title="解析前に確認">
-  この章のコマンドは、`raw-data/`がある作業フォルダで実行します。QIIME 2環境名、プライマー配列、分類器の版は実習時に講師の指定と公式ページの表示を確認してください。
+  この章のコマンドは、`raw-data/`がある作業フォルダで実行します。環境名、プライマー配列、分類器の版は教材の指定を使います。
 </Callout>
 
 ## 入力データと完成イメージ
@@ -64,6 +64,7 @@ manifest.tsv
 02_adapter/
 ├── trimmed-seqs.qza
 ├── trimmed-seqs.qzv
+├── stats.qza
 └── outputs/
     ├── forward-seven-number-summaries.tsv
     └── reverse-seven-number-summaries.tsv
@@ -80,25 +81,25 @@ manifest.tsv
 └── taxonomy.qzv
 ```
 
-## 1. manifestを作成する
-
-manifestは、各サンプルのIDとFASTQファイルの場所をQIIME 2へ伝える表です。`raw-data/`に入っているファイル名を確認してから実行します。
-
-<CommandBlock id="qiime2-manifest" code={makeManifest} language="bash" kind="command" context="ターミナル" title="FASTQファイルからmanifest.tsvを作成" />
-
-このコマンドは`seqfu`のmetadata機能を使い、`raw-data/`内のペアエンドFASTQから`manifest.tsv`を作ります。`seqfu: command not found`が出る場合は、講師に環境を確認してください。
-
-<Callout type="check" title="manifestの確認">
-  `ls`で`manifest.tsv`が作成され、サンプルごとにR1とR2の行があることを確認します。ファイル名の入力ミスがあると、後のimportでエラーになります。
-</Callout>
-
-## 2. QIIME 2環境を有効化する
+## 1. QIIME 2環境を有効化する
 
 QIIME 2のコマンドを使う前に、専用のconda環境を有効化します。
 
 <CommandBlock id="qiime2-activate" code={activateQiime} language="bash" kind="command" context="ターミナル" title="QIIME 2環境を有効化" />
 
-プロンプトの先頭に`(rachis-qiime2-2026.1)`のような環境名が表示されれば、QIIME 2環境が有効です。表示される環境名が講師の指定と異なる場合は、勝手に置き換えず確認してください。
+プロンプトの先頭に`(qiime2-2026.1)`と表示されれば準備完了です。
+
+## 2. manifestを作成する
+
+manifestは、各サンプルのIDとFASTQファイルの場所をQIIME 2へ伝える表です。`raw-data/`に入っているファイル名を確認してから実行します。
+
+<CommandBlock id="qiime2-manifest" code={makeManifest} language="bash" kind="command" context="ターミナル" title="FASTQファイルからmanifest.tsvを作成" />
+
+このコマンドは`seqfu`のmetadata機能を使い、`raw-data/`内のペアエンドFASTQから`manifest.tsv`を作ります。`seqfu: command not found`が出る場合は、前章の`seqfu`インストールを確認します。
+
+<Callout type="check" title="manifestの確認">
+  `ls`で`manifest.tsv`が作成され、サンプルごとにR1とR2の行があることを確認します。ファイル名の入力ミスがあると、後のimportでエラーになります。
+</Callout>
 
 ## 3. FASTQをQIIME 2形式へ取り込む
 
@@ -120,7 +121,7 @@ QIIME 2のコマンドを使う前に、専用のconda環境を有効化しま�
 
 <CommandBlock id="qiime2-adapter-trim" code={trimAdapters} language="bash" kind="command" context="ターミナル" title="プライマーとアダプターをトリミング" />
 
-`--p-discard-untrimmed`は、指定した配列を見つけられなかったリードを捨てる指定です。`--p-minimum-length 200`はトリミング後の最小長、`--p-cores 3`は使用するスレッド数です。配列や値は実験条件に合わせて講師の指定を確認します。
+`--p-discard-untrimmed`は、指定した配列を見つけられなかったリードを捨てる指定です。`--p-minimum-length 200`はトリミング後の最小長、`--p-cores 3`は使用するスレッド数です。
 
 このブロックは`02_adapter/trimmed-seqs.qza`と`02_adapter/stats.qza`を作り、続けてトリミング後の品質確認用に`trimmed-seqs.qzv`を作ります。
 
@@ -188,7 +189,7 @@ ForwardとReverseを結合して得られた代表配列を可視化します。
 
 <Figure src={classifierImage} alt="QIIME 2 Data Resourcesで分類器を選ぶ画面" caption="Data Resourcesから分類器を選択する" />
 
-<CommandBlock id="qiime2-download-classifier" code={downloadClassifier} language="bash" kind="template" context="ターミナル" title="分類器をダウンロード" replacementNotes={['ライブラリページからコピーした分類器のURLへ置き換える', '講師が指定した分類器の版を確認する']} />
+<CommandBlock id="qiime2-download-classifier" code={downloadClassifier} language="bash" kind="template" context="ターミナル" title="分類器をダウンロード" replacementNotes={['ライブラリページからコピーした分類器のURLへ置き換える', '使用する分類器の版を確認する']} />
 
 この例のURLは固定の正本ではありません。実習時は必ずData Resourcesのページで、QIIME 2 2026.1と入力データに対応する分類器を選びます。
 
@@ -219,7 +220,3 @@ ForwardとReverseを結合して得られた代表配列を可視化します。
 5. `04_taxonomy/taxonomy.qzv`と`taxa-bar-plots.qzv`で分類結果を見る
 
 QIIME 2の各ファイルは、解析条件と一緒に保存します。truncation長、プライマー、分類器の版、実行日時を記録すると、結果を再確認しやすくなります。
-
-<Callout type="check" title="この章の完了条件">
-  manifestの作成、QIIME 2へのimport、アダプタートリミング、品質確認、DADA2、taxonomy分類までを順番に実行し、各ステップの`qza`と`qzv`を確認できれば完了です。
-</Callout>

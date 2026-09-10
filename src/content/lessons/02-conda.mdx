@@ -7,8 +7,8 @@ objectives:
   - Miniforgeのインストーラを取得して実行できる
   - condaを初期化してバージョンを確認できる
 prerequisites:
-  - VS Code for Webのターミナル
-environment: Linux ターミナル
+  - SSH接続済み
+environment: SSH接続先のLinux
 ---
 
 import Callout from '../../components/Callout.astro';
@@ -22,12 +22,9 @@ import miniforgeImage from '../../assets/02_miniforge-download.png';
 
 ## condaとは
 
-- 環境およびパッケージ管理ツール。
-- Pythonのパッケージ管理ツールの`pip`とは異なり、Python以外のパッケージも管理できる。
+condaは、実行環境とパッケージをまとめて管理するツールです。`pip`と異なり、Python以外のパッケージも扱えます。
 
 ## インストール（Linux）
-
-今回は、Miniforgeを使用します。
 
 ### 1. 公式サイトにアクセス
 
@@ -39,28 +36,24 @@ import miniforgeImage from '../../assets/02_miniforge-download.png';
 
 <Figure src={miniforgeImage} alt="Miniforgeのダウンロード一覧にあるUnix-like platformsの項目" caption="Unix-like platforms（macOS & Linux）のダウンロード項目" />
 
-### 3. 設定ファイルをダウンロード
+### 3. インストーラをダウンロード
 
-`curl` と `wget` のどちらか一つを実行します。
+`curl`と`wget`のどちらか一方だけを実行します。
 
 <CommandBlock id="conda-download-curl" code={curlInstaller} language="bash" kind="command" context="ターミナル" title="curlでダウンロード" />
 
 <CommandBlock id="conda-download-wget" code={wgetInstaller} language="bash" kind="command" context="ターミナル" title="wgetでダウンロード" />
 
-<Callout type="note" title="どちらか一つでOK">
-  `curl` または `wget` のどちらか一方でダウンロードします。両方を実行する必要はありません。
-</Callout>
-
-### 4. 設定ファイルを実行してインストール
+### 4. インストーラを実行
 
 <CommandBlock id="conda-run-installer" code={runInstaller} language="bash" kind="command" context="ターミナル" title="Miniforgeのインストール" />
 
-色々な質問が表示されるので、次のように進めます。
+質問が表示されたら、次のように進めます。
 
 - Enterでページを進める。
 - `(END)` と表示されたら、`q` を入力して終了する。
 - `accept the license terms? [yes|no]` と聞かれたら、`yes` を入力してEnterを押す。
-- `You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`yes` を入力してEnterを押す。
+- `You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`no` を入力してEnterを押す。
 
 <Callout type="warning" title="インストーラの質問を確認">
   表示される質問文や初期化先は、インストーラの版やシェルによって変わる場合があります。内容を読んでから入力してください。
@@ -71,7 +64,3 @@ import miniforgeImage from '../../assets/02_miniforge-download.png';
 <CommandBlock id="conda-initialize-and-check" code={initConda} language="bash" kind="command" context="ターミナル" title="condaを初期化してバージョンを確認" />
 
 このコマンドでは、講座環境の `/home/r8user/miniforge3` にあるcondaを使って、zsh用の初期化処理を読み込みます。
-
-<Callout type="check" title="この章の完了条件">
-  `conda --version` でバージョンが表示されれば、condaを使う準備ができています。
-</Callout>

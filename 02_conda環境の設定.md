@@ -29,7 +29,7 @@
     - `(END)`と表示されたら、`q`を入力して終了。
     - accept the license terms? [yes|no]という質問が出るので、`yes`を入力し、Enter。
     - 
-    - You can undo this by running `conda init --reverse $SHELL`? [yes|no]という質問が出るので、`yes`を入力し、Enter。
+    - You can undo this by running `conda init --reverse $SHELL`? [yes|no]という質問が出るので、`no`を入力し、Enter。
 
 5. condaの初期化と確認
    ```bash

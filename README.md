@@ -19,7 +19,6 @@ npm run dev
 
 ### 目次
 
-- [00_vscodeの画面](00_vscodeの画面.md)
 - [01_Linuxコマンド](01_Linuxコマンド.md)
 - [02_nanoの使い方](02_nanoの使い方.md)
 - [03_conda環境の設定](03_conda環境の設定.md)
@@ -31,7 +30,9 @@ npm run dev
 
 ## 実習の流れ
 
-環境構築 → 各自でJupyterLabをインストール → QIIME 2解析 → Claude Codeを使ったPython演習、の順で進めます。
+SSH接続 → Linuxの基本操作・環境構築 → 各自でJupyterLabをインストール → QIIME 2解析 → Claude Codeを使ったPython演習、の順で進めます。導入教材「00_SSH」の正本は[SSHで実習環境に接続](src/content/lessons/00-ssh.mdx)です。
+
+受講者ごとのIPアドレス、ユーザー名、認証情報を事前に配布します。VPN、SSHポート、JupyterLab用のポート転送は実習環境に合わせて設定します。実際のパスワードや秘密鍵は教材リポジトリに記載しません。
 
 ## 注意
 QIIME 2のインストールコマンドと分類器のURLは更新されるため、実習時には公式ページの最新版を確認してください。

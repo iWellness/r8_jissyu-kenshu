@@ -1,13 +1,14 @@
 ---
 import { Button } from '@/components/ui/button';
+import { Search, X } from 'lucide-react';
 ---
 
 <div class="search js-only" data-search>
-  <Button type="button" variant="outline" size="sm" className="search__open" data-search-open aria-haspopup="dialog">教材内を検索</Button>
+  <Button type="button" variant="outline" size="icon" className="search__open" data-search-open aria-haspopup="dialog" aria-label="教材内を検索" title="教材内を検索"><Search aria-hidden="true" /></Button>
   <dialog class="search__dialog" data-search-dialog aria-labelledby="search-title">
     <form method="dialog" class="search__header">
       <strong id="search-title">教材内を検索</strong>
-      <Button type="submit" variant="ghost" size="sm" aria-label="検索を閉じる">閉じる</Button>
+      <Button type="submit" variant="ghost" size="icon" aria-label="検索を閉じる"><X aria-hidden="true" /></Button>
     </form>
     <label for="site-search">キーワード</label>
     <input id="site-search" type="search" inputmode="search" autocomplete="off" data-search-input />
