@@ -41,6 +41,9 @@ assert.equal(practice.querySelector('iframe'), null);
 assert.ok(practice.matches('a.webterm-practice[href="https://webterm.app/ja/tutorials"][target="_blank"][rel~="noopener"]'));
 for (const document of [home, linux]) {
   assert.equal(document.querySelector('a[href$="/lessons/vscode/"]'), null);
+  const brandLogo = document.querySelector('.site-brand img.site-brand__logo');
+  assert.ok(brandLogo, 'The site brand should include its logo');
+  assert.equal(brandLogo.getAttribute('alt'), '');
 }
 await assert.rejects(access('dist/lessons/vscode/index.html'));
 const ssh = await documentAt('lessons/ssh/index.html');

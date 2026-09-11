@@ -9,7 +9,7 @@ describe('migrated command regressions', () => {
     ]);
 
     expect(home).not.toContain('教材で指定したバージョンを使用してください。');
-    expect(layout).toContain('class="site-brand" href={import.meta.env.BASE_URL}>令和８年度 実践研修コース</a>');
+    expect(layout).toContain('<span>令和８年度 実践研修コース</span>');
   });
 
   it('creates workspace before teaching Tab completion', async () => {

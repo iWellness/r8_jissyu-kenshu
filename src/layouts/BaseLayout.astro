@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import Search from '@/components/Search.astro';
 import '@/styles/global.css';
+import brandLogo from '../../img/BS-jinzai-HP-logo.png';
 
 export interface Props {
   /** Browser and social title. */
@@ -20,14 +22,17 @@ const pageTitle = title === 'BI実践研修' ? title : `${title} | BI実践研�
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={brandLogo.src} type="image/png" />
     <title>{pageTitle}</title>
     <script is:inline>document.documentElement.dataset.js = 'true';</script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header">
-      <a class="site-brand" href={import.meta.env.BASE_URL}>令和８年度 実践研修コース</a>
+      <a class="site-brand" href={import.meta.env.BASE_URL}>
+        <Image class="site-brand__logo" src={brandLogo} alt="" width={38} height={38} />
+        <span>令和８年度 実践研修コース</span>
+      </a>
       <Search />
     </header>
     <slot />
