@@ -145,6 +145,20 @@ describe('migrated command regressions', () => {
     expect(seqfuInstall.trim()).toBe('conda install -c bioconda seqfu');
   });
 
+  it('tries the JupyterLab URL before introducing port forwarding', async () => {
+    const lesson = await readFile('src/content/lessons/04-jupyterlab.mdx', 'utf8');
+    const startHeading = '## 3. JupyterLabを起動して接続を確認';
+    const forwardHeading = '## 4. 接続できない場合はWindowsからポート転送';
+
+    expect(lesson).toContain(startHeading);
+    expect(lesson).toContain(forwardHeading);
+    expect(lesson).toContain('ブラウザーにJupyterLabが表示されない場合');
+    expect(lesson.indexOf(startHeading)).toBeLessThan(lesson.indexOf(forwardHeading));
+    expect(lesson.indexOf('id="jupyterlab-start"')).toBeLessThan(
+      lesson.indexOf('id="jupyterlab-port-forward"'),
+    );
+  });
+
   it('downloads the complete NextSeq exercise dataset from R2', async () => {
     const [lesson, download] = await Promise.all([
       readFile('src/content/lessons/05-qiime2.mdx', 'utf8'),

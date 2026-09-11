@@ -5,7 +5,7 @@ title: JupyterLabのインストール
 description: conda環境へJupyterLabを導入し、NotebookでPythonを実行する準備をします。
 objectives:
   - conda環境を確認してJupyterLabをインストールできる
-  - JupyterLabを起動し、NotebookでPythonコードを実行できる
+  - JupyterLabを起動し、必要に応じてポート転送して接続できる
   - 必要に応じてQIIME 2環境のカーネルを登録できる
 prerequisites:
   - conda環境の設定
@@ -32,7 +32,17 @@ base環境でインストールします。
 
 途中で `Proceed ([y]/n)?` と表示されたら `y` を入力します。
 
-## 3. Windowsからポート転送する
+## 3. JupyterLabを起動して接続を確認
+
+最初のSSH接続済みターミナルに戻ります。
+
+<CommandBlock id="jupyterlab-start" code={startJupyterlab} language="bash" kind="command" context="ターミナル" title="JupyterLabを起動" />
+
+ターミナルに表示された`http://localhost:8888/lab?token=...`のURLを、Windowsのブラウザーで開きます。
+
+ブラウザーにJupyterLabが表示されない場合は、URLを閉じずに次のポート転送を行います。
+
+## 4. 接続できない場合はWindowsからポート転送
 
 Windowsで新しいPowerShellを開き、配布された接続情報で次のコマンドを実行します。
 
@@ -45,19 +55,13 @@ Windowsで新しいPowerShellを開き、配布された接続情報で次のコ
   ]}
 />
 
-認証後は何も表示されません。このPowerShellはJupyterLabを使い終わるまで開いておきます。
+認証後は何も表示されません。このPowerShellはJupyterLabを使い終わるまで開いておきます。先ほどのブラウザーに戻り、同じ`http://localhost:8888/lab?token=...`のURLをもう一度開きます。
 
-## 4. 起動と動作確認
-
-最初のSSH接続済みターミナルに戻ります。
-
-<CommandBlock id="jupyterlab-start" code={startJupyterlab} language="bash" kind="command" context="ターミナル" title="JupyterLabを起動" />
-
-ターミナルに表示された`http://localhost:8888/lab?token=...`のURLを、Windowsのブラウザーで開きます。新しいNotebookを作り、次のコードを実行します。
+JupyterLabが表示されたら新しいNotebookを作り、次のコードを実行します。
 
 <CommandBlock id="jupyterlab-notebook-check" code={checkNotebook} language="python" kind="command" context="JupyterLabのNotebookセル" title="Pythonの実行確認" />
 
-終了時は、JupyterLabを起動したターミナルで`Ctrl + C`を押し、確認に`y`を入力します。ポート転送用のPowerShellでも`Ctrl + C`を押します。
+終了時は、JupyterLabを起動したターミナルで`Ctrl + C`を押し、確認に`y`を入力します。ポート転送を行った場合は、ポート転送用のPowerShellでも`Ctrl + C`を押します。
 
 ## 5. QIIME 2環境をNotebookから使う場合
 
@@ -69,8 +73,8 @@ Notebook作成時に `Python (QIIME 2 2026.1)` を選択します。
 
 ## 完成チェック
 
-- [ ] PowerShellでSSHポート転送を開始・終了できる
 - [ ] `jupyter lab`でJupyterLabを起動できる
+- [ ] 接続できない場合にPowerShellでSSHポート転送を開始できる
 - [ ] Notebookを新規作成できる
 - [ ] Pythonコードを実行し、`JupyterLab OK` と表示できる
 - [ ] 使用中のカーネルを確認できる
