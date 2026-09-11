@@ -4,13 +4,14 @@ order: 5
 title: QIIME 2解析
 description: FASTQデータをQIIME 2へ取り込み、トリミング・DADA2・分類・可視化までの流れを確認します。
 objectives:
+  - Cloudflare R2から演習用FASTQファイルをダウンロードできる
   - FASTQファイルからmanifestを作成してQIIME 2へ取り込める
   - プライマーをトリミングし、品質を確認できる
   - 品質に合わせてDADA2のtruncation長を設定できる
   - 分類器を使ってtaxonomyとバープロットを作成できる
 prerequisites:
   - QIIME 2のインストール
-  - raw-dataフォルダへのFASTQデータのアップロード
+  - wgetが使えるLinuxターミナル
 environment: Linux ターミナルとQIIME 2 2026.1
 reviewedAt: '2026-09-08'
 ---
@@ -19,6 +20,7 @@ import Callout from '../../components/Callout.astro';
 import CommandBlock from '../../components/CommandBlock.astro';
 import ExpectedOutput from '../../components/ExpectedOutput.astro';
 import Figure from '../../components/Figure.astro';
+import downloadRawData from '../../snippets/05-qiime2/00-download-raw-data.txt?raw';
 import activateQiime from '../../snippets/05-qiime2/02-activate-qiime.txt?raw';
 import makeManifest from '../../snippets/05-qiime2/01-manifest.txt?raw';
 import importReads from '../../snippets/05-qiime2/03-import.txt?raw';
@@ -33,7 +35,7 @@ import downloadClassifier from '../../snippets/05-qiime2/11-download-classifier.
 import classifyTaxonomy from '../../snippets/05-qiime2/12-taxonomy.txt?raw';
 import classifierImage from '../../assets/04_classifier-download.png';
 
-JupyterLabからアップロードしたペアエンドのFASTQデータを解析します。QIIME 2環境を有効化し、データの取り込み、品質確認、ノイズ除去、分類の順に進めます。
+Cloudflare R2からダウンロードしたペアエンドのFASTQデータを解析します。QIIME 2環境を有効化し、データの取り込み、品質確認、ノイズ除去、分類の順に進めます。
 
 <Callout type="warning" title="解析前に確認">
   この章のコマンドは、`raw-data/`がある作業フォルダで実行します。環境名、プライマー配列、分類器の版は教材の指定を使います。
@@ -41,15 +43,22 @@ JupyterLabからアップロードしたペアエンドのFASTQデータを解�
 
 ## 入力データと完成イメージ
 
-JupyterLabからデータをアップロードし、作業フォルダに`raw-data/`を作ります。ペアエンドデータでは、同じサンプルのForward（`R1`）とReverse（`R2`）が1組になっています。
+作業フォルダへ移動してから、次のコマンドをまとめてコピー＆ペーストします。`raw-data/`を作成し、8個のFASTQファイルをCloudflare R2からその中へダウンロードします。
+
+<CommandBlock id="qiime2-download-raw-data" code={downloadRawData} language="bash" kind="command" context="ターミナル" title="演習用FASTQデータをダウンロード" />
+
+ペアエンドデータでは、同じサンプルのForward（`R1`）とReverse（`R2`）が1組になっています。ダウンロード後の構成は次のとおりです。
 
 ```text
 raw-data/
-├── <SAMPLE1>_R1_001.fastq.gz
-├── <SAMPLE1>_R2_001.fastq.gz
-├── ...
-├── <SAMPLE5>_R1_001.fastq.gz
-└── <SAMPLE5>_R2_001.fastq.gz
+├── 1_S1_R1_001.fastq.gz
+├── 1_S1_R2_001.fastq.gz
+├── 2_S2_R1_001.fastq.gz
+├── 2_S2_R2_001.fastq.gz
+├── 3_S3_R1_001.fastq.gz
+├── 3_S3_R2_001.fastq.gz
+├── 11_S5_R1_001.fastq.gz
+└── 11_S5_R2_001.fastq.gz
 ```
 
 解析が完了すると、作業フォルダには次のような成果物ができます。実際のファイル数や名前は入力データと実行結果によって変わります。

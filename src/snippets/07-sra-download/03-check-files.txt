@@ -1,0 +1,1 @@
+ls -lh SRR27743880_1.fastq SRR27743880_2.fastq

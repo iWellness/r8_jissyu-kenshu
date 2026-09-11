@@ -10,8 +10,9 @@ const search = home.querySelector('[data-search-open]');
 assert.equal(search.textContent.trim(), '', 'Search trigger should be icon-only');
 assert.equal(search.getAttribute('aria-label'), '教材内を検索');
 assert.ok(search.querySelector('svg'));
-assert.equal(home.querySelectorAll('.course-list > li').length, 7);
+assert.equal(home.querySelectorAll('.course-list > li').length, 8);
 assert.ok(home.querySelector('.course-list > li:first-child a[href$="/lessons/ssh/"]'));
+assert.ok(home.querySelector('.course-list > li:last-child a[href$="/lessons/sra-download/"]'));
 assert.equal(home.querySelectorAll('.course-list [data-slot="card"], .course-list [data-slot="badge"]').length, 0);
 assert.ok(home.querySelector('.course-list a[href$="/lessons/linux/"]'));
 assert.equal(linux.querySelector('.chapter-nav__label'), null);
@@ -59,6 +60,12 @@ for (const text of [
 ]) {
   assert.ok(!ssh.body.textContent.includes(text), `SSH lesson should omit: ${text}`);
 }
+const sra = await documentAt('lessons/sra-download/index.html');
+assert.ok(sra.querySelector('[rel="prev"][href$="/lessons/python-practice/"]'));
+assert.equal(sra.querySelector('[rel="next"]'), null);
+assert.ok(sra.querySelector('img[alt*="BioProject PRJNA1062343"]'));
+assert.ok(sra.querySelector('img[alt*="SRX23409400"]'));
+assert.equal(sra.querySelector('#sra-fasterq-dump .copy-source').value.trim(), 'fasterq-dump -p --split-files SRR27743880');
 for (const link of home.querySelectorAll('.course-list a')) {
   const slug = link.getAttribute('href').split('/').filter(Boolean).at(-1);
   const lesson = await documentAt(`lessons/${slug}/index.html`);
@@ -74,4 +81,4 @@ for (const link of home.querySelectorAll('.course-list a')) {
   assert.ok(!lesson.body.textContent.includes('\u8b1b\u5e2b'));
 }
 assert.ok(!home.body.textContent.includes('\u8b1b\u5e2b'));
-console.log('Compact UI and SSH-first seven-chapter navigation verified.');
+console.log('Compact UI and SSH-first eight-page navigation verified.');

@@ -130,4 +130,48 @@ describe('migrated command regressions', () => {
     const seqfuInstall = await readFile('src/snippets/03-qiime2-install/07-install-seqfu.txt', 'utf8');
     expect(seqfuInstall.trim()).toBe('conda install -c bioconda seqfu');
   });
+
+  it('downloads the complete NextSeq exercise dataset from R2', async () => {
+    const [lesson, download] = await Promise.all([
+      readFile('src/content/lessons/05-qiime2.mdx', 'utf8'),
+      readFile('src/snippets/05-qiime2/00-download-raw-data.txt', 'utf8'),
+    ]);
+    const filenames = [
+      '1_S1_R1_001.fastq.gz',
+      '1_S1_R2_001.fastq.gz',
+      '2_S2_R1_001.fastq.gz',
+      '2_S2_R2_001.fastq.gz',
+      '3_S3_R1_001.fastq.gz',
+      '3_S3_R2_001.fastq.gz',
+      '11_S5_R1_001.fastq.gz',
+      '11_S5_R2_001.fastq.gz',
+    ];
+
+    expect(download).toContain('mkdir raw-data');
+    for (const filename of filenames) {
+      expect(download).toContain(`https://pub-3323395ea28d4d81afab5d75dd0b6484.r2.dev/nextseq/raw-data/${filename}`);
+    }
+    expect(lesson).toContain('id="qiime2-download-raw-data"');
+    expect(lesson).not.toContain('JupyterLabからアップロード');
+    expect(lesson.indexOf('id="qiime2-download-raw-data"')).toBeLessThan(
+      lesson.indexOf('id="qiime2-activate"'),
+    );
+  });
+
+  it('documents the public SRA download workflow with verified accessions', async () => {
+    const [lesson, command] = await Promise.all([
+      readFile('src/content/lessons/07-sra-download.mdx', 'utf8'),
+      readFile('src/snippets/07-sra-download/02-fasterq-dump.txt', 'utf8'),
+    ]);
+
+    expect(lesson).toContain('https://www.nature.com/articles/s42003-025-09089-2');
+    expect(lesson).toContain('PRJNA1062343');
+    expect(lesson).not.toContain('PRJNA106234390');
+    expect(lesson).toContain('https://www.ncbi.nlm.nih.gov/sra');
+    expect(lesson).toContain('SRX23409400');
+    expect(lesson).toContain('SRR27743880');
+    expect(lesson).toContain('sra-paper-bioproject.png');
+    expect(lesson).toContain('sra-search-results.png');
+    expect(command.trim()).toBe('fasterq-dump -p --split-files SRR27743880');
+  });
 });

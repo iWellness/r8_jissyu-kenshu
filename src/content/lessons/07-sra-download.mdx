@@ -1,0 +1,92 @@
+---
+slug: sra-download
+order: 7
+title: 【番外編】NCBI SRAからの公開データダウンロード
+description: 論文に記載されたBioProjectをNCBI SRAで検索し、公開FASTQデータを取得します。
+objectives:
+  - 論文からBioProjectアクセッションを確認できる
+  - NCBI SRAでBioProjectを検索し、ExperimentとRunを特定できる
+  - sra-toolsのfasterq-dumpでペアエンドFASTQをダウンロードできる
+prerequisites:
+  - condaが使えるLinuxターミナル
+  - インターネット接続
+environment: Linux ターミナル
+---
+
+import Callout from '../../components/Callout.astro';
+import CommandBlock from '../../components/CommandBlock.astro';
+import Figure from '../../components/Figure.astro';
+import paperBioProjectImage from '../../assets/sra-paper-bioproject.png';
+import sraSearchImage from '../../assets/sra-search-results.png';
+import installSraTools from '../../snippets/07-sra-download/01-install-sra-tools.txt?raw';
+import downloadRun from '../../snippets/07-sra-download/02-fasterq-dump.txt?raw';
+import checkDownloadedFiles from '../../snippets/07-sra-download/03-check-files.txt?raw';
+
+公開論文に紐づくシーケンスデータを探し、NCBIのSequence Read Archive（SRA）からFASTQ形式で取得します。
+
+<Callout type="note" title="アクセッションの関係">
+  この例では、研究全体を表すBioProjectが`PRJNA1062343`、個別の実験が`SRX23409400`、実際にダウンロードするRunが`SRR27743880`です。`fasterq-dump`にはRunの`SRR`アクセッションを指定します。
+</Callout>
+
+## 1. 論文からデータを選ぶ
+
+例として、Nature Portfolioの次の論文を使います。
+
+[Genetic variation and historical breeding patterns in common bean (Phaseolus vulgaris L.) affect fermentation patterns by the human gut microbiome](https://www.nature.com/articles/s42003-025-09089-2)
+
+論文の「Data availability」には、16S rRNA遺伝子シーケンスの公開先としてBioProject `PRJNA1062343`が記載されています。
+
+<Figure
+  src={paperBioProjectImage}
+  alt="論文のData availability欄にBioProject PRJNA1062343が記載されている画面"
+  caption="論文のData availability欄。BioProjectアクセッションはPRJNA1062343です（出典：Nature Portfolio、CC BY 4.0）。"
+/>
+
+## 2. NCBI SRAで検索する
+
+[NCBI SRA](https://www.ncbi.nlm.nih.gov/sra)を開き、検索欄へ`PRJNA1062343`を入力して「Search」をクリックします。
+
+<Figure
+  src={sraSearchImage}
+  alt="NCBI SRAでPRJNA1062343を検索し、SRX23409400が先頭に表示された画面"
+  caption="NCBI SRAの検索結果。PRJNA1062343に含まれるExperimentが一覧表示されます。"
+/>
+
+## 3. ExperimentとRunを選ぶ
+
+検索結果の一番上にあるExperiment `SRX23409400`を開きます。
+
+[SRX23409400：16S rRNA V4 of fermentation samples](https://www.ncbi.nlm.nih.gov/sra/SRX23409400)
+
+Experimentの詳細にある「Runs」欄を確認すると、ダウンロード対象のRunは`SRR27743880`です。
+
+- BioProject：`PRJNA1062343`
+- Experiment：`SRX23409400`
+- Run：`SRR27743880`
+
+## 4. fasterq-dumpでダウンロードする
+
+`fasterq-dump`はsra-toolsに含まれています。まだ利用できない場合は、conda環境を有効化したターミナルで初回のみインストールします。
+
+<CommandBlock id="sra-install-tools" code={installSraTools} language="bash" kind="command" context="ターミナル" title="sra-toolsをインストール" />
+
+FASTQファイルを保存したいフォルダへ移動し、Runアクセッションを指定してダウンロードします。
+
+<CommandBlock id="sra-fasterq-dump" code={downloadRun} language="bash" kind="command" context="ターミナル" title="SRR27743880をFASTQ形式でダウンロード" />
+
+`--split-files`を付けると、ペアエンドデータがForwardとReverseに分かれて保存されます。`-p`は処理の進捗を表示するオプションです。
+
+<Callout type="warning" title="空き容量を確認">
+  `fasterq-dump`の実行中は一時ファイルを作成するため、ダウンロードサイズより多くの空き容量が必要です。また、出力されるFASTQファイルはgzip圧縮されていません。
+</Callout>
+
+次のコマンドで、2つのFASTQファイルが作成されたことを確認します。
+
+<CommandBlock id="sra-check-files" code={checkDownloadedFiles} language="bash" kind="command" context="ターミナル" title="ダウンロード結果を確認" />
+
+- `SRR27743880_1.fastq`：Forward reads
+- `SRR27743880_2.fastq`：Reverse reads
+
+<Callout type="check" title="ダウンロードの完了条件">
+  `SRR27743880_1.fastq`と`SRR27743880_2.fastq`の2ファイルが表示されれば完了です。
+</Callout>
