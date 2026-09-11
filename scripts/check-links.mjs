@@ -15,8 +15,7 @@ async function filesWithin(directory) {
 function localTarget(htmlFile, reference) {
   const clean = reference.split(/[?#]/, 1)[0];
   if (!clean || clean.startsWith('http:') || clean.startsWith('https:') || clean.startsWith('mailto:')) return null;
-  if (clean.startsWith('/r8_jissyu-kenshu/')) return path.join(root, clean.slice('/r8_jissyu-kenshu/'.length));
-  if (clean.startsWith('/')) return null;
+  if (clean.startsWith('/')) return path.join(root, clean.slice(1));
   return path.resolve(path.dirname(htmlFile), clean);
 }
 

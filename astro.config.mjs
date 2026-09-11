@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://iwellness.github.io',
-  base: '/r8_jissyu-kenshu',
+  site: 'https://jissyu-kensyu.iwellness.okinawa',
+  base: '/',
   output: 'static',
   trailingSlash: 'always',
   integrations: [mdx(), react()],
