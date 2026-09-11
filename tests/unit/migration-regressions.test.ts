@@ -64,6 +64,20 @@ describe('migrated command regressions', () => {
     }
   });
 
+  it('explains conda virtual environments at the end of the QIIME 2 install lesson', async () => {
+    const lesson = await readFile('src/content/lessons/03-qiime2-install.mdx', 'utf8');
+
+    expect(lesson).toContain('## 仮想環境とは');
+    expect(lesson).toContain('別の仮想環境には影響しません');
+    expect(lesson).toContain('OSごと分離する仮想マシンとは異なります');
+    expect(lesson).toContain('conda-environments-geohackweek.jpeg');
+    expect(lesson).toContain('https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html');
+    expect(lesson).toContain('https://geohackweek.github.io/datasharing/01-conda-tutorial');
+    expect(lesson.indexOf('## 仮想環境とは')).toBeGreaterThan(
+      lesson.indexOf('id="qiime2-install-seqfu"'),
+    );
+  });
+
   it('uses the r8user home path throughout the authored articles', async () => {
     const articles = await Promise.all([
       '01_Linuxコマンド.md',

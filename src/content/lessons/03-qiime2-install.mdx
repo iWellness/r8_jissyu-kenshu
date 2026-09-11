@@ -1,10 +1,10 @@
 ---
 slug: qiime2-install
 order: 3
-title: QIIME 2のインストール
-description: 公式の手順を確認し、conda環境へQIIME 2 2026.1をインストールします。
+title: Qiime2 2のインストール
+description: 公式の手順を確認し、conda環境へQiime 2 2026.1をインストールします。
 objectives:
-  - QIIME 2の公式インストールページを開ける
+  - Qiime 2の公式インストールページを開ける
   - 指定されたconda環境を作成して有効化できる
   - 有効化の前後でqiimeコマンドの状態を確認できる
   - manifest作成に使うseqfuを追加できる
@@ -15,6 +15,8 @@ environment: Linux ターミナル
 
 import CommandBlock from '../../components/CommandBlock.astro';
 import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import Figure from '../../components/Figure.astro';
+import condaEnvironmentsImage from '../../assets/conda-environments-geohackweek.jpeg';
 import createEnvironment from '../../snippets/03-qiime2-install/01-create-environment.txt?raw';
 import qiimeHelpBefore from '../../snippets/03-qiime2-install/02-qiime-help-before-activate.txt?raw';
 import envList from '../../snippets/03-qiime2-install/03-conda-env-list.txt?raw';
@@ -74,3 +76,31 @@ import installSeqfu from '../../snippets/03-qiime2-install/07-install-seqfu.txt?
 <CommandBlock id="qiime2-install-seqfu" code={installSeqfu} language="bash" kind="command" context="ターミナル" title="seqfuをインストール" />
 
 `Proceed ([y]/n)?`と表示されたら`y`を入力します。
+
+## 仮想環境とは
+
+仮想環境は、特定のソフトウェアとそのバージョンを1つのフォルダにまとめ、ほかの環境から分けて管理する仕組みです。condaの公式ドキュメントでは、conda環境を「インストールしたパッケージの特定の組み合わせを含むディレクトリ」と説明しています。[1]
+
+仮想環境は、作業ごとに用意する**専用の道具箱**と考えると分かりやすくなります。
+
+- `base`環境：condaを動かすための基本の道具箱
+- `qiime2-2026.1`環境：QIIME 2 2026.1と解析に必要なパッケージを入れた道具箱
+- `conda activate qiime2-2026.1`：使う道具箱を`qiime2-2026.1`へ切り替える操作
+
+ある仮想環境でパッケージを追加・更新しても、別の仮想環境には影響しません。そのため、QIIME 2が必要とするソフトウェアの組み合わせを保ちながら、ほかの解析環境と共存できます。
+
+<Figure
+  src={condaEnvironmentsImage}
+  alt="root環境と2つの追加環境が、それぞれ異なるPythonとパッケージを持つ様子を示した図"
+  caption="condaでは、環境ごとに異なるPythonやパッケージを分けて保持できます。"
+/>
+
+この図では、`root environment`（現在の`base`環境に相当）とは別に、異なるPythonとパッケージを持つ環境を複数作れることを示しています。[2] 図の出典はGeoHackWeekで、[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)に基づいて掲載しています。[3]
+
+仮想環境は、パソコンの中に別のOSを起動する仕組みではありません。OSごと分離する仮想マシンとは異なります。現在のLinux環境の中で、優先して使うコマンドとパッケージの保存場所を切り替えます。
+
+## Sources
+
+[1] https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html — Environments — conda documentation
+[2] https://geohackweek.github.io/datasharing/01-conda-tutorial — Introduction to Conda — GeoHackWeek
+[3] https://geohackweek.github.io/datasharing/license — Licenses — GeoHackWeek
