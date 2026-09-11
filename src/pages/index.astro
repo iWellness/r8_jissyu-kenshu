@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { CourseList } from '@/components/CourseList';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { sitePath, sortAndValidateLessons } from '@/lib/lessons';
+import microbiomeHero from '../../img/microbiome-hero.png';
 
 const lessons = sortAndValidateLessons(await getCollection('lessons'));
 const courseItems = lessons.map((lesson) => ({
@@ -14,6 +16,16 @@ const courseItems = lessons.map((lesson) => ({
 
 <BaseLayout title="BI実践研修" description="BI実践研修のWeb教科書。環境構築、QIIME 2解析、Python演習を順に学びます。">
   <main id="main-content" class="home" data-pagefind-body>
+    <div class="home-hero">
+      <Image
+        src={microbiomeHero}
+        alt="腸と腸内細菌、DNAを描いた微生物学のイメージ"
+        widths={[768, 1440, 2172]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
     <section class="home-flow" aria-labelledby="flow-title">
       <h1 id="flow-title">実習の流れ</h1>
       <CourseList lessons={courseItems} />
