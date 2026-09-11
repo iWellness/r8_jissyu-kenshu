@@ -143,10 +143,14 @@ html[data-js='true'] .js-only:not(.mobile-nav-button):not(.lesson-sidebar__close
 .search__results p { margin: 2px 0; color: var(--muted-foreground); font-size: .86rem; }
 
 .home { width: 100%; margin: 0; padding: 0 0 88px; }
-.home-hero { width: 100%; height: clamp(260px, 42vw, 520px); overflow: hidden; background: #fff; border-bottom: 1px solid var(--border); }
+.home-hero { width: 100%; padding-top: clamp(24px, 3.5vw, 42px); overflow: hidden; background: #fff; border-bottom: 1px solid var(--border); }
+.home-hero__title { margin: 0 20px clamp(18px, 2.4vw, 30px); color: var(--foreground); text-align: center; }
+.home-hero__eyebrow { display: block; font-size: clamp(.9rem, 1.4vw, 1.1rem); font-weight: 620; letter-spacing: .08em; }
+.home-hero__title-main { display: block; margin-top: 3px; font-size: clamp(1.65rem, 3.2vw, 2.6rem); font-weight: 720; letter-spacing: .035em; }
+.home-hero__visual { width: 90%; height: clamp(234px, 37.8vw, 468px); margin: 0 auto; overflow: hidden; }
 .home-hero img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
 .home-flow { width: min(880px, calc(100% - 40px)); margin: 0 auto; padding-top: 52px; }
-.home-flow > h1 { margin: 0 0 28px; }
+.home-flow > h2 { margin: 0 0 28px; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 720; }
 .course-list { margin: 0; padding: 0; list-style: none; }
 .course-list > li + li { border-top: 1px solid var(--border); }
 .course-list__link { display: grid; grid-template-columns: 32px 1fr; align-items: baseline; gap: 18px; padding: 20px 8px; color: var(--foreground); text-decoration: none; font-size: 1.05rem; }
@@ -263,7 +267,7 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
   body { font-size: 15.5px; }
   .home { width: 100%; padding-top: 0; }
   .home-flow { width: calc(100% - 40px); }
-  .home-flow > h1 { margin-bottom: 20px; }
+  .home-flow > h2 { margin-bottom: 20px; }
 
   .lesson-shell { width: calc(100% - 28px); }
   .lesson-header h1 { font-size: 2rem; }

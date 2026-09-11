@@ -17,17 +17,23 @@ const courseItems = lessons.map((lesson) => ({
 <BaseLayout title="BI実践研修" description="BI実践研修のWeb教科書。環境構築、QIIME 2解析、Python演習を順に学びます。">
   <main id="main-content" class="home" data-pagefind-body>
     <div class="home-hero">
-      <Image
-        src={microbiomeHero}
-        alt="腸と腸内細菌、DNAを描いた微生物学のイメージ"
-        widths={[768, 1440, 2172]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
+      <h1 class="home-hero__title">
+        <span class="home-hero__eyebrow">令和８年度 第１回</span>
+        <span class="home-hero__title-main">〜腸内細菌叢解析〜</span>
+      </h1>
+      <div class="home-hero__visual">
+        <Image
+          src={microbiomeHero}
+          alt="腸と腸内細菌、DNAを描いた微生物学のイメージ"
+          widths={[768, 1440, 2172]}
+          sizes="90vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
     </div>
     <section class="home-flow" aria-labelledby="flow-title">
-      <h1 id="flow-title">実習の流れ</h1>
+      <h2 id="flow-title">実習の流れ</h2>
       <CourseList lessons={courseItems} />
     </section>
   </main>

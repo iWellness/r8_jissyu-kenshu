@@ -16,6 +16,8 @@ assert.ok(home.querySelector('.course-list > li:last-child a[href$="/lessons/sra
 const homeHero = home.querySelector('.home-hero img');
 assert.ok(homeHero, 'Home should include the microbiome hero image');
 assert.ok(homeHero.getAttribute('src').includes('microbiome-hero'));
+assert.equal(home.querySelector('.home-hero__eyebrow').textContent.trim(), '令和８年度 第１回');
+assert.equal(home.querySelector('.home-hero__title-main').textContent.trim(), '〜腸内細菌叢解析〜');
 assert.ok(home.querySelector('.home-hero').compareDocumentPosition(home.querySelector('#flow-title')) & 4);
 assert.equal(home.querySelectorAll('.course-list [data-slot="card"], .course-list [data-slot="badge"]').length, 0);
 assert.ok(home.querySelector('.course-list a[href$="/lessons/linux/"]'));

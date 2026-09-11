@@ -45,7 +45,8 @@ for (const file of htmlFiles) {
     for (const text of removedHeroText) {
       if (html.includes(text)) failures.push(`${relativeFile} still contains removed hero text: ${text}`);
     }
-    if (!html.includes('<h1 id="flow-title">実習の流れ</h1>')) failures.push(`${relativeFile} is missing the compact course heading`);
+    if (!html.includes('<span class="home-hero__eyebrow">令和８年度 第１回</span>')) failures.push(`${relativeFile} is missing the event heading`);
+    if (!html.includes('<h2 id="flow-title">実習の流れ</h2>')) failures.push(`${relativeFile} is missing the compact course heading`);
 
   }
 
