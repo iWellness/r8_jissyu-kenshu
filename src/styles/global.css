@@ -193,6 +193,11 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
 .ssh-overview { margin: 1.5rem 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); }
 .ssh-overview img { display: block; width: 100%; }
 .lesson-content p, .lesson-content li { max-width: 74ch; }
+.lesson-content ul:not([class]) { margin: 1rem 0; padding-left: 1.25rem; list-style: none; }
+.lesson-content ul:not([class]) > li { position: relative; padding-left: 1em; }
+.lesson-content ul:not([class]) > li::before { position: absolute; left: 0; content: '・'; font-weight: 700; }
+.lesson-content ul:not([class]) > li + li { margin-top: .35rem; }
+.lesson-content ul:not([class]) ul:not([class]) { margin: .35rem 0 0; }
 .lesson-content :not(pre) > code { padding: .12em .36em; color: var(--accent-foreground); background: var(--muted); border-radius: 4px; font-size: .9em; }
 .lesson-content table { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .lesson-content th, .lesson-content td { padding: 8px 11px; text-align: left; border: 1px solid var(--border); }

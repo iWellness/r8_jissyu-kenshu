@@ -121,6 +121,13 @@ describe('migrated command regressions', () => {
     expect(comparison).not.toContain('与えられた権限と接続されたツール');
   });
 
+  it('marks lesson bullet lists with a visible Japanese middle dot', async () => {
+    const styles = await readFile('src/styles/global.css', 'utf8');
+
+    expect(styles).toContain('.lesson-content ul:not([class]) > li::before');
+    expect(styles).toContain("content: '・'");
+  });
+
   it('keeps the DADA2 thread option in the denoise command', async () => {
     const snippet = await readFile('src/snippets/05-qiime2/07-denoise.txt', 'utf8');
     expect(snippet).toContain('--o-base-transition-stats ./03_denoise/base-transition-stats.qza \\\n    --p-n-threads 3');
