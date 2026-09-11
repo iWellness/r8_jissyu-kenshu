@@ -13,6 +13,7 @@ prerequisites:
 environment: Linux ターミナルとClaude Code
 ---
 
+import AgentComparison from '../../components/AgentComparison.astro';
 import CommandBlock from '../../components/CommandBlock.astro';
 import prepareWorkspace from '../../snippets/06-python/01-prepare-workspace.txt?raw';
 import claudePrompt from '../../snippets/06-python/02-claude-prompt.txt?raw';
@@ -24,7 +25,9 @@ import startClaude from '../../snippets/06-python/03-start-claude.txt?raw';
 
 ## 2. AI Agentとは
 
-AI Agentは、依頼された目的に合わせてファイルを読み、コードの作成やコマンドの実行を進めるAIツールです。会話で回答するだけでなく、ターミナルやファイルを操作できる点が一般的なチャットAIと異なります。
+この教材では、ChatとAI Agentの違いを「答える」だけか、目的に合わせて「必要な操作まで進める」かで捉えます。身近な例で比べてみましょう。
+
+<AgentComparison />
 
 ### CodexとClaude Code
 

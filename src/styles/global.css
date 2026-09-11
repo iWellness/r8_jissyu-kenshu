@@ -198,6 +198,31 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
 .lesson-content th, .lesson-content td { padding: 8px 11px; text-align: left; border: 1px solid var(--border); }
 .lesson-content th { background: var(--muted); }
 
+.agent-comparison { margin: 1.75rem 0 2.25rem; }
+.agent-comparison__prompt { display: flex; align-items: center; gap: 12px; width: fit-content; margin: 0 auto 18px; padding: 11px 17px; color: var(--background); background: var(--foreground); border-radius: calc(var(--radius) * 1.4); }
+.agent-comparison__prompt svg { width: 22px; height: 22px; flex: 0 0 22px; }
+.agent-comparison__prompt strong { display: block; font-size: .72rem; line-height: 1.2; opacity: .72; }
+.agent-comparison__prompt p { margin: 2px 0 0; font-size: 1rem; font-weight: 650; line-height: 1.45; }
+.agent-comparison__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.agent-comparison__panel { display: flex; flex-direction: column; min-width: 0; padding: 20px; background: var(--card); border: 1px solid var(--border); border-top-width: 4px; border-radius: calc(var(--radius) * 1.4); }
+.agent-comparison__panel--chat { border-top-color: var(--muted-foreground); }
+.agent-comparison__panel--agent { border-top-color: var(--primary); }
+.agent-comparison__header { display: flex; align-items: center; gap: 11px; }
+.agent-comparison__header > svg { width: 26px; height: 26px; flex: 0 0 26px; color: var(--primary); }
+.agent-comparison__panel--chat .agent-comparison__header > svg { color: var(--muted-foreground); }
+.agent-comparison__header h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; }
+.agent-comparison__header p { margin: 3px 0 0; color: var(--muted-foreground); font-size: .75rem; line-height: 1.4; }
+.agent-comparison__actions { display: grid; gap: 8px; margin: 18px 0; padding: 0; list-style: none; }
+.agent-comparison__actions li { display: flex; align-items: center; gap: 8px; max-width: none; padding: 7px 9px; background: var(--muted); border-radius: var(--radius); font-size: .82rem; line-height: 1.4; }
+.agent-comparison__actions svg { width: 17px; height: 17px; flex: 0 0 17px; color: var(--primary); }
+.agent-comparison__response { margin-top: auto; padding: 13px 14px; background: color-mix(in oklch, var(--accent) 56%, var(--background)); border-radius: var(--radius); }
+.agent-comparison__panel--chat .agent-comparison__response { background: var(--muted); }
+.agent-comparison__response strong { display: block; margin-bottom: 4px; color: var(--primary); font-size: .72rem; }
+.agent-comparison__panel--chat .agent-comparison__response strong { color: var(--muted-foreground); }
+.agent-comparison__response p { margin: 0; font-size: .88rem; line-height: 1.7; }
+.agent-comparison__note { display: flex; align-items: flex-start; gap: 8px; margin: 12px 2px 0; color: var(--muted-foreground); font-size: .78rem; line-height: 1.55; }
+.agent-comparison__note svg { width: 17px; height: 17px; flex: 0 0 17px; margin-top: .18em; color: var(--check); }
+
 .command-block, .expected-output { margin: 1.5rem 0; overflow: hidden; background: var(--code); border: 1px solid var(--code-border); border-radius: calc(var(--radius) * 1.2); }
 .command-block__header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 50px; padding: 8px 10px 8px 16px; color: oklch(0.94 0.015 170); border-bottom: 1px solid var(--code-border); }
 .command-block__header > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px 13px; }
@@ -264,6 +289,10 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
   .drawer-backdrop { position: fixed; z-index: 40; inset: 0; background: oklch(0.15 0.02 175 / 48%); }
   .nav-is-open .drawer-backdrop { display: block !important; }
   .nav-is-open { overflow: hidden; }
+}
+
+@media (max-width: 700px) {
+  .agent-comparison__grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 520px) {

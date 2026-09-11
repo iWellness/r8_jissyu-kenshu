@@ -1,0 +1,44 @@
+---
+import { BellRing, Bot, CalendarDays, CloudRain, MessageCircle, ShieldCheck, UserRound } from 'lucide-react';
+---
+
+<section class="agent-comparison" aria-label="ChatとAI Agentの違い">
+  <div class="agent-comparison__prompt">
+    <UserRound aria-hidden="true" />
+    <div><strong>人間</strong><p>「明日の天気は？」</p></div>
+  </div>
+
+  <div class="agent-comparison__grid">
+    <article class="agent-comparison__panel agent-comparison__panel--chat">
+      <header class="agent-comparison__header">
+        <MessageCircle aria-hidden="true" />
+        <div><h3>Chat</h3><p>調べた情報をもとに答える</p></div>
+      </header>
+      <ol class="agent-comparison__actions" aria-label="Chatが行うこと">
+        <li><CloudRain aria-hidden="true" /><span>天気予報を確認</span></li>
+      </ol>
+      <div class="agent-comparison__response">
+        <strong>Chat</strong>
+        <p>「明日の天気は雨です。傘を忘れないでください。また、風も強いので気をつけてくださいね。」</p>
+      </div>
+    </article>
+
+    <article class="agent-comparison__panel agent-comparison__panel--agent">
+      <header class="agent-comparison__header">
+        <Bot aria-hidden="true" />
+        <div><h3>AI Agent</h3><p>調べて、必要なツールも操作する</p></div>
+      </header>
+      <ol class="agent-comparison__actions" aria-label="AI Agentが行うこと">
+        <li><CloudRain aria-hidden="true" /><span>天気予報を確認</span></li>
+        <li><CalendarDays aria-hidden="true" /><span>PCのカレンダーを確認</span></li>
+        <li><BellRing aria-hidden="true" /><span>PCのリマインダーを設定</span></li>
+      </ol>
+      <div class="agent-comparison__response">
+        <strong>AI Agent</strong>
+        <p>「明日の天気は雨です。明日は10時に面会ですね。出かけるときに傘を忘れないよう、リマインダーを設定しました。」</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="agent-comparison__note"><ShieldCheck aria-hidden="true" />AI Agentが操作できるのは、与えられた権限と接続されたツールの範囲内です。</p>
+</section>

@@ -108,6 +108,22 @@ describe('migrated command regressions', () => {
     expect(lesson).toContain('指定した分類階級（例：PhylumまたはGenus）ごとの件数を集計。');
   });
 
+  it('compares chat AI with an AI agent using an everyday example', async () => {
+    const [lesson, comparison] = await Promise.all([
+      readFile('src/content/lessons/06-python-practice.mdx', 'utf8'),
+      readFile('src/components/AgentComparison.astro', 'utf8'),
+    ]);
+
+    expect(lesson).toContain("import AgentComparison from '../../components/AgentComparison.astro'");
+    expect(lesson).toContain('<AgentComparison />');
+    expect(comparison).toContain('明日の天気は？');
+    expect(comparison).toContain('Chat');
+    expect(comparison).toContain('AI Agent');
+    expect(comparison).toContain('明日は10時に面会');
+    expect(comparison).toContain('リマインダーを設定しました');
+    expect(comparison).toContain('与えられた権限と接続されたツール');
+  });
+
   it('keeps the DADA2 thread option in the denoise command', async () => {
     const snippet = await readFile('src/snippets/05-qiime2/07-denoise.txt', 'utf8');
     expect(snippet).toContain('--o-base-transition-stats ./03_denoise/base-transition-stats.qza \\\n    --p-n-threads 3');
