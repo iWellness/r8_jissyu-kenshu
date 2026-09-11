@@ -1,0 +1,12 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="ページが見つかりません" description="指定されたページは見つかりませんでした。">
+  <main id="main-content" class="error-page">
+    <p>404</p>
+    <h1>ページが見つかりません</h1>
+    <p>URLが変わったか、入力に誤りがある可能性があります。</p>
+    <a href={import.meta.env.BASE_URL}>教材の目次へ戻る</a>
+  </main>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { CircleCheck, PencilLine, TriangleAlert } from 'lucide-react';
+
+export interface Props {
+  /** Semantic purpose of the callout. */
+  type?: 'note' | 'warning' | 'check';
+  /** Short visible heading. */
+  title: string;
+}
+
+const { type = 'note', title } = Astro.props;
+---
+
+<Alert className={`callout callout--${type}`} role="note">
+  <span class="callout__icon">
+    {type === 'warning' ? <TriangleAlert aria-hidden="true" /> : type === 'check' ? <CircleCheck aria-hidden="true" /> : <PencilLine aria-hidden="true" />}
+  </span>
+  <div class="callout__content">
+    <AlertTitle>{title}</AlertTitle>
+    <AlertDescription className="callout__body"><slot /></AlertDescription>
+  </div>
+</Alert>

@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import { CourseList } from '@/components/CourseList';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { sitePath, sortAndValidateLessons } from '@/lib/lessons';
+
+const lessons = sortAndValidateLessons(await getCollection('lessons'));
+const courseItems = lessons.map((lesson) => ({
+  order: lesson.data.order,
+  title: lesson.data.title,
+  href: sitePath(`lessons/${lesson.data.slug}/`),
+}));
+---
+
+<BaseLayout title="BI実践研修" description="BI実践研修のWeb教科書。環境構築、QIIME 2解析、Python演習を順に学びます。">
+  <main id="main-content" class="home" data-pagefind-body>
+    <section class="home-flow" aria-labelledby="flow-title">
+      <h1 id="flow-title">実習の流れ</h1>
+      <CourseList lessons={courseItems} />
+    </section>
+  </main>
+</BaseLayout>

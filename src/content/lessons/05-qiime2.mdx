@@ -1,0 +1,222 @@
+---
+slug: qiime2
+order: 5
+title: QIIME 2解析
+description: FASTQデータをQIIME 2へ取り込み、トリミング・DADA2・分類・可視化までの流れを確認します。
+objectives:
+  - FASTQファイルからmanifestを作成してQIIME 2へ取り込める
+  - プライマーをトリミングし、品質を確認できる
+  - 品質に合わせてDADA2のtruncation長を設定できる
+  - 分類器を使ってtaxonomyとバープロットを作成できる
+prerequisites:
+  - QIIME 2のインストール
+  - raw-dataフォルダへのFASTQデータのアップロード
+environment: Linux ターミナルとQIIME 2 2026.1
+reviewedAt: '2026-09-08'
+---
+
+import Callout from '../../components/Callout.astro';
+import CommandBlock from '../../components/CommandBlock.astro';
+import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import Figure from '../../components/Figure.astro';
+import activateQiime from '../../snippets/05-qiime2/02-activate-qiime.txt?raw';
+import makeManifest from '../../snippets/05-qiime2/01-manifest.txt?raw';
+import importReads from '../../snippets/05-qiime2/03-import.txt?raw';
+import trimAdapters from '../../snippets/05-qiime2/04-adapter-trim.txt?raw';
+import viewQzv from '../../snippets/05-qiime2/05-view-qzv.txt?raw';
+import exportQuality from '../../snippets/05-qiime2/06-export-quality.txt?raw';
+import denoiseReads from '../../snippets/05-qiime2/07-denoise.txt?raw';
+import dada2Stats from '../../snippets/05-qiime2/08-dada2-stats.txt?raw';
+import featureTableSummary from '../../snippets/05-qiime2/09-feature-table-summary.txt?raw';
+import tabulateSequences from '../../snippets/05-qiime2/10-tabulate-seqs.txt?raw';
+import downloadClassifier from '../../snippets/05-qiime2/11-download-classifier.txt?raw';
+import classifyTaxonomy from '../../snippets/05-qiime2/12-taxonomy.txt?raw';
+import classifierImage from '../../assets/04_classifier-download.png';
+
+JupyterLabからアップロードしたペアエンドのFASTQデータを解析します。QIIME 2環境を有効化し、データの取り込み、品質確認、ノイズ除去、分類の順に進めます。
+
+<Callout type="warning" title="解析前に確認">
+  この章のコマンドは、`raw-data/`がある作業フォルダで実行します。環境名、プライマー配列、分類器の版は教材の指定を使います。
+</Callout>
+
+## 入力データと完成イメージ
+
+JupyterLabからデータをアップロードし、作業フォルダに`raw-data/`を作ります。ペアエンドデータでは、同じサンプルのForward（`R1`）とReverse（`R2`）が1組になっています。
+
+```text
+raw-data/
+├── <SAMPLE1>_R1_001.fastq.gz
+├── <SAMPLE1>_R2_001.fastq.gz
+├── ...
+├── <SAMPLE5>_R1_001.fastq.gz
+└── <SAMPLE5>_R2_001.fastq.gz
+```
+
+解析が完了すると、作業フォルダには次のような成果物ができます。実際のファイル数や名前は入力データと実行結果によって変わります。
+
+```text
+raw-data/
+├── <SAMPLE>_R1_001.fastq.gz
+└── <SAMPLE>_R2_001.fastq.gz
+manifest.tsv
+01_data-import/
+└── import.qza
+02_adapter/
+├── trimmed-seqs.qza
+├── trimmed-seqs.qzv
+├── stats.qza
+└── outputs/
+    ├── forward-seven-number-summaries.tsv
+    └── reverse-seven-number-summaries.tsv
+03_denoise/
+├── table-dada2.qza
+├── rep-seqs-dada2.qza
+├── stats-dada2.qza
+├── stats-dada2.qzv
+├── visual-summary.qzv
+└── rep-seqs-dada2.qzv
+04_taxonomy/
+├── taxa-bar-plots.qzv
+├── taxonomy.qza
+└── taxonomy.qzv
+```
+
+## 1. QIIME 2環境を有効化する
+
+QIIME 2のコマンドを使う前に、専用のconda環境を有効化します。
+
+<CommandBlock id="qiime2-activate" code={activateQiime} language="bash" kind="command" context="ターミナル" title="QIIME 2環境を有効化" />
+
+プロンプトの先頭に`(qiime2-2026.1)`と表示されれば準備完了です。
+
+## 2. manifestを作成する
+
+manifestは、各サンプルのIDとFASTQファイルの場所をQIIME 2へ伝える表です。`raw-data/`に入っているファイル名を確認してから実行します。
+
+<CommandBlock id="qiime2-manifest" code={makeManifest} language="bash" kind="command" context="ターミナル" title="FASTQファイルからmanifest.tsvを作成" />
+
+このコマンドは`seqfu`のmetadata機能を使い、`raw-data/`内のペアエンドFASTQから`manifest.tsv`を作ります。`seqfu: command not found`が出る場合は、前章の`seqfu`インストールを確認します。
+
+<Callout type="check" title="manifestの確認">
+  `ls`で`manifest.tsv`が作成され、サンプルごとにR1とR2の行があることを確認します。ファイル名の入力ミスがあると、後のimportでエラーになります。
+</Callout>
+
+## 3. FASTQをQIIME 2形式へ取り込む
+
+`qiime tools import`で、manifestに書かれたペアエンドFASTQを`import.qza`へ変換します。`qza`はQIIME 2の解析用アーティファクトです。
+
+<CommandBlock id="qiime2-import" code={importReads} language="bash" kind="command" context="ターミナル" title="ペアエンドFASTQをimport.qzaへ変換" />
+
+このブロックでは`01_data-import/`を作り、`manifest.tsv`を読み込んで`01_data-import/import.qza`を出力します。エラーが出た場合は、現在地、manifestの内容、FASTQファイル名、Phred品質スコアの形式を確認します。
+
+<Callout type="check" title="importの完了条件">
+  `01_data-import/import.qza`が作成されれば、QIIME 2形式への取り込みは完了です。
+</Callout>
+
+## 4. プライマーとアダプターをトリミングする
+
+### プライマー配列を設定する
+
+次のブロックでは、V3–V4領域を例にForward・Reverseプライマーと、それぞれの逆相補配列を変数へ設定します。その後、`qiime cutadapt trim-paired`で配列をトリミングします。
+
+<CommandBlock id="qiime2-adapter-trim" code={trimAdapters} language="bash" kind="command" context="ターミナル" title="プライマーとアダプターをトリミング" />
+
+`--p-discard-untrimmed`は、指定した配列を見つけられなかったリードを捨てる指定です。`--p-minimum-length 200`はトリミング後の最小長、`--p-cores 3`は使用するスレッド数です。
+
+このブロックは`02_adapter/trimmed-seqs.qza`と`02_adapter/stats.qza`を作り、続けてトリミング後の品質確認用に`trimmed-seqs.qzv`を作ります。
+
+## 5. 品質を確認する
+
+QIIME 2の`.qzv`は、結果をブラウザーで確認するためのvisualizationファイルです。品質プロットを見て、DADA2でForwardとReverseをどこまで切るかを決めます。
+
+### `.qzv`をブラウザーで開く
+
+今回の実習では、[QIIME 2 View](https://view.qiime2.org/)へ`.qzv`をアップロードして確認します。機密性のあるデータをアップロードしてよいか、実習のルールに従ってください。
+
+手元のPCでQIIME 2を実行している場合は、`qiime tools view`でも開けます。
+
+<CommandBlock id="qiime2-view-qzv" code={viewQzv} language="bash" kind="template" context="ターミナル" title="qzvをローカルで表示" replacementNotes={['<file>を開きたいqzvファイルの名前に置き換える']} />
+
+### 品質の表をエクスポートする
+
+品質の`.qzv`をTSVへ展開し、`csvlens`で確認できます。`csvlens`の画面は`q`で終了します。
+
+<CommandBlock id="qiime2-export-quality" code={exportQuality} language="bash" kind="command" context="ターミナル" title="品質表をエクスポートして確認" />
+
+<Callout type="note" title="truncation長を決める">
+  Forward・Reverseそれぞれの品質が大きく下がる位置を確認し、読み取りの重なりが残るように`--p-trunc-len-f`と`--p-trunc-len-r`の値を決めます。サンプルやシーケンサーによって適切な値は変わります。
+</Callout>
+
+## 6. DADA2でノイズを除去する
+
+DADA2では、低品質な読み取りの除去、エラー補正、キメラ配列の除去、ForwardとReverseの結合を行います。
+
+### DADA2を実行する
+
+次のブロックにある`fff`と`rrr`を、品質確認で決めた数値へ書き換えてから実行します。たとえばForwardを`250`、Reverseを`220`にする場合は、`fff`を`250`、`rrr`を`220`へ置き換えます。
+
+<CommandBlock id="qiime2-denoise" code={denoiseReads} language="bash" kind="template" context="ターミナル" title="DADA2でペアエンドをデノイズ" replacementNotes={['fffをForward側のtruncation長へ置き換える', 'rrrをReverse側のtruncation長へ置き換える']} />
+
+`--o-base-transition-stats`の行末には`\`があり、次の`--p-n-threads 3`までが1つのコマンドとして実行されます。DADA2の実行には時間がかかる場合があります。
+
+### DADA2の統計を可視化する
+
+各サンプルについて、入力リード数、フィルタリング後のリード数、結合後のリード数などを確認します。
+
+<CommandBlock id="qiime2-dada2-stats" code={dada2Stats} language="bash" kind="command" context="ターミナル" title="DADA2の統計をqzvへ変換" />
+
+### feature tableの概要を作る
+
+サンプルごとのfeature数や頻度を確認するため、feature tableを要約します。
+
+<CommandBlock id="qiime2-feature-table-summary" code={featureTableSummary} language="bash" kind="command" context="ターミナル" title="feature tableを要約" />
+
+### 代表配列を一覧表示する
+
+ForwardとReverseを結合して得られた代表配列を可視化します。
+
+<CommandBlock id="qiime2-tabulate-seqs" code={tabulateSequences} language="bash" kind="command" context="ターミナル" title="代表配列をqzvへ変換" />
+
+<Callout type="check" title="DADA2の完了条件">
+  `03_denoise/`にtable、代表配列、統計の`qza`が作成され、`stats-dada2.qzv`、`visual-summary.qzv`、`rep-seqs-dada2.qzv`をQIIME 2 Viewで開ければ完了です。
+</Callout>
+
+## 7. taxonomyを推定する
+
+### 分類器をダウンロードする
+
+[QIIME 2のData Resources](https://library.qiime2.org/data-resources)から、使用するQIIME 2版とデータに合った分類器を選びます。分類器のURLと版は更新されるため、ライブラリページに表示されたURLをコピーしてください。
+
+<Figure src={classifierImage} alt="QIIME 2 Data Resourcesで分類器を選ぶ画面" caption="Data Resourcesから分類器を選択する" />
+
+<CommandBlock id="qiime2-download-classifier" code={downloadClassifier} language="bash" kind="template" context="ターミナル" title="分類器をダウンロード" replacementNotes={['ライブラリページからコピーした分類器のURLへ置き換える', '使用する分類器の版を確認する']} />
+
+この例のURLは固定の正本ではありません。実習時は必ずData Resourcesのページで、QIIME 2 2026.1と入力データに対応する分類器を選びます。
+
+### 配列を分類して可視化する
+
+次のブロックは、DADA2で作成した代表配列を分類し、taxonomy表とサンプル別のバープロットを作ります。分類器の`.qza`を作業フォルダに置いた状態で実行します。
+
+<CommandBlock id="qiime2-taxonomy" code={classifyTaxonomy} language="bash" kind="command" context="ターミナル" title="taxonomyを推定して可視化" />
+
+出力される`04_taxonomy/taxonomy.qzv`では、各featureに割り当てられた分類を表形式で確認できます。`taxa-bar-plots.qzv`では、サンプルごとの分類群の構成を確認できます。
+
+<ExpectedOutput code={`04_taxonomy/taxonomy.qza
+04_taxonomy/taxonomy.qzv
+04_taxonomy/taxa-bar-plots.qzv`} caption="分類ステップで作成される主なファイル" />
+
+<Callout type="warning" title="分類結果の読み方">
+  分類結果は、使用した分類器、参照データベース、プライマー、品質設定に依存します。バープロットの見た目だけで結論を出さず、解析条件とtaxonomyの信頼度を合わせて確認してください。
+</Callout>
+
+## 解析結果を確認する順番
+
+結果を確認するときは、次の順番でファイルを開きます。
+
+1. `02_adapter/trimmed-seqs.qzv`でトリミング後の品質を見る
+2. `03_denoise/stats-dada2.qzv`でリードの残り方を見る
+3. `03_denoise/visual-summary.qzv`でサンプルごとのfeature数を見る
+4. `03_denoise/rep-seqs-dada2.qzv`で代表配列を見る
+5. `04_taxonomy/taxonomy.qzv`と`taxa-bar-plots.qzv`で分類結果を見る
+
+QIIME 2の各ファイルは、解析条件と一緒に保存します。truncation長、プライマー、分類器の版、実行日時を記録すると、結果を再確認しやすくなります。

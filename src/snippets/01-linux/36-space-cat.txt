@@ -1,0 +1,5 @@
+# 正しい方法
+cat "my data.txt"
+
+# 間違った方法
+cat my data.txt  # これはエラーになる

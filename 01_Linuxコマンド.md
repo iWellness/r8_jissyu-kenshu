@@ -43,10 +43,10 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder
+/home/r8user
 ```
 
-✅ `/home/coder` と表示されたらOK！
+✅ `/home/r8user` と表示されたらOK！
 
 ---
 
@@ -71,10 +71,10 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder
+/home/r8user
 ```
 
-✅ `/home/coder` と表示されたらOK！
+✅ `/home/r8user` と表示されたらOK！
 
 **ポイント**:
 - `~` (チルダ) = ホームディレクトリの省略形
@@ -91,10 +91,10 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder/workspace
+/home/r8user/workspace
 ```
 
-✅ `/home/coder/workspace` と表示されたらOK！
+✅ `/home/r8user/workspace` と表示されたらOK！
 
 ---
 
@@ -144,7 +144,7 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder/workspace/test
+/home/r8user/workspace/test
 ```
 
 ✅ 作成して移動できたらOK！
@@ -162,10 +162,10 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder/workspace
+/home/r8user/workspace
 ```
 
-✅ `/home/coder/workspace` に戻れたらOK！
+✅ `/home/r8user/workspace` に戻れたらOK！
 
 **ポイント**:
 - `..` = 一つ上のフォルダ（親ディレクトリ）
@@ -228,8 +228,8 @@ pwd
 
 **期待される出力**:
 ```
-/home/coder/workspace/project
-/home/coder/workspace/project/results
+/home/r8user/workspace/project
+/home/r8user/workspace/project/results
 ```
 
 ✅ 全てのフォルダを作成できたらOK！
@@ -548,98 +548,6 @@ ls -R
 これらはQiime2解析で実際に使うテクニックです！
 
 ---
-
----
-
-# チャレンジ：より実践的なシナリオ
-
-自信のある方は、より複雑なシナリオに挑戦してみましょう。
-
-### シナリオ1: バッチ処理の準備
-
-複数のサンプルデータを扱う準備をします。
-
-```bash
-cd ~/workspace
-mkdir batch_analysis
-cd batch_analysis
-
-# サンプルフォルダの作成
-mkdir -p raw_data/{sample1,sample2,sample3}
-mkdir processed results/{tables,plots}
-
-# 構造を確認
-tree batch_analysis 2>/dev/null || ls -R batch_analysis
-```
-
-### シナリオ2: メタデータファイルの作成
-
-各サンプルのメタデータを作成します。
-
-```bash
-cd batch_analysis
-echo -e "sample-id\tcondition\treatment" > metadata.tsv
-echo -e "sample1\tcontrol\tnone" >> metadata.tsv
-echo -e "sample2\ttreatment\tdrugA" >> metadata.tsv
-echo -e "sample3\ttreatment\tdrugB" >> metadata.tsv
-```
-
-保存して終了したら、内容を確認：
-
-```bash
-cat metadata.tsv
-```
-
-### シナリオ3: 設定ファイルの作成とバックアップ
-
-解析パラメータを設定ファイルとして保存し、バックアップを作成します。
-
-```bash
-cd batch_analysis
-
-# 設定ファイル作成
-cat > config.txt << EOF
-[General]
-version=2025.4
-threads=4
-
-[Primer]
-forward=CCTACGGGNGGCWGCAG
-reverse=GACTACHVGGGTATCTAATCC
-EOF
-
-# バックアップ作成
-cp config.txt config_backup.txt
-ls -lh config*
-```
-
-### シナリオ4: ログファイルの検索
-
-解析中にログファイルを検索する練習です。
-
-```bash
-# サンプルログファイル作成
-cat > analysis.log << EOF
-[INFO] Starting analysis...
-[INFO] Importing data...
-[ERROR] Sample2 quality check failed
-[INFO] Denoising sample1...
-[INFO] Denoising sample3...
-[WARN] Low read count in sample1
-[INFO] Taxonomy classification complete
-EOF
-
-# エラーのみを検索
-grep ERROR analysis.log
-
-# 警告を検索
-grep WARN analysis.log
-
-# 情報メッセージを数える
-grep -c INFO analysis.log
-```
-
-✅ 各ステップで期待通りの結果が得られたら完了！
 
 ---
 

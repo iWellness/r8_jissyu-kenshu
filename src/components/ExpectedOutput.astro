@@ -1,0 +1,21 @@
+---
+import { Code } from 'astro:components';
+import type { CodeLanguage } from 'astro';
+import { normalizeSnippet } from '@/lib/snippets';
+
+export interface Props {
+  /** Exact example output. */
+  code: string;
+  /** Shiki language identifier; text is suitable for terminal output. */
+  language?: CodeLanguage;
+  /** Visible description above the example. */
+  caption?: string;
+}
+
+const { code, language = 'text', caption = '期待される出力' } = Astro.props;
+---
+
+<figure class="expected-output">
+  <figcaption>{caption}</figcaption>
+  <div class="expected-output__code"><Code code={normalizeSnippet(code)} lang={language} theme="github-dark-default" /></div>
+</figure>

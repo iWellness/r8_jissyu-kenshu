@@ -1,0 +1,10 @@
+# ディレクトリの作成
+mkdir 01_data-import
+
+# manifest.tsvに従って、データを
+# 01_data-import/demux-paired-end.qza として保存。
+qiime tools import \
+    --type "SampleData[PairedEndSequencesWithQuality]" \
+    --input-path manifest.tsv \
+    --input-format PairedEndFastqManifestPhred33V2 \
+    --output-path ./01_data-import/import.qza

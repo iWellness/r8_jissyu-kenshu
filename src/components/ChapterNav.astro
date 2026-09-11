@@ -1,0 +1,26 @@
+---
+import type { LessonEntry } from '@/lib/lessons';
+import { sitePath } from '@/lib/lessons';
+
+export interface Props {
+  /** Lessons in their validated display order. */
+  lessons: LessonEntry[];
+  /** Public slug of the current lesson, when on a lesson page. */
+  currentSlug?: string;
+}
+
+const { lessons, currentSlug } = Astro.props;
+---
+
+<nav class="chapter-nav" aria-label="章一覧">
+  <ol>
+    {lessons.map((lesson) => (
+      <li>
+        <a href={sitePath(`lessons/${lesson.data.slug}/`)} aria-current={lesson.data.slug === currentSlug ? 'page' : undefined}>
+          <span>{String(lesson.data.order).padStart(2, '0')}</span>
+          {lesson.data.title}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>

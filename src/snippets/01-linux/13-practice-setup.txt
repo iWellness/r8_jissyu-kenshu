@@ -1,0 +1,3 @@
+cd ~/workspace
+mkdir practice
+cd practice

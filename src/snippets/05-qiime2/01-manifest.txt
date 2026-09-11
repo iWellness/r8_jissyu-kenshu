@@ -1,0 +1,1 @@
+seqfu metadata -f manifest -s _S raw-data > manifest.tsv

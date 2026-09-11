@@ -1,0 +1,6 @@
+# 各サンプルのリード数など
+qiime feature-table summarize \
+    --i-table ./03_denoise/table-dada2.qza \
+    --o-feature-frequencies ./03_denoise/feature-frequencies.qza \
+	--o-sample-frequencies ./03_denoise/sample-frequencies.qza \
+	--o-summary ./03_denoise/visual-summary.qzv

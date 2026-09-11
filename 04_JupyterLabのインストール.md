@@ -1,6 +1,6 @@
 # JupyterLabのインストール
 
-今回は、JupyterLabを講師側で一括準備せず、受講者が各自の環境にインストールします。
+今回は、受講者が各自の環境にJupyterLabをインストールします。
 
 ## 1. conda環境の確認
 
@@ -41,12 +41,12 @@ SSH先で起動する場合は、ターミナルに表示されたURLを使用�
 QIIME 2の解析は基本的にターミナルで行います。NotebookからQIIME 2環境のPythonを使う場合は、カーネルを登録します。
 
 ```bash
-conda activate rachis-qiime2-2026.7
+conda activate qiime2-2026.1
 conda install -c conda-forge ipykernel
-python -m ipykernel install --user --name rachis-qiime2-2026.7 --display-name "Python (QIIME 2 2026.7)"
+python -m ipykernel install --user --name qiime2-2026.1 --display-name "Python (QIIME 2 2026.1)"
 ```
 
-Notebook作成時に `Python (QIIME 2 2026.7)` を選択します。
+Notebook作成時に `Python (QIIME 2 2026.1)` を選択します。
 
 ## 完成チェック
 

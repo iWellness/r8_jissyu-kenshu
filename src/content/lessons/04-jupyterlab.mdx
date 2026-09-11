@@ -1,0 +1,77 @@
+---
+slug: jupyterlab
+order: 4
+title: JupyterLabのインストール
+description: conda環境へJupyterLabを導入し、NotebookでPythonを実行する準備をします。
+objectives:
+  - conda環境を確認してJupyterLabをインストールできる
+  - JupyterLabを起動し、NotebookでPythonコードを実行できる
+  - 必要に応じてQIIME 2環境のカーネルを登録できる
+prerequisites:
+  - conda環境の設定
+environment: Linux ターミナルとJupyterLab
+---
+
+import CommandBlock from '../../components/CommandBlock.astro';
+import checkConda from '../../snippets/04-jupyterlab/01-check-conda.txt?raw';
+import installJupyterlab from '../../snippets/04-jupyterlab/02-install-jupyterlab.txt?raw';
+import portForward from '../../snippets/04-jupyterlab/03-port-forward.txt?raw';
+import startJupyterlab from '../../snippets/04-jupyterlab/04-start-jupyterlab.txt?raw';
+import checkNotebook from '../../snippets/04-jupyterlab/05-check-notebook.py?raw';
+import registerQiimeKernel from '../../snippets/04-jupyterlab/06-register-qiime-kernel.txt?raw';
+
+## 1. conda環境の確認
+
+<CommandBlock id="jupyterlab-check-conda" code={checkConda} language="bash" kind="command" context="ターミナル" title="condaの状態を確認" />
+
+## 2. JupyterLabのインストール
+
+base環境でインストールします。
+
+<CommandBlock id="jupyterlab-install" code={installJupyterlab} language="bash" kind="command" context="ターミナル" title="base環境へJupyterLabをインストール" />
+
+途中で `Proceed ([y]/n)?` と表示されたら `y` を入力します。
+
+## 3. Windowsからポート転送する
+
+Windowsで新しいPowerShellを開き、配布された接続情報で次のコマンドを実行します。
+
+<CommandBlock
+  id="jupyterlab-port-forward" code={portForward} language="powershell" kind="template"
+  context="手元のWindows PowerShell" title="JupyterLab用の通信経路を作る"
+  replacementNotes={[
+    'USERNAMEを配布されたユーザー名に変更します。',
+    'IP_ADDRESSを自分に配布されたIPアドレスに変更します。',
+  ]}
+/>
+
+認証後は何も表示されません。このPowerShellはJupyterLabを使い終わるまで開いておきます。
+
+## 4. 起動と動作確認
+
+最初のSSH接続済みターミナルに戻ります。
+
+<CommandBlock id="jupyterlab-start" code={startJupyterlab} language="bash" kind="command" context="ターミナル" title="JupyterLabを起動" />
+
+ターミナルに表示された`http://localhost:8888/lab?token=...`のURLを、Windowsのブラウザーで開きます。新しいNotebookを作り、次のコードを実行します。
+
+<CommandBlock id="jupyterlab-notebook-check" code={checkNotebook} language="python" kind="command" context="JupyterLabのNotebookセル" title="Pythonの実行確認" />
+
+終了時は、JupyterLabを起動したターミナルで`Ctrl + C`を押し、確認に`y`を入力します。ポート転送用のPowerShellでも`Ctrl + C`を押します。
+
+## 5. QIIME 2環境をNotebookから使う場合
+
+QIIME 2の解析は基本的にターミナルで行います。NotebookからQIIME 2環境のPythonを使う場合は、カーネルを登録します。
+
+<CommandBlock id="jupyterlab-register-qiime-kernel" code={registerQiimeKernel} language="bash" kind="command" context="ターミナル" title="QIIME 2環境のカーネルを登録" />
+
+Notebook作成時に `Python (QIIME 2 2026.1)` を選択します。
+
+## 完成チェック
+
+- [ ] PowerShellでSSHポート転送を開始・終了できる
+- [ ] `jupyter lab`でJupyterLabを起動できる
+- [ ] Notebookを新規作成できる
+- [ ] Pythonコードを実行し、`JupyterLab OK` と表示できる
+- [ ] 使用中のカーネルを確認できる
+- [ ] JupyterLabを終了できる

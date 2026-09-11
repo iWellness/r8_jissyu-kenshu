@@ -1,0 +1,76 @@
+---
+slug: qiime2-install
+order: 3
+title: QIIME 2のインストール
+description: 公式の手順を確認し、conda環境へQIIME 2 2026.1をインストールします。
+objectives:
+  - QIIME 2の公式インストールページを開ける
+  - 指定されたconda環境を作成して有効化できる
+  - 有効化の前後でqiimeコマンドの状態を確認できる
+  - manifest作成に使うseqfuを追加できる
+prerequisites:
+  - conda環境の設定
+environment: Linux ターミナル
+---
+
+import CommandBlock from '../../components/CommandBlock.astro';
+import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import createEnvironment from '../../snippets/03-qiime2-install/01-create-environment.txt?raw';
+import qiimeHelpBefore from '../../snippets/03-qiime2-install/02-qiime-help-before-activate.txt?raw';
+import envList from '../../snippets/03-qiime2-install/03-conda-env-list.txt?raw';
+import activateQiime from '../../snippets/03-qiime2-install/04-activate-qiime.txt?raw';
+import qiimeHelpAfter from '../../snippets/03-qiime2-install/05-qiime-help-after-activate.txt?raw';
+import envOutput from '../../snippets/03-qiime2-install/06-conda-env-output.txt?raw';
+import installSeqfu from '../../snippets/03-qiime2-install/07-install-seqfu.txt?raw';
+
+## QIIME 2関連URL
+
+- [QIIME 2 Top](https://qiime2.org/)
+- [ドキュメント](https://amplicon-docs.qiime2.org/en/latest/)
+- [インストール](https://library.qiime2.org/quickstart/amplicon)
+
+## インストール
+
+### 1. インストールページにアクセス
+
+[QIIME 2 AmpliconのInstallページ](https://library.qiime2.org/quickstart/amplicon) を開き、`Using conda` をクリックします。
+
+### 2. condaでのインストール方法を選択
+
+`2026.1` を選択し、`Using Conda` > `Install the base distribution’s conda environment` > `Linux / Windows WSL` の順に選びます。
+
+### 3. インストール
+
+次のコマンドをターミナルで実行します。
+
+<CommandBlock id="qiime2-create-environment" code={createEnvironment} language="bash" kind="command" context="ターミナル" title="QIIME 2 2026.1のconda環境を作成" />
+
+途中で `Proceed ([y]/n)?` と聞かれた場合は、`y` を入力して進めます。環境作成には数分かかる場合があります。
+
+## conda環境の有効化
+
+有効化前は`qiime`コマンドを使えません。まず、その状態を確認します。
+
+<CommandBlock id="qiime2-help-before-activate" code={qiimeHelpBefore} language="bash" kind="command" context="ターミナル" title="有効化前の状態を確認" />
+
+まず、環境名を確認します。
+
+<CommandBlock id="qiime2-env-list" code={envList} language="bash" kind="command" context="ターミナル" title="conda環境の一覧を確認" />
+
+<ExpectedOutput code={envOutput} caption="今回の環境一覧の例" />
+
+`qiime2-2026.1` を確認し、次のコマンドで有効化します。
+
+<CommandBlock id="qiime2-activate" code={activateQiime} language="bash" kind="command" context="ターミナル" title="QIIME 2環境を有効化" />
+
+これでQIIME 2環境が有効化され、`qiime` コマンドが使えるようになります。
+
+<CommandBlock id="qiime2-help-after-activate" code={qiimeHelpAfter} language="bash" kind="command" context="ターミナル" title="有効化後の状態を確認" />
+
+## manifest作成ツールを追加
+
+次章で使う`seqfu`は、指定したQIIME 2環境に含まれていません。環境を有効化したまま、初回だけ追加します。
+
+<CommandBlock id="qiime2-install-seqfu" code={installSeqfu} language="bash" kind="command" context="ターミナル" title="seqfuをインストール" />
+
+`Proceed ([y]/n)?`と表示されたら`y`を入力します。

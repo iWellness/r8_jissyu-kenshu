@@ -1,0 +1,338 @@
+---
+slug: linux
+order: 1
+title: Linuxコマンド
+description: Linuxターミナルで現在地を確認し、移動・作成・閲覧・検索を行う基本操作を練習します。
+objectives:
+  - pwd、ls、cd、mkdir、rmでファイルとフォルダを操作できる
+  - Tab補完を使って入力ミスを減らせる
+  - cat、less、echo、cp、mv、wget、grepを使える
+  - QIIME 2解析用の作業フォルダとファイルを準備できる
+prerequisites:
+  - SSH接続済み
+environment: SSH接続先のLinux
+reviewedAt: '2026-09-08'
+---
+
+import Callout from '../../components/Callout.astro';
+import CommandBlock from '../../components/CommandBlock.astro';
+import ExpectedOutput from '../../components/ExpectedOutput.astro';
+import WebtermPractice from '../../components/WebtermPractice.astro';
+import pwdCommand from '../../snippets/01-linux/01-pwd.txt?raw';
+import lsCommand from '../../snippets/01-linux/02-ls.txt?raw';
+import cdHome from '../../snippets/01-linux/03-cd-home.txt?raw';
+import mkdirWorkspace from '../../snippets/01-linux/04-mkdir-workspace.txt?raw';
+import tabCd from '../../snippets/01-linux/05-tab-cd.txt?raw';
+import mkdirTest from '../../snippets/01-linux/07-mkdir-test.txt?raw';
+import cdTest from '../../snippets/01-linux/08-cd-test.txt?raw';
+import cdParent from '../../snippets/01-linux/09-cd-parent.txt?raw';
+import rmTest from '../../snippets/01-linux/10-rm-test.txt?raw';
+import treeAnswer from '../../snippets/01-linux/11-answer-tree.txt?raw';
+import pathExamples from '../../snippets/01-linux/12-path-examples.txt?raw';
+import practiceSetup from '../../snippets/01-linux/13-practice-setup.txt?raw';
+import helloCommand from '../../snippets/01-linux/14-hello.txt?raw';
+import catSample from '../../snippets/01-linux/15-cat-sample.txt?raw';
+import seqNumbers from '../../snippets/01-linux/16-seq.txt?raw';
+import lessNumbers from '../../snippets/01-linux/17-less.txt?raw';
+import primerVariable from '../../snippets/01-linux/18-primer.txt?raw';
+import primerVariables from '../../snippets/01-linux/19-primers.txt?raw';
+import savePrimer from '../../snippets/01-linux/20-save-primer.txt?raw';
+import copyFile from '../../snippets/01-linux/21-copy.txt?raw';
+import moveFile from '../../snippets/01-linux/22-move.txt?raw';
+import wgetFile from '../../snippets/01-linux/23-wget.txt?raw';
+import catPrimer from '../../snippets/01-linux/24-cat-primer.txt?raw';
+import grepPrimer from '../../snippets/01-linux/25-grep-atcg.txt?raw';
+import grepWord from '../../snippets/01-linux/26-grep-word.txt?raw';
+import simulation from '../../snippets/01-linux/27-simulation.txt?raw';
+import permissionCheck from '../../snippets/01-linux/33-permission-cat.txt?raw';
+import permissionList from '../../snippets/01-linux/34-permission-ls.txt?raw';
+import spaceCreate from '../../snippets/01-linux/35-space-file.txt?raw';
+import spaceCat from '../../snippets/01-linux/36-space-cat.txt?raw';
+import hiddenList from '../../snippets/01-linux/37-hidden-ls.txt?raw';
+import hiddenCat from '../../snippets/01-linux/38-hidden-cat.txt?raw';
+
+コマンドを入力し、`Enter`で実行して表示を確認します。
+
+<Callout type="warning" title="入力時の注意">
+  コマンドと引数の間は半角スペースで区切り、全角スペースは使いません。
+</Callout>
+
+## 基本ルール
+
+### コマンドの基本形
+
+コマンドは、次のように「コマンド」「引数」「オプション」を組み合わせます。
+
+```text
+コマンド 引数 オプション
+```
+
+たとえば、`ls -l data/`では、`ls`が一覧表示、`-l`が詳細表示、`data/`が対象フォルダです。
+
+## Step 1：現在地と一覧を確認する
+
+### `pwd`で現在地を表示する
+
+`pwd`は、現在いるフォルダの場所を表示します。
+
+<CommandBlock id="linux-pwd" code={pwdCommand} language="bash" kind="command" context="ターミナル" title="現在地を確認" />
+
+<ExpectedOutput code={`/home/r8user`} caption="表示例（実習環境によって異なります）" />
+
+この研修では、ホームディレクトリを`/home/r8user`として示します。
+
+### `ls`でファイルとフォルダを確認する
+
+`ls`は、現在いるフォルダの中身を一覧表示します。
+
+<CommandBlock id="linux-ls" code={lsCommand} language="bash" kind="command" context="ターミナル" title="ファイルとフォルダを確認" />
+
+表示されたファイルやフォルダを確認してください。出力内容は環境ごとに異なります。
+
+## Step 2：フォルダを移動する
+
+### ホームディレクトリへ移動する
+
+`~`はホームディレクトリの省略形です。`cd ~`でホームへ移動し、続けて`pwd`で確認します。
+
+<CommandBlock id="linux-cd-home" code={cdHome} language="bash" kind="command" context="ターミナル" title="ホームディレクトリへ移動" />
+
+<ExpectedOutput code={`/home/r8user`} caption="表示例（実習環境によって異なります）" />
+
+引数を省略した`cd`も、ホームディレクトリへ移動する操作です。
+
+### 作業用フォルダを作成する
+
+`mkdir workspace`で`workspace`フォルダを作成します。
+
+<CommandBlock id="linux-mkdir-workspace" code={mkdirWorkspace} language="bash" kind="command" context="ターミナル" title="workspaceフォルダを作成" />
+
+## Tab補完を使う
+
+Tabキーを押すと、入力途中のファイル名やフォルダ名を自動で補完できます。候補が1つなら自動で補完され、複数ある場合は`Tab`を2回押すと候補が表示されます。入力ミスを減らすため、以降の練習ではできるだけTab補完を使います。
+
+### フォルダ名を補完する
+
+まず`cd w`まで入力し、`Tab`を押してください。`workspace`へ補完されたら、`Enter`で実行します。
+
+<CommandBlock id="linux-tab-cd" code={tabCd} language="bash" kind="practice" context="ターミナル" title="cd wまで入力してTab" />
+
+<Callout type="check" title="Tab補完の確認">
+  入力途中の`w`を`workspace`へ補完し、移動できればこの練習は完了です。
+</Callout>
+
+## Step 3：フォルダを作成して移動する
+
+### `mkdir`で練習用フォルダを作る
+
+`mkdir`はフォルダを作成します。次のブロックを実行し、`test`が一覧に表示されることを確認します。
+
+<CommandBlock id="linux-mkdir-test" code={mkdirTest} language="bash" kind="command" context="ターミナル" title="testフォルダを作成" />
+
+### 作成したフォルダへ移動する
+
+<CommandBlock id="linux-cd-test" code={cdTest} language="bash" kind="command" context="ターミナル" title="testフォルダへ移動" />
+
+<ExpectedOutput code={`/home/r8user/workspace/test`} caption="表示例（実習環境によって異なります）" />
+
+### `cd ..`で親フォルダへ戻る
+
+`..`は1つ上の親フォルダ、`.`は現在のフォルダを表します。
+
+<CommandBlock id="linux-cd-parent" code={cdParent} language="bash" kind="command" context="ターミナル" title="親フォルダへ戻る" />
+
+<ExpectedOutput code={`/home/r8user/workspace`} caption="表示例（実習環境によって異なります）" />
+
+### 練習用フォルダを削除する
+
+`rm -r`はフォルダと中身を削除します。削除したデータは元に戻せないため、ここでは自分で作った`test`フォルダだけを指定します。
+
+<CommandBlock id="linux-rm-test" code={rmTest} language="bash" kind="command" context="ターミナル" title="testフォルダを削除" />
+
+<Callout type="warning" title="削除する対象を確認">
+  `rm -r`を実行する前に、パスが練習用フォルダを指していることを確認してください。教材の確認で作った`test`以外は削除しません。
+</Callout>
+
+## 応用：フォルダの階層を作る
+
+次の構造を作って、フォルダを順番に移動します。
+
+```text
+project/
+├── data/
+└── results/
+```
+
+1. `project`を作る
+2. `project`へ移動する
+3. `data`と`results`を作る
+4. それぞれへ移動して`pwd`で確認する
+
+次の例では`[TAB]`がTabキーを押す場所です。コード全体を実行せず、1行ずつ入力して補完を確認します。
+
+<CommandBlock id="linux-tree-practice" code={treeAnswer} language="bash" kind="practice" context="ターミナル" title="階層構造を作る練習" />
+
+<ExpectedOutput code={`/home/r8user/workspace/project
+/home/r8user/workspace/project/results`} caption="表示例（実習環境によって異なります）" />
+
+## パスの指定方法
+
+| 指定 | 意味 |
+| --- | --- |
+| `./` | 現在いるフォルダ |
+| `../` | 1つ上のフォルダ |
+| `~` | ホームディレクトリ |
+
+次の例はそれぞれ独立した入力例です。現在地を確認しながら、1行ずつ試します。
+
+<CommandBlock id="linux-path-examples" code={pathExamples} language="bash" kind="practice" context="ターミナル" title="相対パスとホームの指定" />
+
+## エラーへの対処法
+
+エラーが出たらメッセージを読み、ファイル名・現在地・コマンドのスペルを確認します。
+
+<ExpectedOutput code={`No such file or directory`} caption="ファイルやフォルダが見つからない場合の例" />
+
+この場合は、名前の入力ミスや現在地の間違いが考えられます。`pwd`で現在地を確認し、Tab補完で名前を入力してください。
+
+<ExpectedOutput code={`command not found`} caption="コマンドが見つからない場合の例" />
+
+この場合は、コマンドのスペルや環境の有効化状態を確認します。
+
+## 実践：QIIME 2解析で使う操作
+
+### 1. テキストファイルを作成して確認する
+
+まず、練習用フォルダを作成します。作業フォルダがすでにある場合は、同じコマンドを何度も実行せず、表示されたエラーを確認してください。
+
+<CommandBlock id="linux-practice-setup" code={practiceSetup} language="bash" kind="command" context="ターミナル" title="practiceフォルダを準備" />
+
+`echo`の出力を`>`でファイルへ書き込みます。
+
+<CommandBlock id="linux-hello-file" code={helloCommand} language="bash" kind="command" context="ターミナル" title="サンプルファイルを作成" />
+
+<CommandBlock id="linux-cat-sample" code={catSample} language="bash" kind="command" context="ターミナル" title="ファイルの内容を確認" />
+
+<ExpectedOutput code={`Hello, Qiime2!`} caption="表示される内容" />
+
+### 2. `less`で大きなファイルを読む
+
+`seq`で1から1000までの数字を作り、`less`で閲覧します。
+
+<CommandBlock id="linux-create-numbers" code={seqNumbers} language="bash" kind="command" context="ターミナル" title="大きなサンプルファイルを作成" />
+
+<CommandBlock id="linux-less-numbers" code={lessNumbers} language="bash" kind="command" context="ターミナル" title="lessでファイルを閲覧" />
+
+`less`の画面では、`↓`または`Space`で下へ進み、`↑`または`b`で上へ戻ります。`/500`のように入力すると検索でき、`q`で終了します。
+
+### 3. 変数を使う
+
+QIIME 2では、プライマー配列などを変数に保存してコマンドで使うことがあります。変数名と`=`の間にはスペースを入れません。
+
+<CommandBlock id="linux-primer-variable" code={primerVariable} language="bash" kind="command" context="ターミナル" title="変数を設定して確認" />
+
+<ExpectedOutput code={`ATCGATCG`} caption="表示される配列" />
+
+ForwardとReverseのプライマーをそれぞれ変数に設定します。
+
+<CommandBlock id="linux-primer-variables" code={primerVariables} language="bash" kind="command" context="ターミナル" title="2つのプライマーを設定" />
+
+変数をファイルへ保存すると、後で`cat`や`grep`で確認できます。
+
+<CommandBlock id="linux-save-primer" code={savePrimer} language="bash" kind="command" context="ターミナル" title="プライマーをprimer.txtへ保存" />
+
+ここで作る`primer.txt`には、`forward`と`reverse`の名前と配列が入ります。後の検索練習でも、この実在するファイルを使います。
+
+### 4. ファイルをコピー・移動する
+
+<CommandBlock id="linux-copy-file" code={copyFile} language="bash" kind="command" context="ターミナル" title="ファイルをバックアップ" />
+
+`sample_backup.txt`が作成されたことを確認します。
+
+<CommandBlock id="linux-move-file" code={moveFile} language="bash" kind="command" context="ターミナル" title="ファイルを移動・名前変更" />
+
+`sample_backup.txt`がなくなり、`renamed.txt`ができたことを確認します。
+
+### 5. `wget`でファイルをダウンロードする
+
+`wget`はURLからファイルをダウンロードするコマンドです。ここでは教材のLinuxコマンド原稿を`downloaded-linux-commands.md`という名前で保存し、保存先を確認します。
+
+<CommandBlock id="linux-wget" code={wgetFile} language="bash" kind="command" context="ターミナル" title="教材ファイルをダウンロード" />
+
+ダウンロードしたファイルとは別に、先ほど作成した`primer.txt`を表示します。ファイル名を取り違えないように注意してください。
+
+<CommandBlock id="linux-cat-primer" code={catPrimer} language="bash" kind="command" context="ターミナル" title="primer.txtの内容を確認" />
+
+### 6. `grep`でファイル内を検索する
+
+`grep`は、ファイルに含まれる文字列を検索します。まずForwardプライマーの一部を検索します。
+
+<CommandBlock id="linux-grep-primer" code={grepPrimer} language="bash" kind="command" context="ターミナル" title="配列の一部を検索" />
+
+次に`-w`を付け、単語として`forward`を検索します。
+
+<CommandBlock id="linux-grep-word" code={grepWord} language="bash" kind="command" context="ターミナル" title="単語単位で検索" />
+
+## 実践課題：QIIME 2解析の準備
+
+次の課題では、解析で使うフォルダとメタデータの形を練習します。
+
+1. `qiime_analysis/`フォルダを作る
+2. `data/`と`results/`を作る
+3. `data/`でForward・Reverseプライマーを設定する
+4. `metadata.txt`を作る
+5. 作成したファイルを`results/`へコピーする
+6. `qiime_analysis/`へ戻って構造を確認する
+
+<CommandBlock id="linux-qiime-simulation" code={simulation} language="bash" kind="command" context="ターミナル" title="解析用フォルダを準備" />
+
+`ls -R`の出力に`data/primer.txt`、`data/metadata.txt`、`results/primer.txt`、`results/metadata.txt`があれば完了です。
+
+## コマンドのまとめ
+
+| コマンド | QIIME 2解析での用途 |
+| --- | --- |
+| `cat` | ファイルの内容を確認する |
+| `less` | 大きなログやデータを閲覧する |
+| `echo` | 変数の確認や簡単なファイル作成に使う |
+| `変数='値'` | プライマー配列などを保存する |
+| `cp` | ファイルをコピーする |
+| `mv` | ファイルを移動・名前変更する |
+| `wget` | 分類器などのファイルをダウンロードする |
+| `grep` | ログやデータの中から文字列を探す |
+
+## トラブルシューティング実習
+
+### ファイルの権限を確認する
+
+`cat`でファイルを読めないときは、ファイルが存在するかと読み取り権限を確認します。実習環境で`testfile.txt`が用意されている場合に実行してください。
+
+<CommandBlock id="linux-permission-cat" code={permissionCheck} language="bash" kind="command" context="ターミナル" title="ファイルを読み取る" />
+
+<CommandBlock id="linux-permission-list" code={permissionList} language="bash" kind="command" context="ターミナル" title="ファイルの権限を確認" />
+
+### スペースを含むファイル名を扱う
+
+ファイル名にスペースが含まれる場合は、ファイル名全体を引用符で囲みます。
+
+<CommandBlock id="linux-space-file" code={spaceCreate} language="bash" kind="command" context="ターミナル" title="スペースを含むファイルを作成" />
+
+<CommandBlock id="linux-space-cat" code={spaceCat} language="bash" kind="command" context="ターミナル" title="引用符付きでファイルを読む" />
+
+`cat my data.txt`のように引用符を付けない場合、`my`と`data.txt`を別々の引数として解釈するためエラーになります。
+
+### 隠しファイルを表示する
+
+`.`で始まるファイルは通常の`ls`では表示されません。`ls -a`で表示できます。
+
+<CommandBlock id="linux-hidden-list" code={hiddenList} language="bash" kind="command" context="ターミナル" title="隠しファイルを表示" />
+
+環境によって`.bashrc`がない場合があるため、次のコマンドは存在しない場合にメッセージを表示します。
+
+<CommandBlock id="linux-hidden-cat" code={hiddenCat} language="bash" kind="command" context="ターミナル" title="設定ファイルを確認" />
+
+## もっとLinuxを練習したい方へ
+
+WebTermのチュートリアルがおすすめです。
+
+<WebtermPractice />

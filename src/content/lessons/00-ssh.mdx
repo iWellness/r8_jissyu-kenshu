@@ -1,0 +1,82 @@
+---
+slug: ssh
+order: 0
+title: SSHで実習環境に接続
+description: Windowsから配布されたIPアドレスへSSHで接続し、離れたLinuxコンピューターで作業を始めます。
+objectives:
+  - 手元のPCと接続先の違いがわかる
+  - 配布された接続情報でログインし、作業後に切断できる
+prerequisites: []
+environment: Windows PowerShell → SSH接続先のLinux
+---
+
+import CommandBlock from '../../components/CommandBlock.astro';
+import { Image } from 'astro:assets';
+import remoteOverview from '../../assets/ssh-remote-overview.png';
+import connect from '../../snippets/00-ssh/01-connect.txt?raw';
+import checkRemote from '../../snippets/00-ssh/02-check-remote.txt?raw';
+import disconnect from '../../snippets/00-ssh/03-disconnect.txt?raw';
+
+## 手元で入力し、接続先で動かす
+
+Windows PCからSSHで実習用Linuxに接続します。
+
+<figure class="ssh-overview">
+  <Image src={remoteOverview} alt="Windows PCからSSHで実習用Linuxへ接続する流れ" widths={[480, 800]} sizes="(max-width: 520px) 100vw, 800px" />
+</figure>
+
+PowerShellへ入力したコマンドは接続先のLinuxで実行され、作ったファイルもLinux側に保存されます。以降の「ターミナル」は、SSH接続後の画面を指します。
+
+## 1. Windows PowerShellを開く
+
+1. Windowsの**スタート**で `PowerShell` を検索します。
+2. **Windows PowerShell**を開きます。
+
+Windows Terminalを使う場合は、**Windows PowerShell**または**PowerShell**を選びます。
+
+## 2. 配布されたIPアドレスへ接続する
+
+IPアドレスは接続先の住所です。配布されたユーザー名と自分のIPアドレスを使います。
+
+<CommandBlock
+  id="ssh-connect" code={connect} language="powershell" kind="template"
+  context="手元のWindows PowerShell" title="実習環境へ接続"
+  replacementNotes={[
+    'USERNAMEを配布されたユーザー名に変更します。',
+    'IP_ADDRESSを自分に配布されたIPアドレスに変更します。@の前後に空白は入れません。',
+  ]}
+/>
+
+コピーしてPowerShellへ貼り付け、`USERNAME`と`IP_ADDRESS`を書き換えてから`Enter`を押します。
+
+### 初回の確認
+
+初めて接続すると、`Are you sure you want to continue connecting` と聞かれます。`yes`を入力して`Enter`を押します。
+
+### 認証する
+
+`password:`が出たら、配布されたパスワードを入力して`Enter`を押します。入力中の文字は画面に表示されません。
+
+## 3. 接続先を確認する
+
+ログイン後、次のコマンドを一行ずつ実行します。
+
+<CommandBlock id="ssh-check-remote" code={checkRemote} language="bash" kind="command" context="SSH接続後のLinux" title="今いる場所を確認" />
+
+- `whoami`：ユーザー名
+- `hostname`：接続先の名前
+- `pwd`：現在のフォルダー
+
+`pwd`で`/home/...`などが表示されれば、Linux側です。
+
+接続できたら、この画面を開いたまま次の「Linuxコマンド」へ進みます。
+
+## 4. 終わったら切断する
+
+接続先で次を入力します。
+
+<CommandBlock id="ssh-disconnect" code={disconnect} language="bash" kind="command" context="SSH接続後のLinux" title="Windows側に戻る" />
+
+再開するときは、Windows側で同じ`ssh`コマンドを実行します。
+
+参考：[Microsoft Learn — Windows ターミナルでのSSH](https://learn.microsoft.com/ja-jp/windows/terminal/tutorials/ssh)

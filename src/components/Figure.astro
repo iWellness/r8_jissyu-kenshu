@@ -1,0 +1,28 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+export interface Props {
+  /** Statically imported image so Astro can optimize it. */
+  src: ImageMetadata;
+  /** Text alternative describing the instructional content of the image. */
+  alt: string;
+  /** Visible explanation shown with the image. */
+  caption: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="lesson-figure" data-figure>
+  <div class="lesson-figure__image">
+    <Image src={src} alt={alt} widths={[480, 800, 1200]} sizes="(max-width: 520px) 100vw, 800px" />
+    <button class="lesson-figure__open js-only" type="button" data-figure-open>画像を拡大</button>
+  </div>
+  <figcaption>{caption}</figcaption>
+  <dialog class="lesson-figure__dialog" data-figure-dialog aria-label={`${caption}の拡大画像`}>
+    <button type="button" data-figure-close>閉じる</button>
+    <Image src={src} alt={alt} />
+    <p>{caption}</p>
+  </dialog>
+</figure>

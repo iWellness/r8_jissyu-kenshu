@@ -1,0 +1,55 @@
+---
+import type { MarkdownHeading } from 'astro';
+import ChapterNav from '@/components/ChapterNav.astro';
+import TableOfContents from '@/components/TableOfContents.astro';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
+import type { LessonEntry } from '@/lib/lessons';
+import { sitePath } from '@/lib/lessons';
+import BaseLayout from './BaseLayout.astro';
+
+export interface Props {
+  lesson: LessonEntry;
+  lessons: LessonEntry[];
+  headings: MarkdownHeading[];
+}
+
+const { lesson, lessons, headings } = Astro.props;
+const index = lessons.findIndex((entry) => entry.data.slug === lesson.data.slug);
+const previous = index > 0 ? lessons[index - 1] : undefined;
+const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : undefined;
+---
+
+<BaseLayout title={lesson.data.title} description={lesson.data.description}>
+  <Button className="mobile-nav-button js-only" type="button" data-nav-open aria-controls="chapter-drawer" aria-expanded="false">章一覧</Button>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" id="chapter-drawer" data-nav-drawer>
+      <Button className="lesson-sidebar__close js-only" variant="ghost" size="icon" type="button" data-nav-close aria-label="章一覧を閉じる"><X aria-hidden="true" /></Button>
+      <ChapterNav lessons={lessons} currentSlug={lesson.data.slug} />
+    </aside>
+    <main id="main-content" class="lesson-main" data-pagefind-body>
+      <header class="lesson-header">
+        <h1>{lesson.data.title}</h1>
+        <div class="lesson-context">
+          <div><span>実行環境</span><strong>{lesson.data.environment}</strong></div>
+          {lesson.data.prerequisites.length > 0 && <div><span>前提</span><strong>{lesson.data.prerequisites.join('、')}</strong></div>}
+        </div>
+        <section class="lesson-objectives lesson-objectives--checklist" aria-labelledby="objectives-heading">
+          <h2 id="objectives-heading">学習目標</h2>
+          <ul>
+            {lesson.data.objectives.map((objective) => (
+              <li><span class="lesson-objectives__check" aria-hidden="true">✓</span><span>{objective}</span></li>
+            ))}
+          </ul>
+        </section>
+      </header>
+      <div class="lesson-toc-inline"><TableOfContents headings={headings} /></div>
+      <article class="lesson-content"><slot /></article>
+      <nav class="lesson-pagination" aria-label="前後の章">
+        {previous ? <a rel="prev" href={sitePath(`lessons/${previous.data.slug}/`)}><span>前の章</span>{previous.data.title}</a> : <span />}
+        {next && <a rel="next" href={sitePath(`lessons/${next.data.slug}/`)}><span>次の章</span>{next.data.title}</a>}
+      </nav>
+    </main>
+  </div>
+  <div class="drawer-backdrop js-only" data-nav-backdrop></div>
+</BaseLayout>
