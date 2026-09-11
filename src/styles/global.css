@@ -204,6 +204,9 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
 .command-block__kind { color: oklch(0.82 0.07 165); font-size: .68rem; font-weight: 700; letter-spacing: .08em; }
 .command-block__context { color: oklch(0.72 0.02 175); font-size: .72rem; }
 .copy-button { flex: 0 0 auto; }
+.copy-button__success { display: none; color: var(--check); }
+.copy-button[data-copy-state='success'] .copy-button__copy { display: none; }
+.copy-button[data-copy-state='success'] .copy-button__success { display: block; }
 .copy-button:disabled { cursor: wait; }
 .command-block__notice { padding: 10px 16px; color: oklch(0.39 0.08 50); background: var(--warning-soft); font-size: .82rem; }
 .command-block__notice ul { margin: 2px 0 0; padding-left: 1.2rem; }

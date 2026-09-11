@@ -4,7 +4,7 @@ import { initCopyButtons } from '../../src/scripts/copy';
 
 const block = `
   <section data-command-block>
-    <button data-copy-button>コピー</button>
+    <button data-copy-button aria-label="コピー" title="コピー"><svg data-copy-icon></svg></button>
     <textarea class="copy-source">echo "$HOME"\n  --flag \\</textarea>
     <p data-copy-status></p>
   </section>`;
@@ -30,6 +30,8 @@ describe('copy interaction', () => {
     document.querySelector<HTMLButtonElement>('[data-copy-button]')?.click();
     await vi.waitFor(() => expect(writeText).toHaveBeenCalledOnce());
     expect(writeText).toHaveBeenCalledWith('echo "$HOME"\n  --flag \\');
+    expect(document.querySelector('[data-copy-icon]')).not.toBeNull();
+    expect(document.querySelector('[data-copy-button]')?.getAttribute('aria-label')).toBe('コピーしました');
     expect(document.querySelector('[data-copy-status]')?.textContent).toContain('コピーしました');
   });
 

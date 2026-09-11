@@ -1,8 +1,10 @@
 /** Attach delegated copy handling and return a cleanup function for tests or remounts. */
 export function initCopyButtons(root: Document = document): () => void {
   const handleCopy = async (event: Event): Promise<void> => {
-    const target = event.target;
-    if (!(target instanceof HTMLButtonElement) || !target.matches('[data-copy-button]')) return;
+    const origin = event.target;
+    if (!(origin instanceof Element)) return;
+    const target = origin.closest<HTMLButtonElement>('[data-copy-button]');
+    if (!target) return;
     const block = target.closest<HTMLElement>('[data-command-block]');
     const source = block?.querySelector<HTMLTextAreaElement>('.copy-source');
     const status = block?.querySelector<HTMLElement>('[data-copy-status]');
@@ -12,11 +14,16 @@ export function initCopyButtons(root: Document = document): () => void {
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
       await navigator.clipboard.writeText(source.value);
-      const original = target.textContent ?? 'コピー';
-      target.textContent = 'コピーしました';
+      const originalLabel = target.getAttribute('aria-label') ?? 'コピー';
+      const originalTitle = target.getAttribute('title') ?? originalLabel;
+      target.dataset.copyState = 'success';
+      target.setAttribute('aria-label', 'コピーしました');
+      target.setAttribute('title', 'コピーしました');
       status.textContent = 'クリップボードにコピーしました。';
       window.setTimeout(() => {
-        target.textContent = original;
+        delete target.dataset.copyState;
+        target.setAttribute('aria-label', originalLabel);
+        target.setAttribute('title', originalTitle);
         status.textContent = '';
         target.disabled = false;
       }, 2000);

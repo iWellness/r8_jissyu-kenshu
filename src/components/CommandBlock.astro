@@ -3,6 +3,7 @@ import { Code } from 'astro:components';
 import type { CodeLanguage } from 'astro';
 import { normalizeSnippet } from '@/lib/snippets';
 import { Button } from '@/components/ui/button';
+import { Check, Copy } from 'lucide-react';
 
 export type CommandKind = 'command' | 'template' | 'practice' | 'prompt';
 
@@ -50,7 +51,20 @@ const kindLabel = kind === 'template' ? '値の書き換えが必要' : kind ===
       {title && <strong>{title}</strong>}
       <span class="command-block__context">@{context}</span>
     </div>
-    {canCopy && <Button className="copy-button js-only" variant="secondary" size="sm" type="button" data-copy-button>{copyLabel}</Button>}
+    {canCopy && (
+      <Button
+        className="copy-button js-only"
+        variant="secondary"
+        size="icon-sm"
+        type="button"
+        data-copy-button
+        aria-label={copyLabel}
+        title={copyLabel}
+      >
+        <Copy className="copy-button__copy" data-copy-icon aria-hidden="true" />
+        <Check className="copy-button__success" aria-hidden="true" />
+      </Button>
+    )}
   </header>
   {replacementNotes.length > 0 && (
     <div class="command-block__notice">
