@@ -38,8 +38,6 @@ describe('migrated command regressions', () => {
     expect(install.trim()).toBe(expectedInstall);
 
     const versionedFiles = await Promise.all([
-      '03_qiime2のインストール.md',
-      '04_JupyterLabのインストール.md',
       'src/content/lessons/03-qiime2-install.mdx',
       'src/content/lessons/04-jupyterlab.mdx',
       'src/content/lessons/05-qiime2.mdx',
@@ -80,7 +78,6 @@ describe('migrated command regressions', () => {
 
   it('uses the r8user home path throughout the authored articles', async () => {
     const articles = await Promise.all([
-      '01_Linuxコマンド.md',
       'docs/migration-log.md',
       'docs/site-design.md',
       'src/content/lessons/01-linux.mdx',

@@ -5,7 +5,7 @@ title: SSHで実習環境に接続
 description: Windowsから配布されたIPアドレスへSSHで接続し、離れたLinuxコンピューターで作業を始めます。
 objectives:
   - 手元のPCと接続先の違いがわかる
-  - 配布された接続情報でログインし、作業後に切断できる
+  - ログインし、接続先のLinuxでコマンドを実行できる
 prerequisites: []
 environment: Windows PowerShell → SSH接続先のLinux
 ---
@@ -17,7 +17,7 @@ import connect from '../../snippets/00-ssh/01-connect.txt?raw';
 import checkRemote from '../../snippets/00-ssh/02-check-remote.txt?raw';
 import disconnect from '../../snippets/00-ssh/03-disconnect.txt?raw';
 
-## 手元で入力し、接続先で動かす
+## 手元(Local)で入力し、接続先(Remote)で動かす
 
 Windows PCからSSHで実習用Linuxに接続します。
 
@@ -25,18 +25,18 @@ Windows PCからSSHで実習用Linuxに接続します。
   <Image src={remoteOverview} alt="Windows PCからSSHで実習用Linuxへ接続する流れ" widths={[480, 800]} sizes="(max-width: 520px) 100vw, 800px" />
 </figure>
 
-PowerShellへ入力したコマンドは接続先のLinuxで実行され、作ったファイルもLinux側に保存されます。以降の「ターミナル」は、SSH接続後の画面を指します。
+コンソール(黒い画面)へ入力したコマンドは接続先のLinuxで実行され、作ったファイルもLinux側に保存されます。
 
 ## 1. Windows PowerShellを開く
 
 1. Windowsの**スタート**で `PowerShell` を検索します。
 2. **Windows PowerShell**を開きます。
 
-Windows Terminalを使う場合は、**Windows PowerShell**または**PowerShell**を選びます。
+OSによっては、`Terminal`や`Console`、`端末`などと呼ぶ場合があります。
 
 ## 2. 配布されたIPアドレスへ接続する
 
-IPアドレスは接続先の住所です。配布されたユーザー名と自分のIPアドレスを使います。
+IPアドレスは接続先PCの住所です。（例: 192.168.1.8, 123.456.789.111）
 
 <CommandBlock
   id="ssh-connect" code={connect} language="powershell" kind="template"
@@ -55,25 +55,24 @@ IPアドレスは接続先の住所です。配布されたユーザー名と自
 
 ### 認証する
 
-`password:`が出たら、配布されたパスワードを入力して`Enter`を押します。入力中の文字は画面に表示されません。
+`password:`が出たら、配布されたパスワードを入力して`Enter`を押します。
+この時、入力中の文字は画面に表示されませんが、入力されています。
 
 ## 3. 接続先を確認する
 
-ログイン後、次のコマンドを一行ずつ実行します。
+ログイン後、次のコマンドを一行ずつ実行してみてください。
 
 <CommandBlock id="ssh-check-remote" code={checkRemote} language="bash" kind="command" context="SSH接続後のLinux" title="今いる場所を確認" />
 
 - `whoami`：ユーザー名
 - `hostname`：接続先の名前
 - `pwd`：現在のフォルダー
-
+↓
 `pwd`で`/home/...`などが表示されれば、Linux側です。
 
 接続できたら、この画面を開いたまま次の「Linuxコマンド」へ進みます。
 
-## 4. 終わったら切断する
-
-接続先で次を入力します。
+## 4. 切断する
 
 <CommandBlock id="ssh-disconnect" code={disconnect} language="bash" kind="command" context="SSH接続後のLinux" title="Windows側に戻る" />
 

@@ -4,10 +4,10 @@ order: 1
 title: Linuxコマンド
 description: Linuxターミナルで現在地を確認し、移動・作成・閲覧・検索を行う基本操作を練習します。
 objectives:
+  - Linuxコマンドの基本操作を理解する
   - pwd、ls、cd、mkdir、rmでファイルとフォルダを操作できる
   - Tab補完を使って入力ミスを減らせる
-  - cat、less、echo、cp、mv、wget、grepを使える
-  - QIIME 2解析用の作業フォルダとファイルを準備できる
+  - QIIME 2 解析用の作業フォルダとファイルを準備できる
 prerequisites:
   - SSH接続済み
 environment: SSH接続先のLinux
@@ -45,16 +45,14 @@ import grepPrimer from '../../snippets/01-linux/25-grep-atcg.txt?raw';
 import grepWord from '../../snippets/01-linux/26-grep-word.txt?raw';
 import simulation from '../../snippets/01-linux/27-simulation.txt?raw';
 import permissionCheck from '../../snippets/01-linux/33-permission-cat.txt?raw';
-import permissionList from '../../snippets/01-linux/34-permission-ls.txt?raw';
 import spaceCreate from '../../snippets/01-linux/35-space-file.txt?raw';
 import spaceCat from '../../snippets/01-linux/36-space-cat.txt?raw';
 import hiddenList from '../../snippets/01-linux/37-hidden-ls.txt?raw';
-import hiddenCat from '../../snippets/01-linux/38-hidden-cat.txt?raw';
 
-コマンドを入力し、`Enter`で実行して表示を確認します。
+コマンドを入力し、`Enter`で実行 → Linux側から結果が表示されます。
 
 <Callout type="warning" title="入力時の注意">
-  コマンドと引数の間は半角スペースで区切り、全角スペースは使いません。
+  コマンドと引数の間は半角スペース。全角スペースは使いません。
 </Callout>
 
 ## 基本ルール
@@ -73,7 +71,7 @@ import hiddenCat from '../../snippets/01-linux/38-hidden-cat.txt?raw';
 
 ### `pwd`で現在地を表示する
 
-`pwd`は、現在いるフォルダの場所を表示します。
+`pwd`は、現在いるフォルダの場所を表示。
 
 <CommandBlock id="linux-pwd" code={pwdCommand} language="bash" kind="command" context="ターミナル" title="現在地を確認" />
 
@@ -83,17 +81,17 @@ import hiddenCat from '../../snippets/01-linux/38-hidden-cat.txt?raw';
 
 ### `ls`でファイルとフォルダを確認する
 
-`ls`は、現在いるフォルダの中身を一覧表示します。
+`ls`は、現在いるフォルダの中身を一覧表示。
 
 <CommandBlock id="linux-ls" code={lsCommand} language="bash" kind="command" context="ターミナル" title="ファイルとフォルダを確認" />
 
-表示されたファイルやフォルダを確認してください。出力内容は環境ごとに異なります。
+表示されたファイルやフォルダを確認してください。出力内容は場所・環境ごとに異なります。
 
 ## Step 2：フォルダを移動する
 
 ### ホームディレクトリへ移動する
 
-`~`はホームディレクトリの省略形です。`cd ~`でホームへ移動し、続けて`pwd`で確認します。
+`~ (チルダ)`はホームディレクトリ`(/home/<user名>)`の省略形です。`cd ~`でホームへ移動し、続けて`pwd`で確認します。
 
 <CommandBlock id="linux-cd-home" code={cdHome} language="bash" kind="command" context="ターミナル" title="ホームディレクトリへ移動" />
 
@@ -118,12 +116,13 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 <CommandBlock id="linux-tab-cd" code={tabCd} language="bash" kind="practice" context="ターミナル" title="cd wまで入力してTab" />
 
 <Callout type="check" title="Tab補完の確認">
-  入力途中の`w`を`workspace`へ補完し、移動できればこの練習は完了です。
+  既にあるファイルやコマンドなど、Linuxが予測できるものが補完できます。
+  新規作成するファイル名などは補完できません。
 </Callout>
 
 ## Step 3：フォルダを作成して移動する
 
-### `mkdir`で練習用フォルダを作る
+### 練習用フォルダを作る
 
 `mkdir`はフォルダを作成します。次のブロックを実行し、`test`が一覧に表示されることを確認します。
 
@@ -145,13 +144,11 @@ Tabキーを押すと、入力途中のファイル名やフォルダ名を自�
 
 ### 練習用フォルダを削除する
 
-`rm -r`はフォルダと中身を削除します。削除したデータは元に戻せないため、ここでは自分で作った`test`フォルダだけを指定します。
+`rm -r`はフォルダと中身を削除します。
+`-r`は「再帰的に削除する」オプションで、フォルダの中身もまとめて削除します。
+ファイル や 空のフォルダ なら、`rm <name>`でOK。
 
 <CommandBlock id="linux-rm-test" code={rmTest} language="bash" kind="command" context="ターミナル" title="testフォルダを削除" />
-
-<Callout type="warning" title="削除する対象を確認">
-  `rm -r`を実行する前に、パスが練習用フォルダを指していることを確認してください。教材の確認で作った`test`以外は削除しません。
-</Callout>
 
 ## 応用：フォルダの階層を作る
 
@@ -183,13 +180,13 @@ project/
 | `../` | 1つ上のフォルダ |
 | `~` | ホームディレクトリ |
 
-次の例はそれぞれ独立した入力例です。現在地を確認しながら、1行ずつ試します。
+現在地を確認(pwd)しながら、1行ずつ試します。
 
 <CommandBlock id="linux-path-examples" code={pathExamples} language="bash" kind="practice" context="ターミナル" title="相対パスとホームの指定" />
 
 ## エラーへの対処法
 
-エラーが出たらメッセージを読み、ファイル名・現在地・コマンドのスペルを確認します。
+エラーが出たらメッセージを読み、ファイル名・現在地・コマンドのスペルを確認してください。
 
 <ExpectedOutput code={`No such file or directory`} caption="ファイルやフォルダが見つからない場合の例" />
 
@@ -197,9 +194,9 @@ project/
 
 <ExpectedOutput code={`command not found`} caption="コマンドが見つからない場合の例" />
 
-この場合は、コマンドのスペルや環境の有効化状態を確認します。
+この場合は、コマンドのスペルや環境の有効化状態(condaなど。後述)を確認します。
 
-## 実践：QIIME 2解析で使う操作
+## 実践：Qiime 2解析で使う操作
 
 ### 1. テキストファイルを作成して確認する
 
@@ -245,11 +242,11 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 
 ### 4. ファイルをコピー・移動する
 
-<CommandBlock id="linux-copy-file" code={copyFile} language="bash" kind="command" context="ターミナル" title="ファイルをバックアップ" />
+<CommandBlock id="linux-copy-file" code={copyFile} language="bash" kind="command" context="ターミナル" title="ファイルをコピー" />
 
 `sample_backup.txt`が作成されたことを確認します。
 
-<CommandBlock id="linux-move-file" code={moveFile} language="bash" kind="command" context="ターミナル" title="ファイルを移動・名前変更" />
+<CommandBlock id="linux-move-file" code={moveFile} language="bash" kind="command" context="ターミナル" title="ファイルを移動(名前変更)" />
 
 `sample_backup.txt`がなくなり、`renamed.txt`ができたことを確認します。
 
@@ -273,7 +270,7 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 
 <CommandBlock id="linux-grep-word" code={grepWord} language="bash" kind="command" context="ターミナル" title="単語単位で検索" />
 
-## 実践課題：QIIME 2解析の準備
+## 実践課題：Qiime 2解析の準備
 
 次の課題では、解析で使うフォルダとメタデータの形を練習します。
 
@@ -290,26 +287,24 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 
 ## コマンドのまとめ
 
-| コマンド | QIIME 2解析での用途 |
+| コマンド | Qiime 2解析での用途 |
 | --- | --- |
-| `cat` | ファイルの内容を確認する |
-| `less` | 大きなログやデータを閲覧する |
-| `echo` | 変数の確認や簡単なファイル作成に使う |
-| `変数='値'` | プライマー配列などを保存する |
-| `cp` | ファイルをコピーする |
-| `mv` | ファイルを移動・名前変更する |
-| `wget` | 分類器などのファイルをダウンロードする |
+| `cat` | ファイルの内容を確認 |
+| `less` | 大きなログやデータを閲覧 |
+| `echo` | 変数の確認や簡単なファイル作成 |
+| `変数='値'` | プライマー配列などを変数として一時的に保存 |
+| `cp` | ファイルをコピー |
+| `mv` | ファイルを移動・名前変更 |
+| `wget` | Webからファイルをダウンロードする |
 | `grep` | ログやデータの中から文字列を探す |
 
-## トラブルシューティング実習
+## トラブルシューティング・応用実習
 
 ### ファイルの権限を確認する
 
-`cat`でファイルを読めないときは、ファイルが存在するかと読み取り権限を確認します。実習環境で`testfile.txt`が用意されている場合に実行してください。
+`cat`でファイルを読めないときは、ファイルが存在するか確認します。
 
 <CommandBlock id="linux-permission-cat" code={permissionCheck} language="bash" kind="command" context="ターミナル" title="ファイルを読み取る" />
-
-<CommandBlock id="linux-permission-list" code={permissionList} language="bash" kind="command" context="ターミナル" title="ファイルの権限を確認" />
 
 ### スペースを含むファイル名を扱う
 
@@ -321,15 +316,14 @@ ForwardとReverseのプライマーをそれぞれ変数に設定します。
 
 `cat my data.txt`のように引用符を付けない場合、`my`と`data.txt`を別々の引数として解釈するためエラーになります。
 
+ツールによっては、スペースを含むファイル名を扱えない場合があるので、
+最初から空白をファイル名として使わないことが望ましいです。
+
 ### 隠しファイルを表示する
 
 `.`で始まるファイルは通常の`ls`では表示されません。`ls -a`で表示できます。
 
 <CommandBlock id="linux-hidden-list" code={hiddenList} language="bash" kind="command" context="ターミナル" title="隠しファイルを表示" />
-
-環境によって`.bashrc`がない場合があるため、次のコマンドは存在しない場合にメッセージを表示します。
-
-<CommandBlock id="linux-hidden-cat" code={hiddenCat} language="bash" kind="command" context="ターミナル" title="設定ファイルを確認" />
 
 ## もっとLinuxを練習したい方へ
 

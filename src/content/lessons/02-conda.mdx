@@ -4,8 +4,8 @@ order: 2
 title: conda環境の設定
 description: Miniforgeを使ってcondaを導入し、環境を管理する準備をします。
 objectives:
-  - Miniforgeのインストーラを取得して実行できる
-  - condaを初期化してバージョンを確認できる
+  - Miniforgeのインストーラを取得して実行する
+  - condaを初期化して解析の準備をする
 prerequisites:
   - SSH接続済み
 environment: SSH接続先のLinux
@@ -14,7 +14,6 @@ environment: SSH接続先のLinux
 import Callout from '../../components/Callout.astro';
 import CommandBlock from '../../components/CommandBlock.astro';
 import Figure from '../../components/Figure.astro';
-import curlInstaller from '../../snippets/02-conda/01-curl-installer.txt?raw';
 import wgetInstaller from '../../snippets/02-conda/02-wget-installer.txt?raw';
 import runInstaller from '../../snippets/02-conda/03-run-installer.txt?raw';
 import initConda from '../../snippets/02-conda/04-init-conda.txt?raw';
@@ -22,9 +21,15 @@ import miniforgeImage from '../../assets/02_miniforge-download.png';
 
 ## condaとは
 
-condaは、実行環境とパッケージをまとめて管理するツールです。`pip`と異なり、Python以外のパッケージも扱えます。
+condaは、実行環境とパッケージをまとめて管理するツールです。科学計算用のAppStore。
+Pythonのパッケージマネージャーの`pip`とよく比べられますが、condaでは、Python以外のパッケージも扱えます。
 
-## インストール（Linux）
+Anacondaはcondaを含む "初心者キット" です。
+様々なツールが最初から含まれており、サイズが大きいことと、ライセンスがややこしいです。
+自分で色々設定するのであれば、miniforgeをおすすめします。
+
+
+## miniforgeのインストール（Linux）
 
 ### 1. 公式サイトにアクセス
 
@@ -39,8 +44,7 @@ condaは、実行環境とパッケージをまとめて管理するツールで
 ### 3. インストーラをダウンロード
 
 `curl`と`wget`のどちらか一方だけを実行します。
-
-<CommandBlock id="conda-download-curl" code={curlInstaller} language="bash" kind="command" context="ターミナル" title="curlでダウンロード" />
+(今回はwgetを使う)
 
 <CommandBlock id="conda-download-wget" code={wgetInstaller} language="bash" kind="command" context="ターミナル" title="wgetでダウンロード" />
 

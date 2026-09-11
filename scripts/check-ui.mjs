@@ -34,9 +34,8 @@ assert.ok(linux.querySelector('[rel="next"]'));
 assert.ok(!linux.body.textContent.includes('チャレンジ：バッチ処理の準備'));
 assert.equal(linux.querySelector('[id^="linux-batch-"]'), null);
 assert.ok(linux.querySelector('#linux-qiime-simulation'));
-assert.ok(linux.querySelector('#linux-hidden-cat'));
 const spacingWarning = [...linux.querySelectorAll('.callout--warning')].find((callout) =>
-  callout.textContent.includes('コマンドと引数の間は半角スペースで区切り、全角スペースは使いません。'),
+  callout.textContent.includes('コマンドと引数の間は半角スペース。全角スペースは使いません。'),
 );
 assert.ok(spacingWarning, 'The half-width space rule should be a warning callout');
 assert.ok(spacingWarning.querySelector('.callout__icon svg[aria-hidden="true"]'), 'Warning callouts should use an icon');

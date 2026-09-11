@@ -215,17 +215,6 @@ ForwardとReverseを結合して得られた代表配列を可視化します。
 04_taxonomy/taxa-bar-plots.qzv`} caption="分類ステップで作成される主なファイル" />
 
 <Callout type="warning" title="分類結果の読み方">
-  分類結果は、使用した分類器、参照データベース、プライマー、品質設定に依存します。バープロットの見た目だけで結論を出さず、解析条件とtaxonomyの信頼度を合わせて確認してください。
+  分類結果は、使用した分類器、参照データベース、プライマー、品質設定に依存します。
+  解析条件とtaxonomyの信頼度を合わせて確認してください。
 </Callout>
-
-## 解析結果を確認する順番
-
-結果を確認するときは、次の順番でファイルを開きます。
-
-1. `02_adapter/trimmed-seqs.qzv`でトリミング後の品質を見る
-2. `03_denoise/stats-dada2.qzv`でリードの残り方を見る
-3. `03_denoise/visual-summary.qzv`でサンプルごとのfeature数を見る
-4. `03_denoise/rep-seqs-dada2.qzv`で代表配列を見る
-5. `04_taxonomy/taxonomy.qzv`と`taxa-bar-plots.qzv`で分類結果を見る
-
-QIIME 2の各ファイルは、解析条件と一緒に保存します。truncation長、プライマー、分類器の版、実行日時を記録すると、結果を再確認しやすくなります。
