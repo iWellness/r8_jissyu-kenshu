@@ -143,7 +143,7 @@ html[data-js='true'] .js-only:not(.mobile-nav-button):not(.lesson-sidebar__close
 .search__results p { margin: 2px 0; color: var(--muted-foreground); font-size: .86rem; }
 
 .home { width: 100%; margin: 0; padding: 0 0 88px; }
-.home-hero { width: 100%; height: clamp(260px, 42vw, 520px); overflow: hidden; background: #020a0c; border-bottom: 1px solid color-mix(in oklch, var(--primary) 45%, var(--border)); }
+.home-hero { width: 100%; height: clamp(260px, 42vw, 520px); overflow: hidden; background: #fff; border-bottom: 1px solid var(--border); }
 .home-hero img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
 .home-flow { width: min(880px, calc(100% - 40px)); margin: 0 auto; padding-top: 52px; }
 .home-flow > h1 { margin: 0 0 28px; }
