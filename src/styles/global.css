@@ -109,7 +109,7 @@ h3 { margin-top: 2rem; font-size: 1.15rem; font-weight: 700; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 
 .js-only { display: none !important; }
-html[data-js='true'] .js-only:not(.mobile-nav-button):not(.lesson-sidebar__close):not(.drawer-backdrop) { display: revert !important; }
+html[data-js='true'] .js-only:not(.copy-button):not(.mobile-nav-button):not(.lesson-sidebar__close):not(.drawer-backdrop) { display: revert !important; }
 .skip-link { position: fixed; z-index: 100; top: 8px; left: 8px; padding: 7px 11px; transform: translateY(-160%); color: var(--foreground); background: var(--card); border: 2px solid var(--primary); border-radius: var(--radius); }
 .skip-link:focus { transform: none; }
 
@@ -220,15 +220,13 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--ring); outline
 .agent-comparison__response strong { display: block; margin-bottom: 4px; color: var(--primary); font-size: .72rem; }
 .agent-comparison__panel--chat .agent-comparison__response strong { color: var(--muted-foreground); }
 .agent-comparison__response p { margin: 0; font-size: .88rem; line-height: 1.7; }
-.agent-comparison__note { display: flex; align-items: flex-start; gap: 8px; margin: 12px 2px 0; color: var(--muted-foreground); font-size: .78rem; line-height: 1.55; }
-.agent-comparison__note svg { width: 17px; height: 17px; flex: 0 0 17px; margin-top: .18em; color: var(--check); }
-
 .command-block, .expected-output { margin: 1.5rem 0; overflow: hidden; background: var(--code); border: 1px solid var(--code-border); border-radius: calc(var(--radius) * 1.2); }
 .command-block__header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 50px; padding: 8px 10px 8px 16px; color: oklch(0.94 0.015 170); border-bottom: 1px solid var(--code-border); }
 .command-block__header > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px 13px; }
 .command-block__kind { color: oklch(0.82 0.07 165); font-size: .68rem; font-weight: 700; letter-spacing: .08em; }
 .command-block__context { color: oklch(0.72 0.02 175); font-size: .72rem; }
 .copy-button { flex: 0 0 auto; }
+html[data-js='true'] .copy-button.js-only { display: inline-flex !important; }
 .copy-button__success { display: none; color: var(--check); }
 .copy-button[data-copy-state='success'] .copy-button__copy { display: none; }
 .copy-button[data-copy-state='success'] .copy-button__success { display: block; }

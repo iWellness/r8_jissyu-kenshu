@@ -121,7 +121,7 @@ describe('migrated command regressions', () => {
     expect(comparison).toContain('AI Agent');
     expect(comparison).toContain('明日は10時に面会');
     expect(comparison).toContain('リマインダーを設定しました');
-    expect(comparison).toContain('与えられた権限と接続されたツール');
+    expect(comparison).not.toContain('与えられた権限と接続されたツール');
   });
 
   it('keeps the DADA2 thread option in the denoise command', async () => {
