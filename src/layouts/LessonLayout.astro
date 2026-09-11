@@ -35,7 +35,7 @@ const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : und
           {lesson.data.prerequisites.length > 0 && <div><span>前提</span><strong>{lesson.data.prerequisites.join('、')}</strong></div>}
         </div>
         <section class="lesson-objectives lesson-objectives--checklist" aria-labelledby="objectives-heading">
-          <h2 id="objectives-heading">学習目標</h2>
+          <h2 id="objectives-heading">目標</h2>
           <ul>
             {lesson.data.objectives.map((objective) => (
               <li><span class="lesson-objectives__check" aria-hidden="true">✓</span><span>{objective}</span></li>
