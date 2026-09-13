@@ -44,6 +44,7 @@ import catPrimer from '../../snippets/01-linux/24-cat-primer.txt?raw';
 import grepPrimer from '../../snippets/01-linux/25-grep-atcg.txt?raw';
 import grepWord from '../../snippets/01-linux/26-grep-word.txt?raw';
 import simulation from '../../snippets/01-linux/27-simulation.txt?raw';
+import extraHierarchyAnswer from '../../snippets/01-linux/28-extra-hierarchy-answer.txt?raw';
 import permissionCheck from '../../snippets/01-linux/33-permission-cat.txt?raw';
 import spaceCreate from '../../snippets/01-linux/35-space-file.txt?raw';
 import spaceCat from '../../snippets/01-linux/36-space-cat.txt?raw';
@@ -171,6 +172,31 @@ project/
 
 <ExpectedOutput code={`/home/r8user/workspace/project
 /home/r8user/workspace/project/results`} caption="表示例（実習環境によって異なります）" />
+
+## 時間が余った人向け：階層構造を作る練習問題
+
+ここまでの操作が早く終わった人向けの問題です。解答例を開く前に、`cd`、`mkdir`、`pwd`、`ls`を使って次の構造を作ってください。
+
+```text
+suugaku/
+├── bibun/
+│   ├── mondai/
+│   └── kaitou/
+└── sekibun/
+    ├── mondai/
+    └── kaitou/
+```
+
+1. `~/workspace`へ移動する
+2. `suugaku`を作り、その中へ移動する
+3. `bibun`と`sekibun`を作る
+4. それぞれの中に`mondai`と`kaitou`を作る
+5. `pwd`と`ls -R`で現在地と構造を確認する
+
+<details>
+  <summary>解答例を見る</summary>
+  <CommandBlock id="linux-extra-hierarchy-answer" code={extraHierarchyAnswer} language="bash" kind="practice" context="ターミナル" title="階層構造を作る解答例" />
+</details>
 
 ## パスの指定方法
 

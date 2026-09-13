@@ -6,7 +6,6 @@ description: conda環境へJupyterLabを導入し、NotebookでPythonを実行�
 objectives:
   - conda環境を確認してJupyterLabをインストールできる
   - JupyterLabを起動し、必要に応じてポート転送して接続できる
-  - 必要に応じてQIIME 2環境のカーネルを登録できる
 prerequisites:
   - conda環境の設定
 environment: Linux ターミナルとJupyterLab
@@ -18,7 +17,6 @@ import installJupyterlab from '../../snippets/04-jupyterlab/02-install-jupyterla
 import portForward from '../../snippets/04-jupyterlab/03-port-forward.txt?raw';
 import startJupyterlab from '../../snippets/04-jupyterlab/04-start-jupyterlab.txt?raw';
 import checkNotebook from '../../snippets/04-jupyterlab/05-check-notebook.py?raw';
-import registerQiimeKernel from '../../snippets/04-jupyterlab/06-register-qiime-kernel.txt?raw';
 
 ## 1. conda環境の確認
 
@@ -62,14 +60,6 @@ JupyterLabが表示されたら新しいNotebookを作り、次のコードを�
 <CommandBlock id="jupyterlab-notebook-check" code={checkNotebook} language="python" kind="command" context="JupyterLabのNotebookセル" title="Pythonの実行確認" />
 
 終了時は、JupyterLabを起動したターミナルで`Ctrl + C`を押し、確認に`y`を入力します。ポート転送を行った場合は、ポート転送用のPowerShellでも`Ctrl + C`を押します。
-
-## 5. QIIME 2環境をNotebookから使う場合
-
-QIIME 2の解析は基本的にターミナルで行います。NotebookからQIIME 2環境のPythonを使う場合は、カーネルを登録します。
-
-<CommandBlock id="jupyterlab-register-qiime-kernel" code={registerQiimeKernel} language="bash" kind="command" context="ターミナル" title="QIIME 2環境のカーネルを登録" />
-
-Notebook作成時に `Python (QIIME 2 2026.1)` を選択します。
 
 ## 完成チェック
 

@@ -57,7 +57,7 @@ Anacondaはcondaを含む "初心者キット" です。
 - Enterでページを進める。
 - `(END)` と表示されたら、`q` を入力して終了する。
 - `accept the license terms? [yes|no]` と聞かれたら、`yes` を入力してEnterを押す。
-- `You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`no` を入力してEnterを押す。
+- `You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`yes` を入力してEnterを押す。シェルの設定ファイルへcondaの初期化設定が追加されます。
 
 <Callout type="warning" title="インストーラの質問を確認">
   表示される質問文や初期化先は、インストーラの版やシェルによって変わる場合があります。内容を読んでから入力してください。
@@ -68,3 +68,5 @@ Anacondaはcondaを含む "初心者キット" です。
 <CommandBlock id="conda-initialize-and-check" code={initConda} language="bash" kind="command" context="ターミナル" title="condaを初期化してバージョンを確認" />
 
 このコマンドでは、講座環境の `/home/r8user/miniforge3` にあるcondaを使って、zsh用の初期化処理を読み込みます。
+
+インストーラの最後に`yes`を選ぶと、次回のSSH接続から`conda`をそのまま使えるようになります。インストールを実行した現在のSSH接続にはまだ設定が読み込まれていないため、上の初期化コマンドはインストール直後に1回だけ実行します。

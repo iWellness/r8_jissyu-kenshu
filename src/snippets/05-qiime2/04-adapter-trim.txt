@@ -21,7 +21,6 @@ qiime cutadapt trim-paired \
     --p-minimum-length 200 \
     --p-discard-untrimmed \
     --o-trimmed-sequences ./02_adapter/trimmed-seqs.qza \
-    --o-stats ./02_adapter/stats.qza \
     --p-cores 3
 
 # visualizationファイルへ出力。

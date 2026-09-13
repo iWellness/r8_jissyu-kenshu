@@ -28,6 +28,20 @@ describe('migrated command regressions', () => {
     );
   });
 
+  it('offers an optional mathematics folder hierarchy exercise', async () => {
+    const lesson = await readFile('src/content/lessons/01-linux.mdx', 'utf8');
+    const exerciseHeading = '## 時間が余った人向け：階層構造を作る練習問題';
+
+    expect(lesson).toContain(exerciseHeading);
+    expect(lesson).toContain('suugaku/');
+    expect(lesson).toContain('bibun/');
+    expect(lesson).toContain('sekibun/');
+    expect(lesson).toContain('<summary>解答例を見る</summary>');
+    expect(lesson.indexOf('id="linux-tree-practice"')).toBeLessThan(lesson.indexOf(exerciseHeading));
+    expect(lesson.indexOf(exerciseHeading)).toBeLessThan(lesson.indexOf('## パスの指定方法'));
+    await expect(access('src/snippets/01-linux/28-extra-hierarchy-answer.txt')).resolves.toBeUndefined();
+  });
+
   it('uses QIIME 2 2026.1 consistently', async () => {
     const expectedInstall = [
       'conda env create \\',
@@ -44,11 +58,12 @@ describe('migrated command regressions', () => {
       'src/snippets/03-qiime2-install/01-create-environment.txt',
       'src/snippets/03-qiime2-install/04-activate-qiime.txt',
       'src/snippets/03-qiime2-install/06-conda-env-output.txt',
-      'src/snippets/04-jupyterlab/06-register-qiime-kernel.txt',
       'src/snippets/05-qiime2/02-activate-qiime.txt',
     ].map((path) => readFile(path, 'utf8')));
     expect(versionedFiles.join('\n')).not.toMatch(/2024\.10|2025\.4|2026\.01|2026\.7/);
     expect(versionedFiles.join('\n')).not.toContain('rachis-qiime2-2026.1');
+    expect(versionedFiles[0]).toContain('title: QIIME 2のインストール');
+    expect(versionedFiles[0]).not.toContain('Qiime2 2');
 
     for (const image of [
       'src/assets/03_qiime2_install-page.png',
@@ -85,10 +100,11 @@ describe('migrated command regressions', () => {
     expect(articles.join('\n')).not.toContain('/home/coder');
   });
 
-  it('documents the requested Miniforge installer answer', async () => {
+  it('initializes conda for future SSH sessions during Miniforge installation', async () => {
     const lesson = await readFile('src/content/lessons/02-conda.mdx', 'utf8');
-    expect(lesson).toContain('You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`no`');
-    expect(lesson).not.toContain('You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`yes`');
+    expect(lesson).toContain('You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`yes`');
+    expect(lesson).toContain('次回のSSH接続から`conda`をそのまま使えるようになります');
+    expect(lesson).not.toContain('You can undo this by running conda init --reverse $SHELL? [yes|no]` と聞かれたら、`no`');
   });
 
   it('introduces AI agents before the Claude Code exercise', async () => {
@@ -129,8 +145,32 @@ describe('migrated command regressions', () => {
   });
 
   it('keeps the DADA2 thread option in the denoise command', async () => {
-    const snippet = await readFile('src/snippets/05-qiime2/07-denoise.txt', 'utf8');
+    const [lesson, snippet] = await Promise.all([
+      readFile('src/content/lessons/05-qiime2.mdx', 'utf8'),
+      readFile('src/snippets/05-qiime2/07-denoise.txt', 'utf8'),
+    ]);
     expect(snippet).toContain('--o-base-transition-stats ./03_denoise/base-transition-stats.qza \\\n    --p-n-threads 3');
+    expect(lesson).toContain('10〜20分程度かかる場合があります');
+  });
+
+  it('uses the supported cutadapt outputs for QIIME 2 2026.1', async () => {
+    const [lesson, snippet] = await Promise.all([
+      readFile('src/content/lessons/05-qiime2.mdx', 'utf8'),
+      readFile('src/snippets/05-qiime2/04-adapter-trim.txt', 'utf8'),
+    ]);
+
+    expect(snippet).not.toContain('--o-stats');
+    expect(lesson).toContain('QIIME 2 2026.1では`--o-stats`を使用できません');
+    expect(lesson).not.toContain('`02_adapter/stats.qza`');
+    expect(lesson).not.toContain('├── stats.qza');
+  });
+
+  it('downloads qzv files from Jupyter before opening QIIME 2 View', async () => {
+    const lesson = await readFile('src/content/lessons/05-qiime2.mdx', 'utf8');
+
+    expect(lesson).toContain('Jupyter上でファイルを探して、右クリック→Download をクリックして、ダウンロードしてください');
+    expect(lesson).not.toContain('機密性のあるデータをアップロードしてよいか、実習のルールに従ってください');
+    expect(lesson).toContain('[QIIME 2 View](https://view.qiime2.org/)');
   });
 
   it('removes the optional batch exercise while keeping the QIIME preparation', async () => {
@@ -177,6 +217,15 @@ describe('migrated command regressions', () => {
     expect(lesson.indexOf('id="jupyterlab-start"')).toBeLessThan(
       lesson.indexOf('id="jupyterlab-port-forward"'),
     );
+  });
+
+  it('keeps QIIME 2 analysis in the terminal instead of a Notebook kernel', async () => {
+    const lesson = await readFile('src/content/lessons/04-jupyterlab.mdx', 'utf8');
+
+    expect(lesson).not.toContain('QIIME 2環境をNotebookから使う場合');
+    expect(lesson).not.toContain('registerQiimeKernel');
+    expect(lesson).toContain('id="jupyterlab-notebook-check"');
+    await expect(access('src/snippets/04-jupyterlab/06-register-qiime-kernel.txt')).rejects.toThrow();
   });
 
   it('downloads the complete NextSeq exercise dataset from R2', async () => {

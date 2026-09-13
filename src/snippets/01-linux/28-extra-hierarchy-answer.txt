@@ -1,0 +1,8 @@
+cd ~/workspace
+mkdir suugaku
+cd suugaku
+mkdir bibun sekibun
+mkdir bibun/mondai bibun/kaitou
+mkdir sekibun/mondai sekibun/kaitou
+pwd
+ls -R
