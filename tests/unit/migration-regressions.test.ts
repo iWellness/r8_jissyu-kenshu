@@ -28,18 +28,29 @@ describe('migrated command regressions', () => {
     );
   });
 
-  it('offers an optional mathematics folder hierarchy exercise', async () => {
-    const lesson = await readFile('src/content/lessons/01-linux.mdx', 'utf8');
+  it('offers an optional school-subject folder hierarchy exercise', async () => {
+    const [lesson, answer] = await Promise.all([
+      readFile('src/content/lessons/01-linux.mdx', 'utf8'),
+      readFile('src/snippets/01-linux/28-extra-hierarchy-answer.txt', 'utf8'),
+    ]);
     const exerciseHeading = '## 時間が余った人向け：階層構造を作る練習問題';
 
     expect(lesson).toContain(exerciseHeading);
     expect(lesson).toContain('suugaku/');
     expect(lesson).toContain('bibun/');
     expect(lesson).toContain('sekibun/');
+    expect(lesson).toContain('kokugo/');
+    expect(lesson).toContain('kobun/');
+    expect(lesson).toContain('kanji/');
+    expect(lesson).toContain('syakai/');
+    expect(lesson).toContain('rekishi/');
+    expect(lesson).toContain('rika/');
+    expect(lesson).toContain('kagaku/');
     expect(lesson).toContain('<summary>解答例を見る</summary>');
     expect(lesson.indexOf('id="linux-tree-practice"')).toBeLessThan(lesson.indexOf(exerciseHeading));
     expect(lesson.indexOf(exerciseHeading)).toBeLessThan(lesson.indexOf('## パスの指定方法'));
-    await expect(access('src/snippets/01-linux/28-extra-hierarchy-answer.txt')).resolves.toBeUndefined();
+    expect(answer).toContain('mkdir kokugo/kobun kokugo/kanji');
+    expect(answer).toContain('mkdir syakai/rekishi rika/kagaku');
   });
 
   it('uses QIIME 2 2026.1 consistently', async () => {

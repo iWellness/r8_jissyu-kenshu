@@ -1,8 +1,9 @@
 cd ~/workspace
-mkdir suugaku
-cd suugaku
-mkdir bibun sekibun
-mkdir bibun/mondai bibun/kaitou
-mkdir sekibun/mondai sekibun/kaitou
+mkdir suugaku kokugo syakai rika
+mkdir suugaku/bibun suugaku/sekibun
+mkdir suugaku/bibun/mondai suugaku/bibun/kaitou
+mkdir suugaku/sekibun/mondai suugaku/sekibun/kaitou
+mkdir kokugo/kobun kokugo/kanji
+mkdir syakai/rekishi rika/kagaku
 pwd
 ls -R
